@@ -9,6 +9,8 @@ First, install Django. It's recomended that this be done in a [virtualenv](https
 
 `pip install mysqlclient`
 
+(On Mac, see this [stack overflow post](https://stackoverflow.com/questions/43612243/install-mysqlclient-for-django-python-on-mac-os-x-sierra/54521244) for help troubleshooting installing mysqlclient.)
+
 To start the app, run:
 
 `python manage.py runserver`.
