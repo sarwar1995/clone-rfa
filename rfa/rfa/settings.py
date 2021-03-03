@@ -106,9 +106,13 @@ WSGI_APPLICATION = 'rfa.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'rfa',
+    'USER': 'admin',
+    'PASSWORD': 'rfapass**',
+    'HOST': 'rfa.cqqb5ivlygcu.us-east-2.rds.amazonaws.com',
+    'PORT': '3306',
+   }
 }
 
 
