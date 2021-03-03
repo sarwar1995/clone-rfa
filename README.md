@@ -9,6 +9,8 @@ First, install Django. It's recomended that this be done in a [virtualenv](https
 
 `pip install mysqlclient`
 
+`npm install`
+
 (On Mac, see this [stack overflow post](https://stackoverflow.com/questions/43612243/install-mysqlclient-for-django-python-on-mac-os-x-sierra/54521244) for help troubleshooting installing mysqlclient.)
 
 All commands below are given assuming you are in the outer research-for-all directory.
@@ -30,3 +32,5 @@ To start the app, run:
 To view the running app, go to: http://127.0.0.1:8000/
 
 To view the app admin panel, got to http://127.0.0.1:8000/admin
+
+Admin username = admin, password = pass
