@@ -5,12 +5,27 @@ A web app designed to provide open access to researcher summaries and feedback o
 
 First, install Django. It's recomended that this be done in a [virtualenv](https://docs.python.org/3/tutorial/venv.html). Once you've activated your virtualenv, run:
 
-`python -m pip install Django`
+`python -m pip install django djangorestframework djangorestframework-simplejwt`
 
 `pip install mysqlclient`
 
 (On Mac, see this [stack overflow post](https://stackoverflow.com/questions/43612243/install-mysqlclient-for-django-python-on-mac-os-x-sierra/54521244) for help troubleshooting installing mysqlclient.)
 
+All commands below are given assuming you are in the outer research-for-all directory.
+
+To compile changes to the React code, run:
+
+`npm run build`
+
+To generate migrations after model changes, run:
+
+`python rfa/manage.py makemigrations`
+
+`python rfa/manage.py migrate`
+
 To start the app, run:
 
-`python manage.py runserver`.
+`python rfa/manage.py runserver`
+
+To view the running app, go to: http://127.0.0.1:8000/
+To view the app admin panel, got to http://127.0.0.1:8000/admin
