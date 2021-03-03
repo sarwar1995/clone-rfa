@@ -1,0 +1,32 @@
+#root{
+    font-family: 'Montserrat';
+}
+
+h1{
+    color: #772fd6;
+}
+
+h2{
+    color: #333336;
+}
+
+button{
+    font-family: 'Montserrat';
+    padding: 10px;
+    margin: 10px;
+}
+
+#landing{
+    margin-top: 7%;
+    width: 100%;
+    text-align: center;
+}
+
+#header{
+    width: 100%;
+    text-align: right;
+}
+
+#logo{
+    font-size:  60px;
+}

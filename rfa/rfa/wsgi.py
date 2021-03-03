@@ -1,5 +1,5 @@
 """
-WSGI config for research_for_all project.
+WSGI config for rfa project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'research_for_all.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rfa.settings')
 
 application = get_wsgi_application()

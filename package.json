@@ -1,0 +1,35 @@
+{
+  "name": "fm-dashboard",
+  "version": "1.0.0",
+  "description": "Web dashboard for rfa",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elisagemart/fm-dashboard.git"
+  },
+  "author": "Eli Sage-Martinson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elisagemart/fm-dashboard/issues"
+  },
+  "homepage": "https://github.com/elisagemart/fm-dashboard#readme",
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.2.2",
+    "babel-polyfill": "^6.26.0",
+    "webpack": "^5.24.2",
+    "webpack-cli": "^4.5.0"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0"
+  }
+}
