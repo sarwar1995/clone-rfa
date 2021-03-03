@@ -1,5 +1,5 @@
 """
-ASGI config for research_for_all project.
+ASGI config for rfa project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'research_for_all.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rfa.settings')
 
 application = get_asgi_application()
