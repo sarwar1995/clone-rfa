@@ -32,3 +32,5 @@ To start the app, run:
 To view the running app, go to: http://127.0.0.1:8000/
 
 To view the app admin panel, got to http://127.0.0.1:8000/admin
+
+Admin username = admin, password = pass
