@@ -28,4 +28,5 @@ To start the app, run:
 `python rfa/manage.py runserver`
 
 To view the running app, go to: http://127.0.0.1:8000/
+
 To view the app admin panel, got to http://127.0.0.1:8000/admin
