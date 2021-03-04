@@ -6,6 +6,34 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
+import arxiv
+
+#given a search term, return a list of the top search results from arXiv
+class SearchPaperView(APIView):
+    permission_classes = (permissions.AllowAny,)
+    authentication_classes = ()
+
+    def post(self, request):
+        search_term = request.data['search_term']
+        print(search_term)
+        #list of papers to return
+        res = {"results" : []}
+
+        search_result = arxiv.query(
+            query="all:" + search_term,
+            id_list=[],
+            max_results=5,
+            start = 0,
+            sort_by="relevance",
+            sort_order="descending",
+            prune=True,
+            iterative=False,
+            max_chunk_results=1000)
+
+        res['results'] = search_result
+
+        return Response(data=res, status=status.HTTP_200_OK)
+
 class HelloWorldView(APIView):
     def get(self, request):
         return Response(data={"hello":"world"}, status=status.HTTP_200_OK)
