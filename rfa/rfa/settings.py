@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'core',
     'rest_framework',
     'frontend',
-    'rest_framework_simplejwt.token_blacklist'
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 REST_FRAMEWORK = {
@@ -85,7 +85,9 @@ ROOT_URLCONF = 'rfa.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            'search/templates'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
