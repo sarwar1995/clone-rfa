@@ -1,4 +1,4 @@
-import React, { Component} from "react";
+import React, { Component } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import Login from "./login";
 import Signup from "./signup";
@@ -10,6 +10,7 @@ class App extends Component {
 
     constructor() {
         super();
+        this.state = { searchTerm: "" };
         this.handleLogout = this.handleLogout.bind(this);
     }
 
@@ -28,18 +29,37 @@ class App extends Component {
         }
     };
 
+    handleChange(event) {
+        this.setState({ [event.target.name]: event.target.value });
+    }
+
     render() {
         return (
             <div className="site">
                 <div id="header">
-                    <button id="logout_button" onClick={this.handleLogout}>Logout</button>
+                    <div className="row">
+                        <div className="column left">
+                            <h2 className="navbarLogo">RFA</h2>
+                        </div>
+                        <div className="column middle">
+                            <form onSubmit={this.handleSubmit} className="searchForm">
+                                <div className="input-icons">
+                                    <i class="fa fa-search icon navbarIcon"></i>
+                                    <input name="search" type="text" value={this.state.searchText} onChange={this.handleChange} className="searchBar" />
+                                </div>
+                            </form>
+                        </div>
+                        <div className="column right">
+                            <button onClick={this.handleLogout}>Logout</button>
+                        </div>
+                    </div>
                 </div>
                 <main>
                     <Switch>
-                        <Route exact path={"/login/"} component={Login}/>
-                        <Route exact path={"/signup/"} component={Signup}/>
-                        <Route exact path={"/hello/"} component={Hello}/>
-                        <Route path={"/"} component = {Landing}/>
+                        <Route exact path={"/login/"} component={Login} />
+                        <Route exact path={"/signup/"} component={Signup} />
+                        <Route exact path={"/hello/"} component={Hello} />
+                        <Route path={"/"} component={Landing} />
                     </Switch>
                 </main>
             </div>
