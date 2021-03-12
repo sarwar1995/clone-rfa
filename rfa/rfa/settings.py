@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'core',
     'rest_framework',
     'frontend',
+    'papers',
     'rest_framework_simplejwt.token_blacklist'
 ]
 
@@ -51,8 +52,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),  # 
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
 }
 
 SIMPLE_JWT = {
@@ -104,16 +105,25 @@ WSGI_APPLICATION = 'rfa.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# Use local database for testing
 DATABASES = {
     'default': {
-    'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'rfa',
-    'USER': 'admin',
-    'PASSWORD': 'rfapass**',
-    'HOST': 'rfa.cqqb5ivlygcu.us-east-2.rds.amazonaws.com',
-    'PORT': '3306',
-   }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+# Use cloud database for production
+# DATABASES = {
+#     'default': {
+#     'ENGINE': 'django.db.backends.mysql',
+#     'NAME': 'rfa',
+#     'USER': 'admin',
+#     'PASSWORD': 'rfapass**',
+#     'HOST': 'rfa.cqqb5ivlygcu.us-east-2.rds.amazonaws.com',
+#     'PORT': '3306',
+#    }
+# }
 
 
 # Password validation
