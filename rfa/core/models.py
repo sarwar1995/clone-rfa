@@ -7,3 +7,4 @@ class CustomUser(AbstractUser):
     For now these fields are allowed to be blank (blank=True)."""
     affiliation = models.CharField(blank=True, max_length=120)
     position = models.CharField(blank=True, max_length=120)
+    is_active = models.BooleanField(default=False)
