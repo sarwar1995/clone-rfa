@@ -57,19 +57,48 @@ class SearchResults extends Component {
         return (
             <div>
                 <Navbar toSearch={(query) => this.toSearch(query)} />
-                Search Results
-                {this.state.isFetching ? "Gathering papers..." : ""}
-                {
-                    //for each paper in the results, create an list item
-                    this.state.searchResults.map(article => {
-                        return (
-                            <p>{article.title}</p>
-                        );
-                    }
-                    )
-                }
+                <div className="row">
+                    <div className="column left-body">
+                    </div>
+                    <div className="column middle-body">
+                        {this.state.isFetching ? "Gathering papers..." : ""}
+                        {
+                            //for each paper in the results, create an list item
+                            this.state.searchResults.map(article => {
+                                return (
+                                   <PaperReference paper={article}/>
+                                );
+                            }
+                            )
+                        }
+                    </div>
+                    <div className="column right-body">
+                    </div>
+                </div>
             </div>
         )
     }
 }
+
+class PaperReference extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            
+        };
+    }
+
+    render(){
+        return(
+            <div className="paperReference">
+                <h4>{this.props.paper.title}</h4>
+                <h5>{this.props.paper.authors}</h5>
+                <div className="abstract">
+                    {this.props.paper.abstract}
+                </div>
+            </div>
+        );
+    }
+}
+
 export default SearchResults;
