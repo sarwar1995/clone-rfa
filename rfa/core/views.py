@@ -13,26 +13,26 @@ class SearchPaperView(APIView):
     permission_classes = (permissions.AllowAny,)
     authentication_classes = ()
 
-    def post(self, request):
-        search_term = request.data['search_term']
-        print(search_term)
-        #list of papers to return
-        res = {"results" : []}
+    def get(self, request):
+    
+        search_term = request.query_params['search_term']
+        max_results = int(request.query_params['max_results'])
 
-        search_result = arxiv.query(
-            query="all:" + search_term,
-            id_list=[],
-            max_results=5,
-            start = 0,
-            sort_by="relevance",
-            sort_order="descending",
-            prune=True,
-            iterative=False,
-            max_chunk_results=1000)
+        arxiv_results = arxiv.query(query=search_term, max_results=max_results)
+        
+        paper_list = []
 
-        res['results'] = search_result
+        for paper_data in arxiv_results:
+            paper = {
+                'arxiv_id' : paper_data['id'],
+                'title' : paper_data['title'],
+                'authors' : ', '.join(author for author in paper_data['authors']),
+                'date_published' : paper_data['published'],
+                'abstract' : paper_data['summary']
+            }
+            paper_list.append(paper)
 
-        return Response(data=res, status=status.HTTP_200_OK)
+        return Response(data=paper_list, status=status.HTTP_200_OK)
 
 class HelloWorldView(APIView):
     def get(self, request):

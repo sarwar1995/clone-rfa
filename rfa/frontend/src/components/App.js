@@ -20,13 +20,18 @@ class App extends Component {
             <div className="site">
                 <main>
                     <Switch>
-                        <Route exact path={"/signup/"} component={Signup} />
+                        <Route
+                            path={"/user/:username"}
+                            render={props => <UserPage key={props.match.params.username} {...props} />}
+                        />
+                        <Route
+                            path={"/article/:id"}
+                            render={props => <ArticlePage key={props.match.params.id} {...props} />}
+                        />
                         <Route
                             path={"/search/:term"}
                             render={props => <SearchResults key={props.match.params.term} {...props} />}
                         />
-                        <Route exact path={"/user/"} component={UserPage} />
-                        <Route exact path={"/article/"} component={ArticlePage} />
                         <Route path={"/"} component={Login} />
                     </Switch>
                 </main>

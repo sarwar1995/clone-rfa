@@ -8,6 +8,8 @@ class SearchResults extends Component {
         super(props);
         this.state = {
             toSearch: false,
+            searchResults: [],
+            isFetching: false,
             query: '',
         };
         this.toSearch = this.toSearch.bind(this);
@@ -16,6 +18,28 @@ class SearchResults extends Component {
 
     toSearch(query) {
         this.setState({ toSearch: true, query: query });
+    }
+
+    async search(query) {
+        this.setState({ isFetching: true });
+        try {
+            let response = await axiosInstance.get('search/', {
+                params: {
+                    search_term: query,
+                    max_results: 10,
+                }
+            });
+            this.setState({ searchResults: response.data, isFetching: false })
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    //when the page loads...
+    componentDidMount() {
+        //get search results
+        this.search(this.props.match.params.term);
     }
 
     render() {
@@ -33,7 +57,17 @@ class SearchResults extends Component {
         return (
             <div>
                 <Navbar toSearch={(query) => this.toSearch(query)} />
-                Results: {this.props.match.params.term}
+                Search Results
+                {this.state.isFetching ? "Gathering papers..." : ""}
+                {
+                    //for each paper in the results, create an list item
+                    this.state.searchResults.map(article => {
+                        return (
+                            <p>{article.title}</p>
+                        );
+                    }
+                    )
+                }
             </div>
         )
     }
