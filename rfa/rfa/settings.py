@@ -52,8 +52,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),  # 
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),  #
 }
 
 SIMPLE_JWT = {
@@ -108,15 +108,21 @@ WSGI_APPLICATION = 'rfa.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'rfa',
+#         'USER': 'admin',
+#         'PASSWORD': 'rfapass**',
+#         'HOST': 'rfa.cqqb5ivlygcu.us-east-2.rds.amazonaws.com',
+#         'PORT': '3306',
+#     }
+# }
 DATABASES = {
     'default': {
-    'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'rfa',
-    'USER': 'admin',
-    'PASSWORD': 'rfapass**',
-    'HOST': 'rfa.cqqb5ivlygcu.us-east-2.rds.amazonaws.com',
-    'PORT': '3306',
-   }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 
@@ -138,6 +144,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+PASSWORD_RESET_TIMEOUT_DAYS = 1
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
@@ -157,3 +164,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+EMAIL_BACKEND = 'django_ses.SESBackend'
+
+AWS_ACCESS_KEY_ID = 'AKIA43LSDIJSONSBGBUK'
+AWS_SECRET_ACCESS_KEY = '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'
+
+AWS_SES_REGION_NAME = 'us-east-2'
+AWS_SES_REGION_ENDPOINT = 'email.us-east-2.amazonaws.com'
+
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
