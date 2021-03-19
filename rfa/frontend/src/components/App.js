@@ -1,45 +1,38 @@
-import React, { Component} from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import React, { Component } from "react";
+import { Switch, Route, Link, useHistory } from "react-router-dom";
+import axiosInstance from "../axiosApi";
 import Login from "./login";
 import Signup from "./signup";
-import Hello from "./hello";
-import Landing from "./landing"
-import axiosInstance from "../axiosApi";
+import SearchResults from "./searchResults";
+import UserPage from "./userPage";
+import ArticlePage from "./articlePage";
+
 
 class App extends Component {
 
     constructor() {
         super();
-        this.handleLogout = this.handleLogout.bind(this);
+        this.state = {};
     }
-
-    async handleLogout() {
-        try {
-            const response = await axiosInstance.post('/blacklist/', {
-                "refresh_token": localStorage.getItem("refresh_token")
-            });
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('refresh_token');
-            axiosInstance.defaults.headers['Authorization'] = null;
-            return response;
-        }
-        catch (e) {
-            console.log(e);
-        }
-    };
 
     render() {
         return (
             <div className="site">
-                <div id="header">
-                    <button id="logout_button" onClick={this.handleLogout}>Logout</button>
-                </div>
                 <main>
                     <Switch>
-                        <Route exact path={"/login/"} component={Login}/>
-                        <Route exact path={"/signup/"} component={Signup}/>
-                        <Route exact path={"/hello/"} component={Hello}/>
-                        <Route path={"/"} component = {Landing}/>
+                        <Route
+                            path={"/user/:username"}
+                            render={props => <UserPage key={props.match.params.username} {...props} />}
+                        />
+                        <Route
+                            path={"/article/:id"}
+                            render={props => <ArticlePage key={props.match.params.id} {...props} />}
+                        />
+                        <Route
+                            path={"/search/:term"}
+                            render={props => <SearchResults key={props.match.params.term} {...props} />}
+                        />
+                        <Route path={"/"} component={Login} />
                     </Switch>
                 </main>
             </div>
