@@ -2,6 +2,14 @@
     font-family: 'Montserrat';
 }
 
+.site{
+    padding: 0px;
+}
+
+body{
+    margin: 0px;
+}
+
 h1{
     color: #772fd6;
 }
@@ -16,6 +24,12 @@ button{
     margin: 10px;
 }
 
+input[type=submit]{
+    font-family: 'Montserrat';
+    padding: 10px;
+    margin: 10px;
+}
+
 #landing{
     margin-top: 7%;
     width: 100%;
@@ -25,8 +39,59 @@ button{
 #header{
     width: 100%;
     text-align: right;
+    background-color: #772fd6;
 }
 
 #logo{
     font-size:  60px;
 }
+
+.searchBar{
+    font-family: 'Montserrat';
+    font-size: 14px;
+    height: 26px;
+    margin: 15px;
+    width: 80%;
+    padding-left: 10px;
+    border-radius: 15px;
+    border: none;
+    outline: none;
+}
+
+.navbarIcon{
+    color: white;
+}
+
+.navbarLogo{
+    color: white;
+    margin-left: 20px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.column {
+    float: left;
+    padding: 10px;
+  }
+  
+  .left, .right {
+    width: 20%;
+  }
+
+  .left{
+      text-align: left;
+  }
+
+  .right{
+      text-align: right;
+  }
+  
+  .middle {
+    width: 50%;
+  }
+
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
