@@ -8,6 +8,8 @@ class SearchResults extends Component {
         super(props);
         this.state = {
             toSearch: false,
+            toPaper: false,
+            paperID: '',
             searchResults: [],
             isFetching: false,
             query: '',
@@ -18,6 +20,10 @@ class SearchResults extends Component {
 
     toSearch(query) {
         this.setState({ toSearch: true, query: query });
+    }
+
+    toPaper(id) {
+        this.setState({ toPaper: true, paperID: id });
     }
 
     async search(query) {
@@ -53,23 +59,58 @@ class SearchResults extends Component {
                 pathname: "/search/" + this.state.query + "/",
             }} />
         }
+        //redirect to a paper page if necessary
+        if (this.state.toPaper=== true) {
+            return <Redirect to={{
+                pathname: "/search/" + this.state.paperID + "/",
+            }} />
+        }
 
         return (
             <div>
                 <Navbar toSearch={(query) => this.toSearch(query)} />
-                Search Results
-                {this.state.isFetching ? "Gathering papers..." : ""}
-                {
-                    //for each paper in the results, create an list item
-                    this.state.searchResults.map(article => {
-                        return (
-                            <p>{article.title}</p>
-                        );
-                    }
-                    )
-                }
+                <div className="row">
+                    <div className="column left-body">
+                    </div>
+                    <div className="column middle-body">
+                        {this.state.isFetching ? "Gathering papers..." : ""}
+                        {
+                            //for each paper in the results, create an list item
+                            this.state.searchResults.map(article => {
+                                return (
+                                   <PaperReference paper={article} toPaper={() => this.toPaper(article.id)}/>
+                                );
+                            }
+                            )
+                        }
+                    </div>
+                    <div className="column right-body">
+                    </div>
+                </div>
             </div>
         )
     }
 }
+
+class PaperReference extends Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            
+        };
+    }
+
+    render(){
+        return(
+            <div className="paperReference" onClick={this.props.toPaper}>
+                <h4>{this.props.paper.title}</h4>
+                <h5>{this.props.paper.authors}</h5>
+                <div className="abstract">
+                    {this.props.paper.abstract}
+                </div>
+            </div>
+        );
+    }
+}
+
 export default SearchResults;

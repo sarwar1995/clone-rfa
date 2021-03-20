@@ -90,8 +90,45 @@ input[type=submit]{
     width: 50%;
   }
 
+  .left-body, .right-body {
+    width: 13%;
+  }
+
+  .left-body{
+      text-align: left;
+  }
+
+  .right-body{
+      text-align: right;
+  }
+  
+  .middle-body{
+    width: 70%;
+  }
+
   .row:after {
     content: "";
     display: table;
     clear: both;
   }
+
+  .paperReference{
+      border-color: #772fd6;
+      border-radius: 10px;
+      border-style: solid;
+      padding: 20px;
+      margin: 15px;
+      transition-duration: 0.3s;
+      cursor: pointer;
+  }
+
+  .abstract{
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 12px;
+  }
+
+  .paperReference:hover{
+    color:#772fd6;
+}

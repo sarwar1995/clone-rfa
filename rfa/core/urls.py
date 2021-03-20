@@ -13,6 +13,4 @@ urlpatterns = [
     path('blacklist/', LogoutAndBlacklistRefreshTokenForUserView.as_view(),
          name='blacklist'),
     path('hello/', HelloWorldView.as_view(), name='hello_world'),
-    path('search/', SearchPaperView.as_view(), name='search')
 ]
-
