@@ -1,38 +1,30 @@
 from django.shortcuts import render
-
-# Create your views here.
 from django.http import HttpResponse
 from django.template import loader
-
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
 import arxiv
 
-def index(request):
-    print(request)
-    return HttpResponse("Hello, world. You're at the search index.")
+class SearchPaperView(APIView):
 
-def search(request, search_term, max_results):
-	arxiv_results = arxiv.query(query=search_term, max_results=max_results)
+    def get(self, request):
 
-	#return HttpResponse("You're searching for %s." % search_term)
+        search_term = request.query_params['search_term']
+        max_results = int(request.query_params['max_results'])
 
-	paper_list = []
+        arxiv_results = arxiv.query(query=search_term, max_results=max_results)
 
-	for paper_data in arxiv_results:
-		paper = {
-			'arxiv_id' : paper_data['id'],
-			'title' : paper_data['title'],
-			'authors' : ', '.join(author for author in paper_data['authors']),
-			'date_published' : paper_data['published'],
-			'abstract' : paper_data['summary']
-		}
+        paper_list = []
 
-		paper_list.append(paper)
+        for paper_data in arxiv_results:
+            paper = {
+                'arxiv_id' : paper_data['id'],
+                'title' : paper_data['title'],
+                'authors' : ', '.join(author for author in paper_data['authors']),
+                'date_published' : paper_data['published'],
+                'abstract' : paper_data['summary']
+            }
+            paper_list.append(paper)
 
-	template = loader.get_template('search/search.html')
-
-	context = {
-		'paper_list': paper_list,
-		'search_term': search_term,
-	}
-	
-	return HttpResponse(template.render(context, request))
+        return Response(data=paper_list, status=status.HTTP_200_OK)

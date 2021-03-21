@@ -35,6 +35,7 @@ class SearchResults extends Component {
                     max_results: 10,
                 }
             });
+            console.log(response);
             this.setState({ searchResults: response.data, isFetching: false })
         }
         catch (error) {
@@ -78,7 +79,7 @@ class SearchResults extends Component {
                             //for each paper in the results, create an list item
                             this.state.searchResults.map(article => {
                                 return (
-                                   <PaperReference paper={article} toPaper={() => this.toPaper(article.id)}/>
+                                   <PaperReference paper={article} toPaper={() => this.toPaper(article.arxiv_id)}/>
                                 );
                             }
                             )
