@@ -25,8 +25,8 @@ class App extends Component {
                             render={props => <UserPage key={props.match.params.username} {...props} />}
                         />
                         <Route
-                            path={"/article/:id"}
-                            render={props => <ArticlePage key={props.match.params.id} {...props} />}
+                            path={"/article/:DOI"}
+                            render={props => <ArticlePage key={props.match.params.DOI} {...props} />}
                         />
                         <Route
                             path={"/search/:term"}

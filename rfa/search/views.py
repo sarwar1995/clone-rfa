@@ -4,7 +4,7 @@ from django.template import loader
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-import arxiv
+from crossref.restful import Works
 
 class SearchPaperView(APIView):
 
@@ -13,18 +13,33 @@ class SearchPaperView(APIView):
         search_term = request.query_params['search_term']
         max_results = int(request.query_params['max_results'])
 
-        arxiv_results = arxiv.query(query=search_term, max_results=max_results)
+        works = Works()
+        crossref_results = works.query(bibliographic=search_term).sort('score').select('DOI', 'title', 'author', 'published-print', 'type')
 
         paper_list = []
 
-        for paper_data in arxiv_results:
-            paper = {
-                'arxiv_id' : paper_data['id'],
-                'title' : paper_data['title'],
-                'authors' : ', '.join(author for author in paper_data['authors']),
-                'date_published' : paper_data['published'],
-                'abstract' : paper_data['summary']
-            }
-            paper_list.append(paper)
+        for paper_data in crossref_results:
+            if len(paper_list) > max_results:
+                break
+            print(paper_data)
+            if 'type' in paper_data.keys() and paper_data['type'] and 'DOI' in paper_data.keys() and 'title' in paper_data.keys():
+                paper = {
+                    'DOI' : (paper_data['DOI'] if 'DOI' in paper_data.keys() else ''),
+                    'title' : (paper_data['title'][0] if 'title' in paper_data.keys() else ''),
+                    'date_published' : (paper_data['published-print']['date-parts'][0] if 'published-print' in paper_data.keys() else ''),
+                }
+
+                paper['authors'] = []
+                if 'author' in paper_data.keys():
+                    for author in paper_data['author']:
+                        auth_name = ""
+                        if 'given' in author.keys():
+                            auth_name = author['given']
+                        if 'family' in author.keys():
+                            auth_name += " " + author['family']
+                        auth_name.strip()
+                        paper['authors'].append(auth_name)
+
+                paper_list.append(paper)
 
         return Response(data=paper_list, status=status.HTTP_200_OK)
