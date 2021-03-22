@@ -110,6 +110,7 @@ class PaperReference extends Component{
             <div className="paperReference" onClick={this.props.toPaper}>
                 <h4>{this.props.paper.title}</h4>
                 <h5>{this.props.paper.authors.join(", ")}</h5>
+                <p>{this.props.paper.journal + " " + this.props.paper.date_published}</p>
             </div>
         );
     }

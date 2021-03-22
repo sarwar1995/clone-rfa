@@ -14,7 +14,7 @@ class SearchPaperView(APIView):
         max_results = int(request.query_params['max_results'])
 
         works = Works()
-        crossref_results = works.query(bibliographic=search_term).sort('score').select('DOI', 'title', 'author', 'published-print', 'type')
+        crossref_results = works.query(bibliographic=search_term).sort('score').select('DOI', 'title', 'author', 'published-print', 'type', 'short-container-title')
 
         paper_list = []
 
@@ -22,11 +22,13 @@ class SearchPaperView(APIView):
             if len(paper_list) > max_results:
                 break
             print(paper_data)
-            if 'type' in paper_data.keys() and paper_data['type'] and 'DOI' in paper_data.keys() and 'title' in paper_data.keys():
+            #filter out unacceptable results
+            if 'type' in paper_data.keys() and paper_data['type'] == 'journal-article' and 'DOI' in paper_data.keys() and 'title' in paper_data.keys():
                 paper = {
-                    'DOI' : (paper_data['DOI'] if 'DOI' in paper_data.keys() else ''),
+                    'DOI' : paper_data['DOI'],
                     'title' : (paper_data['title'][0] if 'title' in paper_data.keys() else ''),
-                    'date_published' : (paper_data['published-print']['date-parts'][0] if 'published-print' in paper_data.keys() else ''),
+                    'journal': (paper_data['short-container-title'][0] if 'short-container-title' in paper_data.keys() else ''),
+                    'date_published' : (paper_data['published-print']['date-parts'][0][0] if 'published-print' in paper_data.keys() else ''),
                 }
 
                 paper['authors'] = []
