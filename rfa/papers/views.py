@@ -17,6 +17,7 @@ class GetByDOIView(APIView):
         paper = {
             'DOI' : (paper_data['DOI'] if 'DOI' in paper_data.keys() else ''),
             'title' : (paper_data['title'][0] if 'title' in paper_data.keys() else ''),
+            'journal': (paper_data['short-container-title'][0] if 'short-container-title' in paper_data.keys() else ''),            
             'date_published' : (paper_data['published-print']['date-parts'][0] if 'published-print' in paper_data.keys() else ''),
         }
 
