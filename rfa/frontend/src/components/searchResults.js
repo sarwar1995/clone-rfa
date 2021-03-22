@@ -63,7 +63,7 @@ class SearchResults extends Component {
         //redirect to a paper page if necessary
         if (this.state.toPaper=== true) {
             return <Redirect to={{
-                pathname: "/search/" + this.state.paperID + "/",
+                pathname: "/article/" + encodeURIComponent(this.state.paperID) + "/",
             }} />
         }
 
@@ -79,7 +79,7 @@ class SearchResults extends Component {
                             //for each paper in the results, create an list item
                             this.state.searchResults.map(article => {
                                 return (
-                                   <PaperReference paper={article} toPaper={() => this.toPaper(article.arxiv_id)}/>
+                                   <PaperReference paper={article} key={article.DOI} toPaper={() => this.toPaper(article.DOI)}/>
                                 );
                             }
                             )
@@ -101,14 +101,16 @@ class PaperReference extends Component{
         };
     }
 
+    getAuthors(){
+        return this.props.paper.authors.join();
+    }
+
     render(){
         return(
             <div className="paperReference" onClick={this.props.toPaper}>
                 <h4>{this.props.paper.title}</h4>
-                <h5>{this.props.paper.authors}</h5>
-                <div className="abstract">
-                    {this.props.paper.abstract}
-                </div>
+                <h5>{this.props.paper.authors.join(", ")}</h5>
+                <p>{this.props.paper.journal + " " + this.props.paper.date_published}</p>
             </div>
         );
     }

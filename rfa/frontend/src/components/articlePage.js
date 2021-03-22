@@ -9,16 +9,42 @@ class ArticlePage extends Component {
         this.state = {
             toSearch: false,
             query: '',
+            article: null,
+            isFetchingArticle: false,
         };
         this.toSearch = this.toSearch.bind(this);
     }
-
 
     toSearch(query) {
         this.setState({ toSearch: true, query: query });
     }
 
+    //given an article DOI, get it from the backend
+    async getArticle(DOI){
+        this.setState({isFetchingArticle: true});
+        try{
+            let response = await axiosInstance.get('papers/getByDOI/', {
+                params: {
+                    DOI: decodeURI(DOI)
+                }
+            });
+            console.log(response);
+            this.setState({ article: response.data, isFetchingArticle: false })
+        }
+        catch{
+            console.log(error);
+            alert("Article Not Found!");
+        }
+    }
+
+    //when the page loads...
+    componentDidMount() {
+        //get article data
+        this.getArticle(this.props.match.params.DOI);
+    }
+
     render() {
+        console.log(decodeURI(this.props.match.params.DOI));
         //check if user has an auth token...
         if (axiosInstance.defaults.headers['Authorization'] === null) {
             return <Redirect to='/' />
@@ -33,7 +59,8 @@ class ArticlePage extends Component {
         return (
             <div>
                 <Navbar toSearch={(query) => this.toSearch(query)} />
-                Article
+                {this.state.isFetchingArticle ? "Fetching data..." : ""}
+                {this.state.article ? this.state.article.title : ""}
             </div>
         )
     }
