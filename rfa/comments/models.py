@@ -17,6 +17,7 @@ class Comment(models.Model):
     Note here that on_delete=models.PROTECT for user, because we don't want to delete a user and their comments if the paper still exists.
     comment_text => Text of the comment
     created_date
+    anonymous ==> Whether the comment has been made anonymously in which case hide user's name and affiliation in the CommentView.
     paper_section => section of the paper that the comment is primarily about
     comment_type => question, review, or summary
     user_expertise => whether the user is 'novice', 'familiar' , 'expert' or 'leader' in the field of the paper
@@ -27,7 +28,7 @@ class Comment(models.Model):
         User, on_delete=models.PROTECT, related_name='comments')
     comment_text = models.TextField()
     created_date = models.DateField(auto_now_add=True)
-
+    anonymous = models.BooleanField(default = False)
     class PaperSection (models.TextChoices):
         WHOLEPAPER = 'whole', __('Whole Paper')
         ABSTRACT = 'abstract', __('Abstract')
