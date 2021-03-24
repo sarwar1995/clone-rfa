@@ -32,6 +32,7 @@ class App extends Component {
                             path={"/search/:term"}
                             render={props => <SearchResults key={props.match.params.term} {...props} />}
                         />
+                        <Route exact path={"/signup/"} component={Signup} />
                         <Route path={"/"} component={Login} />
                     </Switch>
                 </main>
