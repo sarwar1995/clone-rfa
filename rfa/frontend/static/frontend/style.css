@@ -1,134 +1,163 @@
-#root{
-    font-family: 'Montserrat';
+#root {
+  font-family: "Montserrat";
 }
 
-.site{
-    padding: 0px;
+.site {
+  padding: 0px;
 }
 
-body{
-    margin: 0px;
+body {
+  margin: 0px;
 }
 
-h1{
-    color: #772fd6;
+h1 {
+  color: #094da0;
 }
 
-h2{
-    color: #333336;
+h2 {
+  color: #333336;
 }
 
-button{
-    font-family: 'Montserrat';
-    padding: 10px;
-    margin: 10px;
+button {
+  font-family: "Montserrat";
+  padding: 10px;
+  margin: 10px;
 }
 
-input[type=submit]{
-    font-family: 'Montserrat';
-    padding: 10px;
-    margin: 10px;
+input[type="submit"] {
+  font-family: "Montserrat";
+  padding: 10px;
+  margin: 10px;
 }
 
-#landing{
-    margin-top: 7%;
-    width: 100%;
-    text-align: center;
+h1.RFA {
+  font-family: "Lato";
+  color: #094da0;
+  font-weight: lighter;
 }
 
-#header{
-    width: 100%;
-    text-align: right;
-    background-color: #772fd6;
+h1.RFA::first-letter {
+  color: #094da0;
+  font-size: 125%;
+  font-weight: bold;
 }
 
-#logo{
-    font-size:  60px;
+.RFAdescript {
+  font-family: "Lato";
+  font-size: x-large;
+  font-weight: 100;
+  color: #094da0;
 }
 
-.searchBar{
-    font-family: 'Montserrat';
-    font-size: 14px;
-    height: 26px;
-    margin: 15px;
-    width: 80%;
-    padding-left: 10px;
-    border-radius: 15px;
-    border: none;
-    outline: none;
+.signUpForm {
+  float: right;
+  padding: 20px;
+  max-width: 600px;
+  margin: 40px auto;
+  margin-right: 20px; /*what ever you want*/
 }
 
-.navbarIcon{
-    color: white;
+#landing {
+  margin-top: 7%;
+  width: 100%;
+  text-align: center;
 }
 
-.navbarLogo{
-    color: white;
-    margin-left: 20px;
-    margin: 10px;
-    padding: 10px;
+#header {
+  width: 100%;
+  text-align: right;
+  background-color: #772fd6;
+}
+
+#logo {
+  font-size: 60px;
+}
+
+.searchBar {
+  font-family: "Montserrat";
+  font-size: 14px;
+  height: 26px;
+  margin: 15px;
+  width: 80%;
+  padding-left: 10px;
+  border-radius: 15px;
+  border: none;
+  outline: none;
+}
+
+.navbarIcon {
+  color: white;
+}
+
+.navbarLogo {
+  color: white;
+  margin-left: 20px;
+  margin: 10px;
+  padding: 10px;
 }
 
 .column {
-    float: left;
-    padding: 10px;
-  }
-  
-  .left, .right {
-    width: 20%;
-  }
+  float: left;
+  padding: 10px;
+}
 
-  .left{
-      text-align: left;
-  }
+.left,
+.right {
+  width: 20%;
+}
 
-  .right{
-      text-align: right;
-  }
-  
-  .middle {
-    width: 50%;
-  }
+.left {
+  text-align: left;
+}
 
-  .left-body, .right-body {
-    width: 13%;
-  }
+.right {
+  text-align: right;
+}
 
-  .left-body{
-      text-align: left;
-  }
+.middle {
+  width: 50%;
+}
 
-  .right-body{
-      text-align: right;
-  }
-  
-  .middle-body{
-    width: 70%;
-  }
+.left-body,
+.right-body {
+  width: 13%;
+}
 
-  .row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
+.left-body {
+  text-align: left;
+}
 
-  .paperReference{
-      border-color: #772fd6;
-      border-radius: 10px;
-      border-style: solid;
-      padding: 20px;
-      margin: 15px;
-      transition-duration: 0.3s;
-      cursor: pointer;
-  }
+.right-body {
+  text-align: right;
+}
 
-  .abstract{
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      font-size: 12px;
-  }
+.middle-body {
+  width: 70%;
+}
 
-  .paperReference:hover{
-    color:#772fd6;
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.paperReference {
+  border-color: #772fd6;
+  border-radius: 10px;
+  border-style: solid;
+  padding: 20px;
+  margin: 15px;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
+
+.abstract {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.paperReference:hover {
+  color: #772fd6;
 }
