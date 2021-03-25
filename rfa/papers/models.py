@@ -14,6 +14,15 @@ class Paper(models.Model):
     abstract = models.TextField()
 
 
-    def GetComments(self):
-        queryset = self.comment_set.all()
+    def GetAllCommentsList(self):
+        """
+        This returns a list of comment objects associated with the paper instance. Calling list() forces the evaluation
+        of the queryset and actually makes a call to the database
+        """
+        query = list(self.comment_set.all())
+        return query
 
+    def GetTopCommentsList(self, count):
+        """This will return comments ordered by votes in a descending order """
+        query = list(self.comment_set.all().order_by('-votes')[:count])
+        return query

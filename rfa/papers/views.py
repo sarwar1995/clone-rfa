@@ -9,7 +9,11 @@ from crossref.restful import Works
 from django.core.exceptions import ObjectDoesNotExist
 from .serializers import PaperSerializer
 from rest_framework.renderers import JSONRenderer
+import json
+from django.apps import apps
+from comments.serializers import CommentSerializer
 
+Comment = apps.get_model('comments', 'Comment')
 class GetByDOIView(APIView):
     """ This is the view that is called for the article page rendering and returns 
     The control flow is as follows:
@@ -21,11 +25,10 @@ class GetByDOIView(APIView):
         doi = request.query_params['DOI']
 
         paper = queryDatabase(doi)
-        
         if paper:
             serializer = PaperSerializer(paper)
-            json_data = JSONRenderer().render(serializer.data)
-            return Response(data=json_data, status=status.HTTP_200_OK)
+            data = serializer.data
+            return Response(data=data, status=status.HTTP_200_OK)
         else:
             works = Works()
             paper_data = works.doi(doi)
@@ -48,11 +51,13 @@ class GetByDOIView(APIView):
                         auth_name += " " + author['family']
                         auth_name.strip()
                         paper_dict['authors'].append(auth_name)
+
+            paper_dict['authors'] = json.dumps(paper_dict['authors'])
             serializer = PaperSerializer(data=paper_dict)
             if serializer.is_valid:
                 paper = serializer.save()
-                json_data = JSONRenderer().render(serializer.data)
-                return Response(data=json_data, status=status.HTTP_200_OK)
+                data = serializer.data
+                return Response(data=data, status=status.HTTP_200_OK)
             else:
                 Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
@@ -65,6 +70,32 @@ class GetByDOIView(APIView):
             return None 
 
 
+class GetAllComments(generics.ListAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = (permissions.AllowAny,)
+    
+    def get_queryset(self):
+        doi = self.request.query_params['DOI']
+        queryset = Comment.objects.filter(paper__DOI=doi)
+        if not queryset:
+            return None
+        else:
+            return queryset
+
+    def list(self, request):
+        """
+        This method is called as the get() method. When the queryset is empty then we return a dict with 'NoComment' as True
+        which can be checked on frontend """
+        # Note the use of `get_queryset()` instead of `self.queryset`
+        queryset = self.get_queryset()
+        serializer = CommentSerializer(queryset, many=True)
+        if not queryset:
+            return Response({'NoComment': True})
+        else:
+            if serializer.is_valid:
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class PaperListCreate(generics.ListCreateAPIView):
     queryset = Paper.objects.all()
