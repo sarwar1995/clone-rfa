@@ -4,4 +4,13 @@ from .models import Paper
 class PaperSerializer(serializers.ModelSerializer):
     class Meta:
         model = Paper
-        fields = ('arxiv_id', 'title', 'authors', 'date_published', 'abstract')
+        fields = ('DOI', 'title', 'authors', 'date_published', 'abstract')
+
+    def create(self, validated_data):
+        """ Need the create method for saving the object instance from serializer data. """
+        instance = self.Meta.model(**validated_data)
+        instance.save()
+        return instance
+
+    # def validate_DOI(self, value):
+    #     /^10.\d{4,9}/[-._;()/:A-Z0-9]+$/i
