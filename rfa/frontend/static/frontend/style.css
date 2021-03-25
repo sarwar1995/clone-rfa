@@ -1,3 +1,8 @@
+:root{
+    --primary-color: #2fafd6;
+    --primary-color-dark: #2894b4;
+}
+
 #root{
     font-family: 'Montserrat';
 }
@@ -7,11 +12,12 @@
 }
 
 body{
+    background-color: #e8e8e8;
     margin: 0px;
 }
 
 h1{
-    color: #772fd6;
+    color: var(--primary-color);
 }
 
 h2{
@@ -19,15 +25,57 @@ h2{
 }
 
 button{
+    background-color: var(--primary-color);
+    border: none;
+    color: white;
+    border-radius: 10px;
     font-family: 'Montserrat';
     padding: 10px;
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: var(--primary-color-dark);
+}
+
+.secondaryButton{
+    background-color: white;
+    border-style: solid;
+    border-color: var(--primary-color);
+    border-width: 2px;
+    color: var(--primary-color);
+}
+
+.secondaryButton:hover{
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.logoutButton{
     margin: 10px;
+    display: inline-block;
+}
+
+.username{
+    color: white;
+    margin-right: 15px;
+    display: inline-block;
 }
 
 input[type=submit]{
+    background-color: var(--primary-color);
+    border: none;
+    color: white;
+    border-radius: 10px;
     font-family: 'Montserrat';
     padding: 10px;
-    margin: 10px;
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+
+input[type=submit]:hover{
+    background-color: var(--primary-color-dark);
 }
 
 #landing{
@@ -39,7 +87,7 @@ input[type=submit]{
 #header{
     width: 100%;
     text-align: right;
-    background-color: #772fd6;
+    background-color: var(--primary-color);
 }
 
 #logo{
@@ -74,8 +122,12 @@ input[type=submit]{
     padding: 10px;
   }
   
-  .left, .right {
-    width: 20%;
+  .left {
+    width: 15%;
+  }
+
+  .right{
+      width: 25%;
   }
 
   .left{
@@ -113,7 +165,8 @@ input[type=submit]{
   }
 
   .paperReference{
-      border-color: #772fd6;
+      border-color: var(--primary-color);
+      background-color: white;
       border-radius: 10px;
       border-style: solid;
       padding: 20px;
@@ -121,6 +174,7 @@ input[type=submit]{
       transition-duration: 0.3s;
       cursor: pointer;
   }
+
 
   .abstract{
       text-overflow: ellipsis;
@@ -130,5 +184,40 @@ input[type=submit]{
   }
 
   .paperReference:hover{
-    color:#772fd6;
+    color:var(--primary-color);
+}
+
+.articleDetail{
+    background-color: white;
+    padding: 20px;
+    margin: 15px;
+}
+
+.commentForm{
+    background-color: white;
+    padding: 20px;
+    margin: 15px;
+}
+
+.commentsList{
+    background-color: white;
+    margin: 15px;
+}
+
+.commentCategoryButton{
+    display: inline-block;
+    margin: 10px;
+}
+
+.commentsHeader{
+    border-color: var(--primary-color);
+    border-style: solid;
+}
+
+.clickedFilter{
+    background-color: var(--primary-color);
+    color:white;
+    border-style: solid;
+    border-width: 2px;
+    border-color: var(--primary-color);
 }

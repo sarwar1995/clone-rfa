@@ -73,7 +73,7 @@ class SearchResults extends Component {
                 <div className="row">
                     <div className="column left-body">
                     </div>
-                    <div className="column middle-body">
+                    <div className="column middle-body searchResults">
                         {this.state.isFetching ? "Gathering papers..." : ""}
                         {
                             //for each paper in the results, create an list item

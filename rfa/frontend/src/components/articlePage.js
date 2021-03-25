@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route, Link, useHistory, Redirect } from "react-router-dom";
 import axiosInstance from "../axiosApi";
 import Navbar from "./navbar";
+import CommentForm from "./commentForm";
 
 class ArticlePage extends Component {
     constructor(props) {
@@ -11,6 +12,7 @@ class ArticlePage extends Component {
             query: '',
             article: null,
             isFetchingArticle: false,
+            currentFilter: "all",
         };
         this.toSearch = this.toSearch.bind(this);
     }
@@ -20,9 +22,9 @@ class ArticlePage extends Component {
     }
 
     //given an article DOI, get it from the backend
-    async getArticle(DOI){
-        this.setState({isFetchingArticle: true});
-        try{
+    async getArticle(DOI) {
+        this.setState({ isFetchingArticle: true });
+        try {
             let response = await axiosInstance.get('papers/getByDOI/', {
                 params: {
                     DOI: decodeURI(DOI)
@@ -31,10 +33,21 @@ class ArticlePage extends Component {
             console.log(response);
             this.setState({ article: response.data, isFetchingArticle: false })
         }
-        catch{
+        catch {
             console.log(error);
             alert("Article Not Found!");
         }
+    }
+
+    //return a div containing components that display details about the appropriate article
+    displayArticleDetail(){
+        return(
+            <div>
+                <h2>{this.state.article.title}</h2>
+                <h4>{this.state.article.authors.join(", ")}</h4>
+                <h4>{this.state.article.journal + " " + this.state.article.date_published}</h4>
+            </div>
+        );
     }
 
     //when the page loads...
@@ -50,7 +63,7 @@ class ArticlePage extends Component {
             return <Redirect to='/' />
         }
         //redirect to search if necessary
-         if (this.state.toSearch === true) {
+        if (this.state.toSearch === true) {
             return <Redirect to={{
                 pathname: "/search/" + this.state.query + "/",
             }} />
@@ -59,8 +72,30 @@ class ArticlePage extends Component {
         return (
             <div>
                 <Navbar toSearch={(query) => this.toSearch(query)} />
-                {this.state.isFetchingArticle ? "Fetching data..." : ""}
-                {this.state.article ? this.state.article.title : ""}
+                <div className="col-body">
+                    <div className="column left-body">
+                    </div>
+                    <div className="column middle-body">
+                        <div className="articleDetail">
+                            {this.state.isFetchingArticle ? "Fetching data..." : ""}
+                            {this.state.article ? this.displayArticleDetail() : ""}
+                        </div>
+                        <div className="commentForm">
+                            <h4>What are your thoughts?</h4>
+                            <CommentForm />
+                        </div>
+                        <div className="commentsList">
+                            <div className="commentsHeader">
+                                <button onClick={() => this.setState({currentFilter: "all"})} className={this.state.currentFilter === "all" ? "commentCategoryButton clickedFilter" : "commentCategoryButton secondaryButton"}>All</button>
+                                <button onClick={() =>this.setState({currentFilter: "questions"})} className={this.state.currentFilter === "questions" ? "commentCategoryButton clickedFilter" : "commentCategoryButton secondaryButton"}>Questions</button>
+                                <button onClick={() => this.setState({currentFilter: "reviews"})} className={this.state.currentFilter === "reviews" ? "commentCategoryButton clickedFilter" : "commentCategoryButton secondaryButton"}>Reviews</button>
+                                <button onClick={() => this.setState({currentFilter: "summaries"})} className={this.state.currentFilter === "summaries" ? "commentCategoryButton clickedFilter" : "commentCategoryButton secondaryButton"}>Summaries</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="column right-body">
+                    </div>
+                </div>
             </div>
         )
     }

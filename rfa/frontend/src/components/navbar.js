@@ -52,7 +52,8 @@ class Navbar extends Component {
                         </form>
                     </div>
                     <div className="column right">
-                        <button onClick={this.handleLogout}>Logout</button>
+                        <p className="username">{localStorage.getItem('username')}</p>
+                        <button className="secondaryButton logoutButton" onClick={this.handleLogout}>Logout</button>
                     </div>
                 </div>
             </div>
