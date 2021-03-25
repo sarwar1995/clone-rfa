@@ -7,6 +7,7 @@ User = apps.get_model('core', 'CustomUser')
 
 class Comment(models.Model):
     """ 
+    Attributes: [paper, user, comment_text, created_date, isAnonymous, paper_section, comment_type, user_expertise]
     The comment model has the following fields:
     paper => The paper that the comment is being made about. Many-to-one relationship from comment-to-paper,
     implemented with the 'ForiegnKey' method i.e. many comments can exist for a single paper.
@@ -17,7 +18,7 @@ class Comment(models.Model):
     Note here that on_delete=models.PROTECT for user, because we don't want to delete a user and their comments if the paper still exists.
     comment_text => Text of the comment
     created_date
-    anonymous ==> Whether the comment has been made anonymously in which case hide user's name and affiliation in the CommentView.
+    isAnonymous ==> Whether the comment has been made anonymously in which case hide user's name and affiliation in the CommentView.
     paper_section => section of the paper that the comment is primarily about
     comment_type => question, review, or summary
     user_expertise => whether the user is 'novice', 'familiar' , 'expert' or 'leader' in the field of the paper
@@ -28,7 +29,7 @@ class Comment(models.Model):
         User, on_delete=models.PROTECT, related_name='comments')
     comment_text = models.TextField()
     created_date = models.DateField(auto_now_add=True)
-    anonymous = models.BooleanField(default = False)
+    isAnonymous = models.BooleanField(default = False)
     class PaperSection (models.TextChoices):
         WHOLEPAPER = 'whole', __('Whole Paper')
         ABSTRACT = 'abstract', __('Abstract')
@@ -70,12 +71,12 @@ class Comment(models.Model):
     def __str__(self):
         return self.comment_text
 
-
 class Reply (models.Model):
     """
     The reply model has a many-to-one relationship with the comment and a many-to-one relationship with a user.
     If a comment is deleted all replies on it will also be deleted (on_delete=models.CASCADE), 
-    but a user cannot be deleted if a reply exists by them on a comment (on_delete=models.PROTECT).
+    but a user cannot be deleted if a reply exists by them on a comment (on_delete=models.PROTECT), since we don't want 
+    all replies by a user to get deleted if a user is deleted.
     """
     comment = models.ForeignKey(
         Comment, on_delete=models.CASCADE, related_name='replies')
