@@ -1,5 +1,6 @@
 from django.db import models
 from django.apps import apps
+from djrichtextfield.models import RichTextField
 
 Paper = apps.get_model('papers', 'Paper')
 User = apps.get_model('core', 'CustomUser')
@@ -16,7 +17,7 @@ class Comment(models.Model):
     user => The user that is making the comment. Many-to-one relationship from comment-to-user implemented with the 
     'ForiegnKey' method. 
     Note here that on_delete=models.PROTECT for user, because we don't want to delete a user and their comments if the paper still exists.
-    comment_text => Text of the comment
+    comment_text => Text of the comment which is a RichTextField()
     created_date
     isAnonymous ==> Whether the comment has been made anonymously in which case hide user's name and affiliation in the CommentView.
     paper_section => section of the paper that the comment is primarily about
@@ -27,9 +28,10 @@ class Comment(models.Model):
         Paper, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(
         User, on_delete=models.PROTECT, related_name='comments')
-    comment_text = models.TextField()
+    comment_text = models.RichTextField()
     created_date = models.DateField(auto_now_add=True)
     isAnonymous = models.BooleanField(default = False)
+    votes = models.IntegerField(default = 0)
     class PaperSection (models.TextChoices):
         WHOLEPAPER = 'whole', __('Whole Paper')
         ABSTRACT = 'abstract', __('Abstract')
@@ -82,5 +84,6 @@ class Reply (models.Model):
         Comment, on_delete=models.CASCADE, related_name='replies')
     user = models.ForeignKey(
         User, on_delete=models.PROTECT, related_name='replies')
-    reply_text = models.TextField()
+    reply_text = models.RichTextField()
+    votes = models.IntegerField(default = 0)
     created_date = models.DateField(auto_now_add=True)

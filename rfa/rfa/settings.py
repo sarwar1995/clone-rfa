@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'frontend',
     'papers',
     'rest_framework_simplejwt.token_blacklist',
-    'corsheaders'
+    'corsheaders', 
+    'djrichtextfield',
 ]
 
 REST_FRAMEWORK = {
@@ -82,6 +83,17 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
+
+DJRICHTEXTFIELD_CONFIG = {
+    'js': ['//cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js'],
+    'init_template': 'djrichtextfield/init/tinymce.js',
+    'settings': {
+        'menubar': False,
+        'plugins': 'link image',
+        'toolbar': 'bold italic | link image | removeformat',
+        'width': 700
+    }
+}
 
 ROOT_URLCONF = 'rfa.urls'
 
