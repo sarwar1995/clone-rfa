@@ -3,17 +3,17 @@ import { Switch, Route, Link, useHistory } from "react-router-dom";
 import axiosInstance from "../axiosApi";
 
 class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { username: "", password: "" };
+  constructor(props) {
+    super(props);
+    this.state = { username: "", password: "" };
 
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-    handleChange(event) {
-        this.setState({ [event.target.name]: event.target.value });
-    }
+  handleChange(event) {
+    this.setState({ [event.target.name]: event.target.value });
+  }
 
     async handleSubmit(event) {
         event.preventDefault();
@@ -31,26 +31,55 @@ class Login extends Component {
             throw error;
         }
     }
+  }
 
-    render() {
-        return (
-            <div>Login
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        Username:
-                        <input name="username" type="text" value={this.state.username} onChange={this.handleChange} />
-                    </label>
-                    <label>
-                        Password:
-                        <input name="password" type="password" value={this.state.password} onChange={this.handleChange} />
-                    </label>
-                    <input type="submit" value="Submit" />
-                </form>
-                <Link to={"/signup/"}>
-                    <button>Create Account</button>
-                </Link>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div>
+        Login
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Username:
+            <input
+              name="username"
+              type="text"
+              value={this.state.username}
+              onChange={this.handleChange}
+            />
+          </label>
+          <label>
+            Password:
+            <input
+              name="password"
+              type="password"
+              value={this.state.password}
+              onChange={this.handleChange}
+            />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+        <Link to={"/signup/"}>
+          <button>Create Account</button>
+        </Link>
+      </div>
+    );
+  }
 }
+
+export class LoginEmailVerified extends Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <h3>Email verified! You can login.</h3>;
+        <div>
+          <Login></Login>
+        </div>
+      </div>
+    );
+  }
+}
+
 export default Login;
