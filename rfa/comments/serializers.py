@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from .models import CustomUser
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Comment
 

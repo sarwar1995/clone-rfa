@@ -1,9 +1,12 @@
+from django.conf import settings
 from django.db import models
 from django.apps import apps
 from djrichtextfield.models import RichTextField
+from django.utils.translation import gettext as _
 
-Paper = apps.get_model('papers', 'Paper')
-User = apps.get_model('core', 'CustomUser')
+# django.setup()
+# Paper = apps.get_model('papers', 'Paper')
+# User = apps.get_model('core', 'CustomUser')
 
 
 class Comment(models.Model):
@@ -25,21 +28,21 @@ class Comment(models.Model):
     user_expertise => whether the user is 'novice', 'familiar' , 'expert' or 'leader' in the field of the paper
     """
     paper = models.ForeignKey(
-        Paper, on_delete=models.CASCADE, related_name='comments')
+        'papers.Paper', on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(
-        User, on_delete=models.PROTECT, related_name='comments')
-    comment_text = models.RichTextField()
+        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='comments')
+    comment_text = RichTextField()
     created_date = models.DateField(auto_now_add=True)
     isAnonymous = models.BooleanField(default = False)
     votes = models.IntegerField(default = 0)
     class PaperSection (models.TextChoices):
-        WHOLEPAPER = 'whole', __('Whole Paper')
-        ABSTRACT = 'abstract', __('Abstract')
-        INTRODUCTION = 'intro', __('Introduction')
-        METHODOLOGY = 'method', __('Methodology')
-        RESULTS = 'results', __('Results')
-        DISCUSSION = 'discussion', __('Discussion')
-        CONCLUSION = 'conclusion', __('Conclusion')
+        WHOLEPAPER = 'whole', _('Whole Paper')
+        ABSTRACT = 'abstract', _('Abstract')
+        INTRODUCTION = 'intro', _('Introduction')
+        METHODOLOGY = 'method', _('Methodology')
+        RESULTS = 'results', _('Results')
+        DISCUSSION = 'discussion', _('Discussion')
+        CONCLUSION = 'conclusion', _('Conclusion')
 
     paper_section = models.CharField(
         max_length=120,
@@ -48,9 +51,9 @@ class Comment(models.Model):
     )
 
     class CommentType (models.TextChoices):
-        QUESTION = 'question', __('Question')
-        REVIEW = 'review', __('Review')
-        SUMMARY = 'summary', __('Summary')
+        QUESTION = 'question', _('Question')
+        REVIEW = 'review', _('Review')
+        SUMMARY = 'summary', _('Summary')
 
     comment_type = models.CharField(
         max_length=120,
@@ -59,10 +62,10 @@ class Comment(models.Model):
     )
 
     class UserExpertise (models.TextChoices):
-        NOVICE = 'novice', __('Novice')
-        FAMILIAR = 'familiar', __('Familiar')
-        EXPERT = 'expert', __('Expert')
-        LEADER = 'leader', __('Leader')
+        NOVICE = 'novice', _('Novice')
+        FAMILIAR = 'familiar', _('Familiar')
+        EXPERT = 'expert', _('Expert')
+        LEADER = 'leader', _('Leader')
 
     user_expertise = models.CharField(
         max_length=120,
@@ -83,7 +86,7 @@ class Reply (models.Model):
     comment = models.ForeignKey(
         Comment, on_delete=models.CASCADE, related_name='replies')
     user = models.ForeignKey(
-        User, on_delete=models.PROTECT, related_name='replies')
-    reply_text = models.RichTextField()
+        settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='replies')
+    reply_text = RichTextField()
     votes = models.IntegerField(default = 0)
     created_date = models.DateField(auto_now_add=True)
