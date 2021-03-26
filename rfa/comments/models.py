@@ -37,7 +37,6 @@ class Comment(models.Model):
     votes = models.IntegerField(default = 0)
     class PaperSection (models.TextChoices):
         WHOLEPAPER = 'whole', _('Whole Paper')
-        ABSTRACT = 'abstract', _('Abstract')
         INTRODUCTION = 'intro', _('Introduction')
         METHODOLOGY = 'method', _('Methodology')
         RESULTS = 'results', _('Results')
