@@ -36,10 +36,10 @@ class App extends Component {
               )}
             />
             <Route exact path={"/signup/"} component={Signup} />
-            <Route
-              path={"/user/email-verify/"}
+            {/* <Route
+              path={"/:token"}
               component={LoginEmailVerified}
-            />
+            /> */}
             <Route path={"/"} component={Login} />
           </Switch>
         </main>

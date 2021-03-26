@@ -41,7 +41,6 @@ class CustomUserCreate(APIView):
 
     def post(self, request, format='json'):
         serializer = CustomUserSerializer(data=request.data)
-        print(request.data)
         if serializer.is_valid():
             to_email = serializer.validated_data['email']
             # This saves the user in the database with the attribute is_active=False (default)
