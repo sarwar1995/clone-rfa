@@ -12,6 +12,7 @@ class ArticlePage extends Component {
             query: '',
             article: null,
             isFetchingArticle: false,
+            isFetchingComments: false,
             currentFilter: "all",
         };
         this.toSearch = this.toSearch.bind(this);

@@ -221,3 +221,25 @@ input[type=submit]:hover{
     border-width: 2px;
     border-color: var(--primary-color);
 }
+
+.optionsDiv{
+    margin-bottom: 10px;
+}
+
+.commentOptionDiv{
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.commentOptionLabel{
+    margin-right: 7px;
+    font-size: 14px;
+}
+
+select{
+    font-family: 'Montserrat';
+    border:0px;
+   outline:0px;
+   color: var(--primary-color);
+    font-weight: bold;
+}
