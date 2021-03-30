@@ -22,10 +22,17 @@ class GetByDOIView(APIView):
     The <ArticlePage> component then makes an axiosInstance.get() request to /papers/getByDOI/ which 
     invokes this view to get the relevant info either by querying the databse or Cross References RESTful API via Works().
      """
+    def queryDatabase(self, doi):
+        try:
+            paper = Paper.objects.get(DOI=doi)
+            return paper
+        except ObjectDoesNotExist:
+            return None
+    
     def get(self, request):
         doi = request.query_params['DOI']
 
-        paper = queryDatabase(doi)
+        paper = self.queryDatabase(doi)
         if paper:
             serializer = PaperSerializer(paper)
             data = serializer.data
@@ -42,7 +49,7 @@ class GetByDOIView(APIView):
                 'abstract' : (paper_data['abstract'] if 'abstract' in paper_data.keys() else ''),
                 }
 
-            paper_dict['authors'] = []
+            paper_dict['authors'] = ''
             if 'author' in paper_data.keys():
                 for author in paper_data['author']:
                     auth_name = ""
@@ -51,24 +58,16 @@ class GetByDOIView(APIView):
                     if 'family' in author.keys():
                         auth_name += " " + author['family']
                         auth_name.strip()
-                        paper_dict['authors'].append(auth_name)
+                        paper_dict['authors'] += auth_name
 
             paper_dict['authors'] = json.dumps(paper_dict['authors'])
             serializer = PaperSerializer(data=paper_dict)
-            if serializer.is_valid:
+            if serializer.is_valid():
                 paper = serializer.save()
                 data = serializer.data
                 return Response(data=data, status=status.HTTP_200_OK)
             else:
                 Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            
-
-    def queryDatabase (self, doi):
-        try:
-            paper = Paper.objects.get(DOI=doi)
-            return paper
-        except ObjectDoesNotExist:
-            return None 
 
 
 class GetAllComments(generics.ListAPIView):
