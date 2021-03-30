@@ -67,8 +67,8 @@ class CustomUserCreate(APIView):
             relative_link = reverse('verify_email')
             absolute_url = "http://" + current_site + relative_link + \
                 "?token=" + token + "&uidb64=" + url_safe_uid
-            email_body = 'Hello! ' + user.username + \
-                'Thanks for signing up on Research For All (RFA). Click the link below to verify your account.\n' + absolute_url
+            email_body = 'Hello! ' + user.username + '\n'\
+                'Thanks for signing up on Research For All (RFA). Click the link below to verify your account.\n This link is only valid for a day: ' + absolute_url
             email_data = {'subject': 'Verify your Research For All (RFA) account',
                           'email_body': email_body,
                           'to_email': to_email,

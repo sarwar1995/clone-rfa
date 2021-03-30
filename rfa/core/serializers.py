@@ -12,7 +12,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
 
         # Add custom claims.
-        #token['affiliation'] = user.affiliation
+        # token['affiliation'] = user.affiliation
         # We don't need affilation as a custom claim to verify the user.
         # Only username and password will suffice which is part of the parent class TokenObtainPairSerializer
         # So in principle we don't need this child class if there are no custom claims
@@ -75,3 +75,4 @@ class CustomUserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+             
