@@ -51,14 +51,18 @@ class GetByDOIView(APIView):
 
             paper_dict['authors'] = ''
             if 'author' in paper_data.keys():
+                first_author = True
                 for author in paper_data['author']:
-                    auth_name = ""
+                    auth_name = ''
+                    if not first_author:
+                        auth_name += ', '
                     if 'given' in author.keys():
-                        auth_name = author['given']
+                        auth_name += author['given']
                     if 'family' in author.keys():
-                        auth_name += " " + author['family']
+                        auth_name += ' ' + author['family']
                         auth_name.strip()
                         paper_dict['authors'] += auth_name
+                    first_author = False
 
             paper_dict['authors'] = json.dumps(paper_dict['authors'])
             serializer = PaperSerializer(data=paper_dict)
