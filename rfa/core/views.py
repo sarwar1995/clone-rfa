@@ -16,6 +16,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
+import json
 
 class GetByUsernameView(APIView):
     def get(self, request):
@@ -32,21 +33,63 @@ class GetByUsernameView(APIView):
 
         return Response(data=user, status=status.HTTP_200_OK)
 
-class CreateReadingList(APIView):
+class AddToReadingList(APIView):
     def get(self, request):
         username = request.query_params['username']
         listname = request.query_params['listname']
         DOI = request.query_params['DOI']
-        userObject = CustomUser.objects.filter(username=username)
 
-        if not userObject:
+        # Look up user
+        user = CustomUser.objects.get(username=username)
+        if not user:
             return Response({'Failure': 'Invalid user'}, status=status.HTTP_400_BAD_REQUEST)
+        reading_lists = json.loads(user.reading_lists)
 
-        reading_lists = (userObject.values())[0].get_reading_lists()
-        print(reading_lists)
-        # if listname in reading_lists.keys():
+        # Create new reading list if necessary
+        if listname not in reading_lists['listnames']:
+            reading_lists['listnames'].append(listname)
+            reading_lists['DOIs'].append([])
         
-        return Response(data=user, status=status.HTTP_200_OK)
+        # Add DOI to appropriate list, if not there already
+        list_index = reading_lists['listnames'].index(listname)
+        if DOI not in reading_lists['DOIs'][list_index]:
+            reading_lists['DOIs'][list_index].append(DOI)
+        
+        # Update model
+        user.reading_lists = json.dumps(reading_lists)
+        user.save()
+        
+        return Response(data='', status=status.HTTP_200_OK)
+
+class RemoveFromReadingList(APIView):
+    def get(self, request):
+        username = request.query_params['username']
+        listname = request.query_params['listname']
+        DOI = request.query_params['DOI']
+
+        # Look up user
+        user = CustomUser.objects.get(username=username)
+        if not user:
+            return Response({'Failure': 'Invalid user'}, status=status.HTTP_400_BAD_REQUEST)
+        reading_lists = json.loads(user.reading_lists)
+
+        # Remove DOI from appropriate list if present
+        if listname in reading_lists['listnames']:
+            list_index = reading_lists['listnames'].index(listname)
+            current_DOIs = reading_lists['DOIs'][list_index]
+            if DOI in current_DOIs:
+                current_DOIs.remove(DOI)
+
+                # Remove reading list if necessary
+                if len(current_DOIs) == 0:
+                    reading_lists['listnames'].pop(list_index)
+                    reading_lists['DOIs'].pop(list_index)
+        
+        # Update model
+        user.reading_lists = json.dumps(reading_lists)
+        user.save()
+        
+        return Response(data='', status=status.HTTP_200_OK)
 
 class HelloWorldView(APIView):
     def get(self, request):
