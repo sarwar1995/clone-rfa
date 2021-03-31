@@ -27,6 +27,9 @@ class GetByUsernameView(APIView):
 
         user = (userObject.values())[0]
 
+        # Remove password from returned object
+        user.pop('password', None)
+
         return Response(data=user, status=status.HTTP_200_OK)
 
 class HelloWorldView(APIView):

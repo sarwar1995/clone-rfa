@@ -61,8 +61,14 @@ class UserPage extends Component {
                 <Navbar toSearch={(query) => this.toSearch(query)} />
                 <ul>
                     {this.state.isFetchingUser ? <li>Fetching data...</li> : ""}
-                    {this.state.user ? <li>{this.state.user.id}</li> : ""}
-                    {this.state.user ? <li>{this.state.user.username}</li> : ""}
+                    {/* {this.state.user ? <li>{this.state.user.id}</li> : ""}
+                    {this.state.user ? <li>{this.state.user.username}</li> : ""} */}
+                    {this.state.user ?
+                        Object.keys(this.state.user).map((key, index) => ( 
+                        <p key={index}> {key}: {this.state.user[key]}</p> 
+                        )) :
+                        ""
+                    }
                 </ul>
             </div>
         )
