@@ -32,6 +32,22 @@ class GetByUsernameView(APIView):
 
         return Response(data=user, status=status.HTTP_200_OK)
 
+class CreateReadingList(APIView):
+    def get(self, request):
+        username = request.query_params['username']
+        listname = request.query_params['listname']
+        DOI = request.query_params['DOI']
+        userObject = CustomUser.objects.filter(username=username)
+
+        if not userObject:
+            return Response({'Failure': 'Invalid user'}, status=status.HTTP_400_BAD_REQUEST)
+
+        reading_lists = (userObject.values())[0].get_reading_lists()
+        print(reading_lists)
+        # if listname in reading_lists.keys():
+        
+        return Response(data=user, status=status.HTTP_200_OK)
+
 class HelloWorldView(APIView):
     def get(self, request):
         return Response(data={"hello": "world"}, status=status.HTTP_200_OK)
