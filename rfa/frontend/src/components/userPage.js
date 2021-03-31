@@ -59,11 +59,19 @@ class UserPage extends Component {
         return (
             <div>
                 <Navbar toSearch={(query) => this.toSearch(query)} />
-                <ul>
-                    {this.state.isFetchingUser ? <li>Fetching data...</li> : ""}
-                    {this.state.user ? <li>{this.state.user.id}</li> : ""}
-                    {this.state.user ? <li>{this.state.user.username}</li> : ""}
-                </ul>
+                <div className="purpleBox">
+                    {this.state.isFetchingUser ? <p>Fetching data...</p> : ""}
+                    {this.state.user ? <div>
+                        <p> User ID: {this.state.user.id}</p> 
+                        <p>Username: {this.state.user.username}</p> 
+                        <p>Name: {this.state.user.first_name + " " + this.state.user.last_name} </p>
+                        <p>Email: {this.state.user.email} </p> 
+                        <p>Affiliation: {this.state.user.affiliation} </p>
+                        <p>Position: {this.state.user.position} </p>
+                        </div> : ""}
+                </div>
+                <div className="purpleBox">Currently Reading List...</div>
+                <div className="purpleBox">Currently Wish List...</div>
             </div>
         )
     }

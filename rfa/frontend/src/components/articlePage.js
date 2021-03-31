@@ -63,8 +63,13 @@ class ArticlePage extends Component {
     return (
       <div>
         <Navbar toSearch={(query) => this.toSearch(query)} />
-        {this.state.isFetchingArticle ? "Fetching data..." : ""}
-        {this.state.article ? this.state.article.title : ""}
+        <div className="purpleBox">
+          {this.state.isFetchingArticle ? "Fetching data..." : ""}
+
+          <p> DOI: {this.state.article ? this.state.article.DOI : ""} </p>
+          <p> Title: {this.state.article ? this.state.article.title : ""} </p>
+          <p> Authors: {this.state.article ? this.state.article.authors : ""} </p>
+        </div>
       </div>
     );
   }
