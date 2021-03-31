@@ -41,13 +41,13 @@ class UserPage extends Component {
     //given a username, list name, and DOI,
     //add or remove that DOI to the user's given reading list
     // 
-    //example usage: this.editReadingList('daniel, 'testList', '123', 'add');
+    //example usage: this.editReadingList('daniel', 'testList', '123', 'add');
     async editReadingList(username, listname, DOI, action){
         let route;
         if (action == 'add') {
-            route = 'user/addToReadingList/'
+            route = 'user/reading-list/add/'
         } else if (action == 'remove') {
-            route = 'user/removeFromReadingList/'
+            route = 'user/reading-list/remove/'
         } else {
             alert("Internal error: Incorrect action");
         }
