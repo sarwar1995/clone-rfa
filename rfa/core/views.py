@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework_simplejwt.views import TokenObtainPairView
+from .models import CustomUser
 from .serializers import MyTokenObtainPairSerializer, CustomUserSerializer
 from rest_framework import status, permissions
 from rest_framework.response import Response
@@ -14,7 +15,19 @@ from .utils import Util
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse
 
+class GetByUsernameView(APIView):
+    def get(self, request):
+        username = request.query_params['username']
+        userObject = CustomUser.objects.filter(username=username)
+
+        if not userObject:
+            return Response({'Failure': 'Invalid user'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = (userObject.values())[0]
+
+        return Response(data=user, status=status.HTTP_200_OK)
 
 class HelloWorldView(APIView):
     def get(self, request):
