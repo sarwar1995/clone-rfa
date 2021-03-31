@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import TestView
+from .views import CreateCommentView
 
 urlpatterns = [
-    path('show/', TestView.as_view(), name="test_view"), ]
+    path('/create/', CreateCommentView.as_view(), name="create_comment"), ]

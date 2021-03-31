@@ -53,7 +53,8 @@ class GetByDOIView(APIView):
                         auth_name.strip()
                         paper_dict['authors'].append(auth_name)
 
-            paper_dict['authors'] = json.dumps(paper_dict['authors'])
+            paper_dict['authors'] = ','.join(paper_dict['authors'])
+            #json.dumps(paper_dict['authors'])
             serializer = PaperSerializer(data=paper_dict)
             if serializer.is_valid:
                 paper = serializer.save()
