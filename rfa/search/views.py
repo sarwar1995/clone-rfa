@@ -12,10 +12,9 @@ class SearchPaperView(APIView):
 
         search_term = request.query_params['search_term']
         max_results = int(request.query_params['max_results'])
-        print(max_results)
 
         works = Works()
-        crossref_results = works.query(bibliographic=search_term).sort('score').select('DOI', 'title', 'author', 'published-print', 'type', 'short-container-title')
+        crossref_results = works.query(bibliographic=search_term).sort('score').select('DOI', 'title', 'author', 'published-print', 'type', 'short-container-title').sample(max_results)
 
         paper_list = []
 

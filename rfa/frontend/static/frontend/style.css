@@ -1,186 +1,48 @@
-#root {
-  font-family: "Montserrat";
-}
-
-.site {
-  padding: 0px;
-}
-
-body {
-  margin: 0px;
-}
-
-h1 {
-  color: #094da0;
-}
-
-h2 {
-  color: #333336;
-}
-
-button {
-  font-family: "Montserrat";
-  padding: 10px;
-  margin: 10px;
-}
-
-input[type="submit"] {
-  font-family: "Montserrat";
-  padding: 10px;
-  margin: 10px;
-}
-
-h1.RFA {
-  font-family: "Lato";
-  color: #094da0;
-  font-weight: lighter;
-}
-
-h1.RFA::first-letter {
-  color: #094da0;
-  font-size: 125%;
-  font-weight: bold;
-}
-
-.RFAdescript {
-  font-family: "Lato";
-  font-size: x-large;
-  font-weight: 100;
-  color: #094da0;
-}
-
-.signUpForm {
-  float: right;
-  padding: 20px;
-  max-width: 600px;
-  margin: 40px auto;
-  margin-right: 20px; /*what ever you want*/
-}
-
-#landing {
-  margin-top: 7%;
-  width: 100%;
-  text-align: center;
-}
-
-#header {
-  width: 100%;
-  text-align: right;
-  background-color: #772fd6;
-}
-
-#logo {
-  font-size: 60px;
-}
-
-.searchBar {
-  font-family: "Montserrat";
-  font-size: 14px;
-  height: 26px;
-  margin: 15px;
-  width: 80%;
-  padding-left: 10px;
-  border-radius: 15px;
-  border: none;
-  outline: none;
-}
-
-.navbarIcon {
-  color: white;
-}
-
-.navbarLogo {
-  color: white;
-  margin-left: 20px;
-  margin: 10px;
-  padding: 10px;
-}
-
-.column {
-  float: left;
-  padding: 10px;
-}
-
-.left,
-.right {
-  width: 20%;
-}
-
-.left {
-  text-align: left;
-}
-
-.right {
-  text-align: right;
-}
-
-.middle {
-  width: 50%;
-}
-
-.left-body,
-.right-body {
-  width: 13%;
-}
-
-.left-body {
-  text-align: left;
-}
-
-.right-body {
-  text-align: right;
-}
-
-.middle-body {
-  width: 70%;
-}
-
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.paperReference, .purpleBox{
-  border-color: #772fd6;
-  border-radius: 10px;
-  border-style: solid;
-  padding: 20px;
-  margin: 15px;
-}
-
-.paperReference {
-  transition-duration: 0.3s;
-  cursor: pointer;
-}
-
-.abstract {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  font-size: 12px;
-}
-
-.paperReference:hover {
-  color: #772fd6;
-}
-
-
 :root{
   --primary-color: #2fafd6;
   --primary-color-dark: #2894b4;
-}
-
-#root{
-  font-family: 'Montserrat';
 }
 
 .site {
 padding: 0px;
 }
 
+h1.RFA {
+font-family: "Lato";
+color: #094da0;
+font-weight: lighter;
+}
+
+h1.RFA::first-letter {
+color: #094da0;
+font-size: 125%;
+font-weight: bold;
+}
+
+.RFAdescript {
+font-family: "Lato";
+font-size: x-large;
+font-weight: 100;
+color: #094da0;
+}
+
+.signUpForm {
+float: right;
+padding: 20px;
+max-width: 600px;
+margin: 40px auto;
+margin-right: 20px; /*what ever you want*/
+}
+
+#landing {
+margin-top: 7%;
+width: 100%;
+text-align: center;
+}
+
+
 body{
-  background-color: #e8e8e8;
+  background-color: #e8e8e8 !important;
   margin: 0px;
 }
 
@@ -248,7 +110,7 @@ input[type=submit]:hover{
 
 h1.RFA {
 font-family: "Lato";
-color: #094da0;
+color: var(--primary-color);
 font-weight: lighter;
 }
 
@@ -259,7 +121,7 @@ font-weight: lighter;
 }
 
 h1.RFA::first-letter {
-color: #094da0;
+color: var(--primary-color);
 font-size: 125%;
 font-weight: bold;
 }
@@ -268,7 +130,7 @@ font-weight: bold;
 font-family: "Lato";
 font-size: x-large;
 font-weight: 100;
-color: #094da0;
+color: var(--primary-color);
 }
 
 .signUpForm {
@@ -288,7 +150,7 @@ text-align: center;
 #header {
 width: 100%;
 text-align: right;
-background-color: #772fd6;
+background-color: var(--primary-color);
 }
 
 #logo {
@@ -365,15 +227,19 @@ padding: 10px;
   clear: both;
 }
 
-.paperReference{
-    border-color: var(--primary-color);
-    background-color: white;
-    border-radius: 10px;
-    border-style: solid;
-    padding: 20px;
-    margin: 15px;
-    transition-duration: 0.3s;
-    cursor: pointer;
+
+.paperReference, .purpleBox{
+  border-color: var(--primary-color);
+  background-color: white;
+  border-radius: 10px;
+  border-style: solid;
+  padding: 20px;
+  margin: 15px;
+}
+
+.paperReference {
+  transition-duration: 0.3s;
+  cursor: pointer;
 }
 
 
@@ -438,7 +304,6 @@ padding: 10px;
 }
 
 select{
-  font-family: 'Montserrat';
   border:0px;
  outline:0px;
  color: var(--primary-color);

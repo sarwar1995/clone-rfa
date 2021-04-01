@@ -45,7 +45,7 @@ class ArticlePage extends Component {
         return (
             <div>
                 <h2>{this.state.article.title}</h2>
-                <h4>{this.state.article.authors.join(", ")}</h4>
+                <h4>{this.state.article.authors}</h4>
                 <h4>{this.state.article.journal + " " + this.state.article.date_published}</h4>
             </div>
         );
