@@ -13,6 +13,7 @@ from rest_framework.renderers import JSONRenderer
 import json
 from django.apps import apps
 from comments.serializers import CommentSerializer
+from urllib.parse import unquote
 
 Comment = apps.get_model('comments', 'Comment')
 class GetByDOIView(APIView):
@@ -31,8 +32,7 @@ class GetByDOIView(APIView):
     
     def get(self, request):
         doi = request.query_params['DOI']
-
-        paper = self.queryDatabase(doi)
+        paper = self.queryDatabase(unquote(doi))
         if paper:
             serializer = PaperSerializer(paper)
             data = serializer.data
@@ -40,7 +40,6 @@ class GetByDOIView(APIView):
         else:
             works = Works()
             paper_data = works.doi(doi)
-    
             paper_dict = {
                 'DOI' : (paper_data['DOI'] if 'DOI' in paper_data.keys() else ''),
                 'title' : (paper_data['title'][0] if 'title' in paper_data.keys() else ''),
@@ -63,7 +62,6 @@ class GetByDOIView(APIView):
                         auth_name.strip()
                         paper_dict['authors'] += auth_name
                     first_author = False
-
             paper_dict['authors'] = json.dumps(paper_dict['authors'])
             serializer = PaperSerializer(data=paper_dict)
             if serializer.is_valid():
