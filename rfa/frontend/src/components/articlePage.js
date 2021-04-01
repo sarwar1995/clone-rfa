@@ -12,6 +12,7 @@ class ArticlePage extends Component {
       article: null,
       article_comments: null,
       isFetchingArticle: false,
+      isFetchingComments: false,
     };
     this.toSearch = this.toSearch.bind(this);
   }
@@ -37,10 +38,30 @@ class ArticlePage extends Component {
     }
   }
 
+  async getComments(DOI) {
+    his.setState({ isFetchingComments: true });
+    try {
+      let response = await axiosInstance.get("papers/getComments/", {
+        params: {
+          DOI: decodeURI(DOI),
+        },
+      });
+      console.log(response);
+      this.setState({
+        article_comments: response.data,
+        isFetchingComments: false,
+      });
+    } catch {
+      console.log(error);
+      alert("Comments Not Validated!");
+    }
+  }
+
   //when the page loads...
   componentDidMount() {
     //get article data
     this.getArticle(this.props.match.params.DOI);
+    this.getComments(this.props.match.params.DOI);
   }
 
   render() {
@@ -65,6 +86,7 @@ class ArticlePage extends Component {
         <Navbar toSearch={(query) => this.toSearch(query)} />
         {this.state.isFetchingArticle ? "Fetching data..." : ""}
         {this.state.article ? this.state.article.title : ""}
+        {this.state.isFetchingComments ? "Fetching comments..." : ""}
       </div>
     );
   }
