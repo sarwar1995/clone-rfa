@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework_simplejwt.views import TokenObtainPairView
+from .models import CustomUser
 from .serializers import MyTokenObtainPairSerializer, CustomUserSerializer
 from rest_framework import status, permissions
 from rest_framework.response import Response
@@ -14,7 +15,19 @@ from .utils import Util
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse
 
+class GetByUsernameView(APIView):
+    def get(self, request):
+        username = request.query_params['username']
+        userObject = CustomUser.objects.filter(username=username)
+
+        if not userObject:
+            return Response({'Failure': 'Invalid user'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = (userObject.values())[0]
+
+        return Response(data=user, status=status.HTTP_200_OK)
 
 class HelloWorldView(APIView):
     def get(self, request):
@@ -51,9 +64,9 @@ class CustomUserCreate(APIView):
             #token = RefreshToken.for_user(user).access_token
 
             current_site = get_current_site(request).domain
-            relative_link = reverse('verify_email')
-            absolute_url = "http://" + current_site + relative_link + \
-                "?token=" + token + "&uidb64=" + url_safe_uid
+            frontend_link = "/user-verify/"
+            absolute_url = "http://" + current_site + frontend_link + \
+                token + "/" + url_safe_uid
             email_body = 'Hello! ' + user.username + '\n'\
                 'Thanks for signing up on Research For All (RFA). Click the link below to verify your account.\n This link is only valid for a day: ' + absolute_url
             email_data = {'subject': 'Verify your Research For All (RFA) account',
@@ -85,9 +98,12 @@ class VerifyEmail(APIView):
             if not user.is_active:
                 user.is_active = True
                 user.save()
-            return Response({'Success': 'Email successfully verified and account activated'}, status=status.HTTP_200_OK)
+                return Response({'message': 'Email successfully verified and account activated'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'message': 'User already verfied'}, status=status.HTTP_200_OK)
         else:
-            return Response({'Failure': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+            print("Returning bad request")
+            return Response({'message': 'Failure! Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
 
         # payload = jwt.decode(token, settings.SECRET_KEY)
         # except jwt.ExpiredSignatureError as expired:

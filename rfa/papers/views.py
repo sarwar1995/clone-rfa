@@ -13,6 +13,7 @@ from rest_framework.renderers import JSONRenderer
 import json
 from django.apps import apps
 from comments.serializers import CommentSerializer
+from urllib.parse import unquote
 
 Comment = apps.get_model('comments', 'Comment')
 class GetByDOIView(APIView):
@@ -22,10 +23,16 @@ class GetByDOIView(APIView):
     The <ArticlePage> component then makes an axiosInstance.get() request to /papers/getByDOI/ which 
     invokes this view to get the relevant info either by querying the databse or Cross References RESTful API via Works().
      """
+    def queryDatabase(self, doi):
+        try:
+            paper = Paper.objects.get(DOI=doi)
+            return paper
+        except ObjectDoesNotExist:
+            return None
+    
     def get(self, request):
         doi = request.query_params['DOI']
-
-        paper = queryDatabase(doi)
+        paper = self.queryDatabase(unquote(doi))
         if paper:
             serializer = PaperSerializer(paper)
             data = serializer.data
@@ -33,7 +40,6 @@ class GetByDOIView(APIView):
         else:
             works = Works()
             paper_data = works.doi(doi)
-    
             paper_dict = {
                 'DOI' : (paper_data['DOI'] if 'DOI' in paper_data.keys() else ''),
                 'title' : (paper_data['title'][0] if 'title' in paper_data.keys() else ''),
@@ -42,34 +48,28 @@ class GetByDOIView(APIView):
                 'abstract' : (paper_data['abstract'] if 'abstract' in paper_data.keys() else ''),
                 }
 
-            paper_dict['authors'] = []
+            paper_dict['authors'] = ''
             if 'author' in paper_data.keys():
+                first_author = True
                 for author in paper_data['author']:
-                    auth_name = ""
+                    auth_name = ''
+                    if not first_author:
+                        auth_name += ', '
                     if 'given' in author.keys():
-                        auth_name = author['given']
+                        auth_name += author['given']
                     if 'family' in author.keys():
-                        auth_name += " " + author['family']
+                        auth_name += ' ' + author['family']
                         auth_name.strip()
-                        paper_dict['authors'].append(auth_name)
-
-            paper_dict['authors'] = ','.join(paper_dict['authors'])
-            #json.dumps(paper_dict['authors'])
+                        paper_dict['authors'] += auth_name
+                    first_author = False
+            paper_dict['authors'] = json.dumps(paper_dict['authors'])
             serializer = PaperSerializer(data=paper_dict)
-            if serializer.is_valid:
+            if serializer.is_valid():
                 paper = serializer.save()
                 data = serializer.data
                 return Response(data=data, status=status.HTTP_200_OK)
             else:
                 Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            
-
-    def queryDatabase (self, doi):
-        try:
-            paper = Paper.objects.get(DOI=doi)
-            return paper
-        except ObjectDoesNotExist:
-            return None 
 
 
 class GetAllComments(generics.ListAPIView):
