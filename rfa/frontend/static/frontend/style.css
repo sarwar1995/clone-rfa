@@ -1,99 +1,183 @@
-#root {
-  font-family: "Montserrat";
+:root{
+  --primary-color: #2fafd6;
+  --primary-color-dark: #2894b4;
 }
 
 .site {
-  padding: 0px;
-}
-
-body {
-  margin: 0px;
-}
-
-h1 {
-  color: #094da0;
-}
-
-h2 {
-  color: #333336;
-}
-
-button {
-  font-family: "Montserrat";
-  padding: 10px;
-  margin: 10px;
-}
-
-input[type="submit"] {
-  font-family: "Montserrat";
-  padding: 10px;
-  margin: 10px;
+padding: 0px;
 }
 
 h1.RFA {
-  font-family: "Lato";
-  color: #094da0;
-  font-weight: lighter;
+font-family: "Lato";
+color: #094da0;
+font-weight: lighter;
 }
 
 h1.RFA::first-letter {
-  color: #094da0;
-  font-size: 125%;
-  font-weight: bold;
+color: #094da0;
+font-size: 125%;
+font-weight: bold;
 }
 
 .RFAdescript {
-  font-family: "Lato";
-  font-size: x-large;
-  font-weight: 100;
-  color: #094da0;
+font-family: "Lato";
+font-size: x-large;
+font-weight: 100;
+color: #094da0;
 }
 
 .signUpForm {
-  float: right;
-  padding: 20px;
-  max-width: 600px;
-  margin: 40px auto;
-  margin-right: 20px; /*what ever you want*/
+float: right;
+padding: 20px;
+max-width: 600px;
+margin: 40px auto;
+margin-right: 20px; /*what ever you want*/
 }
 
 #landing {
-  margin-top: 7%;
+margin-top: 7%;
+width: 100%;
+text-align: center;
+}
+
+
+body{
+  background-color: #e8e8e8 !important;
+  margin: 0px;
+}
+
+h1{
+  color: var(--primary-color);
+}
+
+h2 {
+color: #333336;
+}
+
+button{
+  background-color: var(--primary-color);
+  border: none;
+  color: white;
+  border-radius: 10px;
+  font-family: 'Montserrat';
+  padding: 10px;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
+
+button:hover{
+  background-color: var(--primary-color-dark);
+}
+
+.secondaryButton{
+  background-color: white;
+  border-style: solid;
+  border-color: var(--primary-color);
+  border-width: 2px;
+  color: var(--primary-color);
+}
+
+.secondaryButton:hover{
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.logoutButton{
+  margin: 10px;
+  display: inline-block;
+}
+
+.username{
+  color: white;
+  margin-right: 15px;
+  display: inline-block;
+}
+
+input[type=submit]{
+  background-color: var(--primary-color);
+  border: none;
+  color: white;
+  border-radius: 10px;
+  font-family: 'Montserrat';
+  padding: 10px;
+  transition-duration: 0.3s;
+  cursor: pointer;
+}
+
+input[type=submit]:hover{
+  background-color: var(--primary-color-dark);
+}
+
+h1.RFA {
+font-family: "Lato";
+color: var(--primary-color);
+font-weight: lighter;
+}
+
+#header{
   width: 100%;
-  text-align: center;
+  text-align: right;
+  background-color: var(--primary-color);
+}
+
+h1.RFA::first-letter {
+color: var(--primary-color);
+font-size: 125%;
+font-weight: bold;
+}
+
+.RFAdescript {
+font-family: "Lato";
+font-size: x-large;
+font-weight: 100;
+color: var(--primary-color);
+}
+
+.signUpForm {
+float: right;
+padding: 20px;
+max-width: 600px;
+margin: 40px auto;
+margin-right: 20px; /*what ever you want*/
+}
+
+#landing {
+margin-top: 7%;
+width: 100%;
+text-align: center;
 }
 
 #header {
-  width: 100%;
-  text-align: right;
-  background-color: #772fd6;
+width: 100%;
+text-align: right;
+background-color: var(--primary-color);
 }
 
 #logo {
-  font-size: 60px;
+font-size: 60px;
 }
 
 .searchBar {
-  font-family: "Montserrat";
-  font-size: 14px;
-  height: 26px;
-  margin: 15px;
-  width: 80%;
-  padding-left: 10px;
-  border-radius: 15px;
-  border: none;
-  outline: none;
+font-family: "Montserrat";
+font-size: 14px;
+height: 26px;
+margin: 15px;
+width: 80%;
+padding-left: 10px;
+border-radius: 15px;
+border: none;
+outline: none;
 }
 
 .navbarIcon {
-  color: white;
+color: white;
 }
 
 .navbarLogo {
-  color: white;
-  margin-left: 20px;
-  margin: 10px;
-  padding: 10px;
+color: white;
+margin-left: 20px;
+margin: 10px;
+padding: 10px;
 }
 
 .column {
@@ -101,37 +185,39 @@ h1.RFA::first-letter {
   padding: 10px;
 }
 
-.left,
-.right {
-  width: 20%;
-}
-
 .left {
-  text-align: left;
+  width: 15%;
 }
 
-.right {
-  text-align: right;
+.right{
+    width: 25%;
+}
+
+.left{
+    text-align: left;
+}
+
+.right{
+    text-align: right;
 }
 
 .middle {
   width: 50%;
 }
 
-.left-body,
-.right-body {
+.left-body, .right-body {
   width: 13%;
 }
 
-.left-body {
-  text-align: left;
+.left-body{
+    text-align: left;
 }
 
-.right-body {
-  text-align: right;
+.right-body{
+    text-align: right;
 }
 
-.middle-body {
+.middle-body{
   width: 70%;
 }
 
@@ -141,8 +227,10 @@ h1.RFA::first-letter {
   clear: both;
 }
 
+
 .paperReference, .purpleBox{
-  border-color: #772fd6;
+  border-color: var(--primary-color);
+  background-color: white;
   border-radius: 10px;
   border-style: solid;
   padding: 20px;
@@ -154,13 +242,72 @@ h1.RFA::first-letter {
   cursor: pointer;
 }
 
-.abstract {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  font-size: 12px;
+
+.abstract{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 12px;
 }
 
-.paperReference:hover {
-  color: #772fd6;
+.paperReference:hover{
+  color:var(--primary-color);
 }
+
+.articleDetail{
+  background-color: white;
+  padding: 20px;
+  margin: 15px;
+}
+
+.commentForm{
+  background-color: white;
+  padding: 20px;
+  margin: 15px;
+}
+
+.commentsList{
+  background-color: white;
+  margin: 15px;
+}
+
+.commentCategoryButton{
+  display: inline-block;
+  margin: 10px;
+}
+
+.commentsHeader{
+  border-color: var(--primary-color);
+  border-style: solid;
+}
+
+.clickedFilter{
+  background-color: var(--primary-color);
+  color:white;
+  border-style: solid;
+  border-width: 2px;
+  border-color: var(--primary-color);
+}
+
+.optionsDiv{
+  margin-bottom: 10px;
+}
+
+.commentOptionDiv{
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.commentOptionLabel{
+  margin-right: 7px;
+  font-size: 14px;
+}
+
+select{
+  border:0px;
+ outline:0px;
+ color: var(--primary-color);
+  font-weight: bold;
+}
+
+
