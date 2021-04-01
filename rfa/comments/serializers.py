@@ -1,8 +1,12 @@
 from rest_framework import serializers
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Comment
+from papers.serializers import PaperSerializer
+from core.serializers import CustomUserSerializer
 
 class CommentSerializer(serializers.ModelSerializer):
+    paper = PaperSerializer()
+    user = CustomUserSerializer()
     class Meta:
         model = Comment
         fields = ('paper', 'user', 'comment_text', 'created_date', 'isAnonymous', 'votes',
