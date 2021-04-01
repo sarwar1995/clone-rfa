@@ -8,3 +8,7 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ('paper', 'user', 'comment_text', 'created_date', 'isAnonymous', 'votes',
         'paper_section', 'comment_type', 'user_expertise')
         
+    def create(self, validated_data):
+        instance = self.Meta.model(**validated_data)
+        instance.save()
+        return instance
