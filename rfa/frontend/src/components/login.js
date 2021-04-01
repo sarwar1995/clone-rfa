@@ -1,14 +1,18 @@
 import React, { Component } from "react";
-import { Switch, Route, Link, useHistory } from "react-router-dom";
+import { Switch, Route, Link, useHistory, Redirect } from "react-router-dom";
 import axiosInstance from "../axiosApi";
 
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = { username: "", password: "" };
+    this.state = { username: "", password: "", toUserPage: false };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  toUserPage() {
+    this.setState({ toUserPage: true });
   }
 
   handleChange(event) {
@@ -26,6 +30,7 @@ class Login extends Component {
         "JWT " + response.data.access;
       localStorage.setItem("access_token", response.data.access);
       localStorage.setItem("refresh_token", response.data.refresh);
+      this.toUserPage();
       return response;
     } catch (error) {
       throw error;
@@ -33,35 +38,46 @@ class Login extends Component {
   }
 
   render() {
-    return (
-      <div>
-        Login
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Username:
-            <input
-              name="username"
-              type="text"
-              value={this.state.username}
-              onChange={this.handleChange}
-            />
-          </label>
-          <label>
-            Password:
-            <input
-              name="password"
-              type="password"
-              value={this.state.password}
-              onChange={this.handleChange}
-            />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-        <Link to={"/signup/"}>
-          <button>Create Account</button>
-        </Link>
-      </div>
-    );
+    const redirectToUserPage = this.state.toUserPage;
+    if (redirectToUserPage) {
+      return (
+        <Redirect
+          to={{
+            pathname: "/user/" + this.state.username + "/",
+          }}
+        />
+      );
+    } else {
+      return (
+        <div>
+          Login
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              Username:
+              <input
+                name="username"
+                type="text"
+                value={this.state.username}
+                onChange={this.handleChange}
+              />
+            </label>
+            <label>
+              Password:
+              <input
+                name="password"
+                type="password"
+                value={this.state.password}
+                onChange={this.handleChange}
+              />
+            </label>
+            <input type="submit" value="Submit" />
+          </form>
+          <Link to={"/signup/"}>
+            <button>Create Account</button>
+          </Link>
+        </div>
+      );
+    }
   }
 }
 
