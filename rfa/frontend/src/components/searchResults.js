@@ -32,7 +32,7 @@ class SearchResults extends Component {
             let response = await axiosInstance.get('search/', {
                 params: {
                     search_term: query,
-                    max_results: 10,
+                    max_results: 3,
                 }
             });
             console.log(response);

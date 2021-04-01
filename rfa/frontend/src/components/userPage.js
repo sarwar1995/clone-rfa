@@ -38,6 +38,35 @@ class UserPage extends Component {
         }
     }
 
+    //given a username, list name, and DOI,
+    //add or remove that DOI to the user's given reading list
+    // 
+    //example usage: this.editReadingList('daniel', 'testList', '123', 'add');
+    async editReadingList(username, listname, DOI, action){
+        let route;
+        if (action == 'add') {
+            route = 'user/reading-list/add/'
+        } else if (action == 'remove') {
+            route = 'user/reading-list/remove/'
+        } else {
+            alert("Internal error: Incorrect action");
+        }
+        try{
+            let response = await axiosInstance.get(route, {
+                params: {
+                    username: decodeURI(username),
+                    listname: decodeURI(listname),
+                    DOI: decodeURI(DOI)
+                }
+            });
+            console.log(response);
+        }
+        catch{
+            console.log(error);
+            alert("List Not Found!");
+        }
+    }
+
     //when the page loads...
     componentDidMount() {
         //get user data
@@ -59,11 +88,19 @@ class UserPage extends Component {
         return (
             <div>
                 <Navbar toSearch={(query) => this.toSearch(query)} />
-                <ul>
-                    {this.state.isFetchingUser ? <li>Fetching data...</li> : ""}
-                    {this.state.user ? <li>{this.state.user.id}</li> : ""}
-                    {this.state.user ? <li>{this.state.user.username}</li> : ""}
-                </ul>
+                <div className="purpleBox">
+                    {this.state.isFetchingUser ? <p>Fetching data...</p> : ""}
+                    {this.state.user ? <div>
+                        <p> User ID: {this.state.user.id}</p> 
+                        <p>Username: {this.state.user.username}</p> 
+                        <p>Name: {this.state.user.first_name + " " + this.state.user.last_name} </p>
+                        <p>Email: {this.state.user.email} </p> 
+                        <p>Affiliation: {this.state.user.affiliation} </p>
+                        <p>Position: {this.state.user.position} </p>
+                        </div> : ""}
+                </div>
+                <div className="purpleBox">Currently Reading List...</div>
+                <div className="purpleBox">Currently Wish List...</div>
             </div>
         )
     }
