@@ -126,9 +126,9 @@ class CustomUserCreate(APIView):
             #token = RefreshToken.for_user(user).access_token
 
             current_site = get_current_site(request).domain
-            relative_link = reverse('verify_email')
-            absolute_url = "http://" + current_site + relative_link + \
-                "?token=" + token + "&uidb64=" + url_safe_uid
+            frontend_link = "/user-verify/"
+            absolute_url = "http://" + current_site + frontend_link + \
+                token + "/" + url_safe_uid
             email_body = 'Hello! ' + user.username + '\n'\
                 'Thanks for signing up on Research For All (RFA). Click the link below to verify your account.\n This link is only valid for a day: ' + absolute_url
             email_data = {'subject': 'Verify your Research For All (RFA) account',
@@ -160,9 +160,12 @@ class VerifyEmail(APIView):
             if not user.is_active:
                 user.is_active = True
                 user.save()
-            return Response({'Success': 'Email successfully verified and account activated'}, status=status.HTTP_200_OK)
+                return Response({'message': 'Email successfully verified and account activated'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'message': 'User already verfied'}, status=status.HTTP_200_OK)
         else:
-            return Response({'Failure': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+            print("Returning bad request")
+            return Response({'message': 'Failure! Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
 
         # payload = jwt.decode(token, settings.SECRET_KEY)
         # except jwt.ExpiredSignatureError as expired:

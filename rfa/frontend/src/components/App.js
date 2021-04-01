@@ -36,10 +36,15 @@ class App extends Component {
               )}
             />
             <Route exact path={"/signup/"} component={Signup} />
-            {/* <Route
-              path={"/:token"}
-              component={LoginEmailVerified}
-            /> */}
+            <Route
+              path={"/user-verify/:token/:uidb64"}
+              render={(props) => (
+                <LoginEmailVerified
+                  key={props.match.params.uidb64}
+                  {...props}
+                />
+              )}
+            />
             <Route path={"/"} component={Login} />
           </Switch>
         </main>

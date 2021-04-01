@@ -20,6 +20,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/search/', include('search.urls')),
     path('api/papers/', include('papers.urls')),
+    path('api/comments/', include('comments.urls')),
     path('api/', include('core.urls')),
+    path('djrichtextfield/', include('djrichtextfield.urls')),
     path('', include('frontend.urls')),
 ]

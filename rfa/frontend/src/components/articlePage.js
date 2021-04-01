@@ -5,40 +5,71 @@ import Navbar from "./navbar";
 import CommentForm from "./commentForm";
  
 class ArticlePage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            toSearch: false,
-            query: '',
-            article: null,
-            isFetchingArticle: false,
-            isFetchingComments: false,
-            currentFilter: "all",
-        };
-        this.toSearch = this.toSearch.bind(this);
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      toSearch: false,
+      query: "",
+      article: null,
+      article_comments: [],
+      isFetchingArticle: false,
+      isFetchingComments: false,
+      currentFilter: "all",
+    };
+    this.toSearch = this.toSearch.bind(this);
+  }
+
+  toSearch(query) {
+    this.setState({ toSearch: true, query: query });
+  }
+
+  //given an article DOI, get it from the backend
+  async getArticle(DOI) {
+    this.setState({ isFetchingArticle: true });
+    try {
+      let response = await axiosInstance.get("papers/getByDOI/", {
+        params: {
+          DOI: decodeURI(DOI),
+        },
+      });
+      console.log(response);
+      this.setState({ article: response.data, isFetchingArticle: false });
+    } catch {
+      console.log(error);
+      alert("Article Not Found!");
     }
+  }
+
+  async getComments(DOI) {
+    this.setState({ isFetchingComments: true });
+    try {
+      let response = await axiosInstance.get("papers/getComments/", {
+        params: {
+          DOI: decodeURI(DOI),
+        },
+      });
+      console.log(response);
+      this.setState({
+        article_comments: response.data,
+        isFetchingComments: false,
+      });
+    } catch (error) {
+      console.log(error);
+      alert("Comments Probably Not Correct!");
+    }
+  }
+
+  //when the page loads...
+  componentDidMount() {
+    //get article data
+    this.getArticle(this.props.match.params.DOI);
+    this.getComments(this.props.match.params.DOI);
+  }
+
+
+    
  
-    toSearch(query) {
-        this.setState({ toSearch: true, query: query });
-    }
- 
-    //given an article DOI, get it from the backend
-    async getArticle(DOI) {
-        this.setState({ isFetchingArticle: true });
-        try {
-            let response = await axiosInstance.get('papers/getByDOI/', {
-                params: {
-                    DOI: decodeURI(DOI)
-                }
-            });
-            console.log(response);
-            this.setState({ article: response.data, isFetchingArticle: false })
-        }
-        catch {
-            console.log(error);
-            alert("Article Not Found!");
-        }
-    }
  
     //return a div containing components that display details about the appropriate article
     displayArticleDetail() {
@@ -51,11 +82,6 @@ class ArticlePage extends Component {
         );
     }
  
-    //when the page loads...
-    componentDidMount() {
-        //get article data
-        this.getArticle(this.props.match.params.DOI);
-    }
  
  
     render() {
@@ -93,6 +119,12 @@ class ArticlePage extends Component {
                                 <button onClick={() => this.setState({ currentFilter: "reviews" })} className={this.state.currentFilter === "reviews" ? "commentCategoryButton clickedFilter" : "commentCategoryButton secondaryButton"}>Reviews</button>
                                 <button onClick={() => this.setState({ currentFilter: "summaries" })} className={this.state.currentFilter === "summaries" ? "commentCategoryButton clickedFilter" : "commentCategoryButton secondaryButton"}>Summaries</button>
                             </div>
+                            <div>
+                            {this.state.isFetchingComments ? "Fetching comments..." : ""}
+                            {this.state.article_comments.length
+                              ? this.state.article_comments.map((comment) => comment.comment_type)
+                              : "No Comments!"}
+                            </div>
                         </div>
                     </div>
                     <div className="column right-body">
@@ -101,6 +133,7 @@ class ArticlePage extends Component {
             </div>
         )
     }
+
 }
 export default ArticlePage;
  

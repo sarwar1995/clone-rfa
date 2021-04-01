@@ -11,6 +11,7 @@ class CustomUser(AbstractUser):
     reading_lists = models.TextField(blank=True, default=json.dumps({'listnames': [], 'DOIs': []}))
     is_active = models.BooleanField(default=False)
 
+
     def set_reading_lists(self, x):
         self.reading_lists = json.dumps(x)
 

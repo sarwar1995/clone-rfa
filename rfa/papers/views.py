@@ -32,7 +32,6 @@ class GetByDOIView(APIView):
     
     def get(self, request):
         doi = request.query_params['DOI']
-        
         paper = self.queryDatabase(unquote(doi))
         if paper:
             serializer = PaperSerializer(paper)
@@ -41,7 +40,6 @@ class GetByDOIView(APIView):
         else:
             works = Works()
             paper_data = works.doi(doi)
-    
             paper_dict = {
                 'DOI' : (paper_data['DOI'] if 'DOI' in paper_data.keys() else ''),
                 'title' : (paper_data['title'][0] if 'title' in paper_data.keys() else ''),
@@ -64,7 +62,6 @@ class GetByDOIView(APIView):
                         auth_name.strip()
                         paper_dict['authors'] += auth_name
                     first_author = False
-
             paper_dict['authors'] = json.dumps(paper_dict['authors'])
             serializer = PaperSerializer(data=paper_dict)
             if serializer.is_valid():
@@ -81,7 +78,10 @@ class GetAllComments(generics.ListAPIView):
     
     def get_queryset(self):
         doi = self.request.query_params['DOI']
-        queryset = Comment.objects.filter(paper__DOI=doi)
+        print(doi)
+        print(unquote(doi))
+        queryset = Comment.objects.filter(paper__DOI=unquote(doi))
+        
         if not queryset:
             return None
         else:
@@ -93,14 +93,22 @@ class GetAllComments(generics.ListAPIView):
         which can be checked on frontend """
         # Note the use of `get_queryset()` instead of `self.queryset`
         queryset = self.get_queryset()
+        comment_first = queryset[0]
+        comment_votes = comment_first.votes
+        comment_paper = comment_first.paper
+        comment_user = comment_first.user
+        print("votes=", comment_votes)
+        print("paper title = ", comment_paper.title)
+        print("user = ", comment_user.email)
         serializer = CommentSerializer(queryset, many=True)
-        if not queryset:
-            return Response({'NoComment': True})
-        else:
-            if serializer.is_valid:
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        # if not queryset:
+        #     return Response([])
+        # else:
+        #     # if serializer.is_valid():
+        #     #     print(serializer.validated_data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+            # else:
+            #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class PaperListCreate(generics.ListCreateAPIView):
     queryset = Paper.objects.all()
