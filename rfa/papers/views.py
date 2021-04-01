@@ -93,13 +93,6 @@ class GetAllComments(generics.ListAPIView):
         which can be checked on frontend """
         # Note the use of `get_queryset()` instead of `self.queryset`
         queryset = self.get_queryset()
-        comment_first = queryset[0]
-        comment_votes = comment_first.votes
-        comment_paper = comment_first.paper
-        comment_user = comment_first.user
-        print("votes=", comment_votes)
-        print("paper title = ", comment_paper.title)
-        print("user = ", comment_user.email)
         serializer = CommentSerializer(queryset, many=True)
         # if not queryset:
         #     return Response([])
