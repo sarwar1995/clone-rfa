@@ -40,11 +40,13 @@ class GetByDOIView(APIView):
         else:
             works = Works()
             paper_data = works.doi(doi)
+            print(paper_data.keys())
+            print(paper_data['short-container-title'] if 'short-container-title' in paper_data.keys() else '')
             paper_dict = {
                 'DOI' : (paper_data['DOI'] if 'DOI' in paper_data.keys() else ''),
-                'title' : (paper_data['title'][0] if 'title' in paper_data.keys() else ''),
-                'journal': (paper_data['short-container-title'][0] if 'short-container-title' in paper_data.keys() else ''),            
-                'date_published' : (paper_data['published-print']['date-parts'][0] if 'published-print' in paper_data.keys() else ''),
+                'title' : (paper_data['title'][0] if ('title' in paper_data.keys() and not not paper_data['title'][0]) else ''),
+                'journal': (paper_data['short-container-title'][0] if ('short-container-title' in paper_data.keys() and not not paper_data['short-container-title']) else ''),            
+                'date_published' : (paper_data['published-print']['date-parts'][0] if ('published-print' in paper_data.keys() and not not paper_data['published-print']['date-parts']) else ''),
                 'abstract' : (paper_data['abstract'] if 'abstract' in paper_data.keys() else ''),
                 }
 
