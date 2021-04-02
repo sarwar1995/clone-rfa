@@ -4,7 +4,7 @@ from .models import Paper
 class PaperSerializer(serializers.ModelSerializer):
     class Meta:
         model = Paper
-        fields = ('DOI', 'title', 'authors', 'journal', 'date_published', 'abstract')
+        fields = ('DOI', 'title', 'authors', 'journal', 'year_published', 'abstract', 'id')
 
     def create(self, validated_data):
         """ Need the create method for saving the object instance from serializer data. """

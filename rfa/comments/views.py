@@ -16,7 +16,6 @@ class CreateCommentView(generics.CreateAPIView):
         comment_data = {'paper' : paper,
         'user' : user,
         'comment_text' : request.query_params['comment_text'],
-        'created_date' : request.query_params['created_date'],
         'isAnonymous' : request.query_params['isAnonymous'],
         'paper_section' : request.query_params['paper_section'],
         'comment_type' : request.query_params['comment_type'],
