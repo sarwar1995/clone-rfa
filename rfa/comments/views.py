@@ -17,6 +17,7 @@ class CreateCommentView(generics.CreateAPIView):
     queryset = Comment.objects.all()
 
     def create(self, request):
+
         #Get the currently logged in user. This returns an instance of Django AUTH_USER_MODEL
         user = request.user
         #Getting the data from the post request by frontend    

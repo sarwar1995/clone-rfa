@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route, Link, useHistory, Redirect } from "react-router-dom";
 import axiosInstance from "../axiosApi";
 import Navbar from "./navbar";
+import ReadingList from "./readingList";
 
 class UserPage extends Component {
     constructor(props) {
@@ -67,6 +68,42 @@ class UserPage extends Component {
         }
     }
 
+    // Parse reading list to prepare for mapping
+    // to ReadingList elements.
+    // 
+    // This converts from (for Python):
+    //      { listnames: ["name1", "name2", ...]
+    //        DOIs: [[0, 1, 2], [3, 4, 5], ...] }
+    // to the following (for React/JS):
+    //      [ {name: "name1", DOIs: [0, 1, 2]},
+    //        {name: "name2", DOIs: [3, 4, 5]},
+    //         ... ]
+    // and then passes those objects to ReadingList
+    // Components for individual rendering
+    generateListOfReadingLists(reading_lists){
+        
+        let reading_list_py = JSON.parse(reading_lists)
+        let reading_list_js = []
+        let i;
+        for (i = 0; i < reading_list_py['listnames'].length; i++) {
+            reading_list_js.push(
+                {
+                    'name': reading_list_py['listnames'][i],
+                    'DOIs': reading_list_py['DOIs'][i]
+                }
+            );
+        }
+
+        // Create list of components
+        let readingListItems;
+        if (this.state.user) {
+            readingListItems = reading_list_js.map((rl) =>
+                <ReadingList key={rl['name']} data={rl}/>
+            );
+        }
+        return readingListItems;
+    }
+
     //when the page loads...
     componentDidMount() {
         //get user data
@@ -99,8 +136,9 @@ class UserPage extends Component {
                         <p>Position: {this.state.user.position} </p>
                         </div> : ""}
                 </div>
-                <div className="purpleBox">Currently Reading List...</div>
-                <div className="purpleBox">Currently Wish List...</div>
+                {this.state.user ? <div>
+                    {this.generateListOfReadingLists(this.state.user.reading_lists)}
+                    </div> : ""}
             </div>
         )
     }

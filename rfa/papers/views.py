@@ -44,9 +44,9 @@ class GetByDOIView(APIView):
             print(paper_data['short-container-title'] if 'short-container-title' in paper_data.keys() else '')
             paper_dict = {
                 'DOI' : (paper_data['DOI'] if 'DOI' in paper_data.keys() else ''),
-                'title' : (paper_data['title'][0] if ('title' in paper_data.keys() and not not paper_data['title'][0]) else ''),
-                'journal': (paper_data['short-container-title'][0] if ('short-container-title' in paper_data.keys() and not not paper_data['short-container-title']) else ''),            
-                'date_published' : (paper_data['published-print']['date-parts'][0] if ('published-print' in paper_data.keys() and not not paper_data['published-print']['date-parts']) else ''),
+                'title' : (paper_data['title'][0] if 'title' in paper_data.keys() else ''),
+                'journal': (paper_data['short-container-title'][0] if 'short-container-title' in paper_data.keys() else ''),            
+                'year_published' : (paper_data['published-print']['date-parts'][0][0] if 'published-print' in paper_data.keys() else ''),
                 'abstract' : (paper_data['abstract'] if 'abstract' in paper_data.keys() else ''),
                 }
 
@@ -66,12 +66,14 @@ class GetByDOIView(APIView):
                     first_author = False
             paper_dict['authors'] = json.dumps(paper_dict['authors'])
             serializer = PaperSerializer(data=paper_dict)
+            print(serializer)
             if serializer.is_valid():
                 paper = serializer.save()
                 data = serializer.data
                 return Response(data=data, status=status.HTTP_200_OK)
             else:
-                Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                print(serializer.errors)
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GetAllComments(generics.ListAPIView):
@@ -95,6 +97,10 @@ class GetAllComments(generics.ListAPIView):
         which can be checked on frontend """
         # Note the use of `get_queryset()` instead of `self.queryset`
         queryset = self.get_queryset()
+
+        if not queryset:
+            return Response([], status=status.HTTP_200_OK)
+        
         serializer = CommentSerializer(queryset, many=True)
         # if not queryset:
         #     return Response([])
