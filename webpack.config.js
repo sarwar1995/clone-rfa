@@ -26,6 +26,15 @@ module.exports = {
                     loader: "babel-loader",
                     options: {presets: ["@babel/env"]}
                 },
+            },
+            {
+                test: /\.(jpg|png|svg)$/,
+                use: {
+                    loader: 'url-loader',
+                    options: {
+                        limit: 25000
+                    }
+                }
             }
         ],
     },

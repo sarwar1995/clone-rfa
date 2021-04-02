@@ -93,6 +93,8 @@ class GetAllComments(generics.ListAPIView):
         which can be checked on frontend """
         # Note the use of `get_queryset()` instead of `self.queryset`
         queryset = self.get_queryset()
+        if not queryset:
+            return Response([], status=status.HTTP_200_OK)
         comment_first = queryset[0]
         comment_votes = comment_first.votes
         comment_paper = comment_first.paper
