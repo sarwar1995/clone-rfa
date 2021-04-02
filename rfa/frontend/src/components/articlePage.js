@@ -9,25 +9,26 @@ import upvoteClicked from "../plus_clicked.png";
 import downvote from "../minus.png";
 import downvoteClicked from "../minus_clicked.png";
 
+
 class ArticlePage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      toSearch: false,
+      query: "",
+      article: null,
+      article_comments: [],
+      isFetchingArticle: false,
+      isFetchingComments: false,
+      currentFilter: "all",
+    };
+    this.toSearch = this.toSearch.bind(this);
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            toSearch: false,
-            query: "",
-            article: null,
-            article_comments: [],
-            isFetchingArticle: false,
-            isFetchingComments: false,
-            currentFilter: "all",
-        };
-        this.toSearch = this.toSearch.bind(this);
-    }
+  toSearch(query) {
+    this.setState({ toSearch: true, query: query });
+  }
 
-    toSearch(query) {
-        this.setState({ toSearch: true, query: query });
-    }
 
     //given an article DOI, get it from the backend
     async getArticle(DOI) {
@@ -72,17 +73,19 @@ class ArticlePage extends Component {
         this.getComments(this.props.match.params.DOI);
     }
 
+  //return a div containing components that display details about the appropriate article
+  displayArticleDetail() {
+    return (
+      <div>
+        <h2>{this.state.article.title}</h2>
+        <h4>{this.state.article.authors}</h4>
+        <h4>
+          {this.state.article.journal + " " + this.state.article.date_published}
+        </h4>
+      </div>
+    );
+  }
 
-    //return a div containing components that display details about the appropriate article
-    displayArticleDetail() {
-        return (
-            <div>
-                <h2>{this.state.article.title}</h2>
-                <h4>{this.state.article.authors}</h4>
-                <h4>{this.state.article.journal + " " + this.state.article.year_published}</h4>
-            </div>
-        );
-    }
 
     render() {
         console.log(decodeURI(this.props.match.params.DOI));
@@ -110,7 +113,7 @@ class ArticlePage extends Component {
                         </div>
                         <div className="commentForm">
                             <h4>What are your thoughts?</h4>
-                            <CommentForm />
+                            <CommentForm DOI={this.props.match.params.DOI} />
                         </div>
                         <div className="commentsList">
                             <div className="commentsHeader">
@@ -137,9 +140,8 @@ class ArticlePage extends Component {
                     </div>
                 </div>
             </div>
-        )
-    }
-
+        );
+  }
 }
 
 
@@ -179,5 +181,4 @@ class Comment extends Component {
     }
 }
 export default ArticlePage;
-
 
