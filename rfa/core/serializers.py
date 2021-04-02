@@ -40,7 +40,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         Check that the username is not already taken by searching for it in the database via model.objects.get(). 
         If a user with that username is found then raise a validation error.
         """
-        try:
+        try:         
             user = self.Meta.model.objects.get(username=value)
             raise serializers.ValidationError(
                 "username is already taken. Please enter a different username")
@@ -75,4 +75,3 @@ class CustomUserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
-             
