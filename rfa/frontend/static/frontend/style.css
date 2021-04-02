@@ -373,4 +373,40 @@ select{
   margin-left: 50px;
 }
 
+.commentInteractions{
+  margin-left: 50px;
+}
+
+.lineItem{
+  display: inline-block;
+}
+
+.voteBox{
+  display: inline-block;
+  margin-right: 20px;
+  border-radius: 5px;
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
+  padding: 10px;
+}
+
+.upvote, .downvote{
+  width: 18px;
+  cursor: pointer;
+  transition-duration: 0.2s;
+}
+
+.upvote:hover, .downvote:hover{
+  opacity: 50%;
+}
+
+.upvote{
+  margin-right: 10px;
+}
+
+.voteCount{
+  margin-right: 10px;
+  margin-bottom: 0px;
+}
 

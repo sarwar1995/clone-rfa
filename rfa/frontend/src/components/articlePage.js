@@ -4,6 +4,10 @@ import axiosInstance from "../axiosApi";
 import Navbar from "./navbar";
 import CommentForm from "./commentForm";
 import profileIcon from "../profile_icon.png";
+import upvote from "../plus.png";
+import upvoteClicked from "../plus_clicked.png";
+import downvote from "../minus.png";
+import downvoteClicked from "../minus_clicked.png";
 
 class ArticlePage extends Component {
 
@@ -160,6 +164,16 @@ class Comment extends Component {
                     </div>
                 </div>
                 <div className="commentText" dangerouslySetInnerHTML={{ __html: this.props.comment.comment_text }} />
+                <div className="commentInteractions">
+                    <div className="voteBox">
+                        <img className="upvote lineItem" src={upvote} />
+                        <p className="voteCount lineItem">{this.props.comment.votes}</p>
+                        <img className="downvote lineItem" src={downvote} />
+                    </div>
+                    <button className="lineItem">
+                        Reply
+                    </button>
+                </div>
             </div>
         );
     }
