@@ -3,74 +3,72 @@ import { Switch, Route, Link, useHistory, Redirect } from "react-router-dom";
 import axiosInstance from "../axiosApi";
 import Navbar from "./navbar";
 import CommentForm from "./commentForm";
- 
+import profileIcon from "../profile_icon.png";
+
 class ArticlePage extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      toSearch: false,
-      query: "",
-      article: null,
-      article_comments: [],
-      isFetchingArticle: false,
-      isFetchingComments: false,
-      currentFilter: "all",
-    };
-    this.toSearch = this.toSearch.bind(this);
-  }
-
-  toSearch(query) {
-    this.setState({ toSearch: true, query: query });
-  }
-
-  //given an article DOI, get it from the backend
-  async getArticle(DOI) {
-    this.setState({ isFetchingArticle: true });
-    try {
-      let response = await axiosInstance.get("papers/getByDOI/", {
-        params: {
-          DOI: decodeURI(DOI),
-        },
-      });
-      console.log(response);
-      this.setState({ article: response.data, isFetchingArticle: false });
-    } catch {
-      console.log(error);
-      alert("Article Not Found!");
+    constructor(props) {
+        super(props);
+        this.state = {
+            toSearch: false,
+            query: "",
+            article: null,
+            article_comments: [],
+            isFetchingArticle: false,
+            isFetchingComments: false,
+            currentFilter: "all",
+        };
+        this.toSearch = this.toSearch.bind(this);
     }
-  }
 
-  async getComments(DOI) {
-    this.setState({ isFetchingComments: true });
-    try {
-      let response = await axiosInstance.get("papers/getComments/", {
-        params: {
-          DOI: decodeURI(DOI),
-        },
-      });
-      console.log(response);
-      this.setState({
-        article_comments: response.data,
-        isFetchingComments: false,
-      });
-    } catch (error) {
-      console.log(error);
-      alert("Comments Probably Not Correct!");
+    toSearch(query) {
+        this.setState({ toSearch: true, query: query });
     }
-  }
 
-  //when the page loads...
-  componentDidMount() {
-    //get article data
-    this.getArticle(this.props.match.params.DOI);
-    this.getComments(this.props.match.params.DOI);
-  }
+    //given an article DOI, get it from the backend
+    async getArticle(DOI) {
+        this.setState({ isFetchingArticle: true });
+        try {
+            let response = await axiosInstance.get("papers/getByDOI/", {
+                params: {
+                    DOI: decodeURI(DOI),
+                },
+            });
+            console.log(response);
+            this.setState({ article: response.data, isFetchingArticle: false });
+        } catch {
+            console.log(error);
+            alert("Article Not Found!");
+        }
+    }
+
+    async getComments(DOI) {
+        this.setState({ isFetchingComments: true });
+        try {
+            let response = await axiosInstance.get("papers/getComments/", {
+                params: {
+                    DOI: decodeURI(DOI),
+                },
+            });
+            console.log(response);
+            this.setState({
+                article_comments: response.data,
+                isFetchingComments: false,
+            });
+        } catch (error) {
+            console.log(error);
+            alert("Error loading comments!");
+        }
+    }
+
+    //when the page loads...
+    componentDidMount() {
+        //get article data
+        //this.getArticle(this.props.match.params.DOI);
+        this.getComments(this.props.match.params.DOI);
+    }
 
 
-    
- 
- 
     //return a div containing components that display details about the appropriate article
     displayArticleDetail() {
         return (
@@ -81,9 +79,7 @@ class ArticlePage extends Component {
             </div>
         );
     }
- 
- 
- 
+
     render() {
         console.log(decodeURI(this.props.match.params.DOI));
         //check if user has an auth token...
@@ -96,7 +92,7 @@ class ArticlePage extends Component {
                 pathname: "/search/" + this.state.query + "/",
             }} />
         }
- 
+
         return (
             <div>
                 <Navbar toSearch={(query) => this.toSearch(query)} />
@@ -120,10 +116,16 @@ class ArticlePage extends Component {
                                 <button onClick={() => this.setState({ currentFilter: "summaries" })} className={this.state.currentFilter === "summaries" ? "commentCategoryButton clickedFilter" : "commentCategoryButton secondaryButton"}>Summaries</button>
                             </div>
                             <div>
-                            {this.state.isFetchingComments ? "Fetching comments..." : ""}
-                            {this.state.article_comments.length
-                              ? this.state.article_comments.map((comment) => comment.comment_type)
-                              : "No Comments!"}
+                                {this.state.isFetchingComments ? "Fetching comments..." : ""}
+                                {this.state.article_comments.length
+                                    ? this.state.article_comments.map((comment) => {
+                                        return (
+                                            <Comment key={comment} comment={comment} />
+                                        );
+                                    }
+                                    )
+                                    : "No Comments!"
+                                }
                             </div>
                         </div>
                     </div>
@@ -135,6 +137,33 @@ class ArticlePage extends Component {
     }
 
 }
+
+
+class Comment extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        };
+    }
+
+    render() {
+        return (
+            <div className="commentDiv">
+                <div className="commentTitleDiv">
+                    <img className="profileIcon" src={profileIcon} />
+                    <div className="commentUsernameDiv">
+                        <p className="commentUsername">{this.props.comment.user.username}</p>
+                        <div className="commentExpertise">{this.props.comment.user_expertise}</div>
+                        <div className="commentType">{this.props.comment.comment_type}</div>
+                        <p className="commentDate">{this.props.comment.created_date}</p>
+                    </div>
+                </div>
+                <div className="commentText" dangerouslySetInnerHTML={{ __html: this.props.comment.comment_text }} />
+            </div>
+        );
+    }
+}
 export default ArticlePage;
- 
+
 
