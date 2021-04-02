@@ -104,6 +104,13 @@ class GetAllComments(generics.ListAPIView):
         print("votes=", comment_votes)
         print("paper title = ", comment_paper.title)
         print("user = ", comment_user.email)
+
+        #for comment in comments:
+        #get replies
+        #serialize them
+        #add to dict: dict[comment] = replies
+        #return dict as part of response
+
         serializer = CommentSerializer(queryset, many=True)
         # if not queryset:
         #     return Response([])

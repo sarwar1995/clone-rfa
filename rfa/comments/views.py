@@ -1,8 +1,35 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics, status
+from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import CommentSerializer
 from .models import Comment
+
+#used to upvote or downvote a comment
+class VoteCommentView(APIView):
+
+    def post(self, request):
+        polarity = request.POST.get("polarity", None)
+        comment_id = request.POST.get("comment_id", None)
+        comment = Comment.objects.get(id=comment_id)
+
+        if not comment:
+            Response(data="Comment does not exist", status=status.HTTP_400_BAD_REQUEST)
+
+        #UNVOTE -- remove my vote, whatever it is, if I've voted -- not implemented for MVP
+        if polarity == None:
+            return Response(data="", status=status.HTTP_200_OK)
+        #UPVOTE
+        elif polarity == True:
+            comment.votes = comment.votes + 1
+            comment.save()
+            return Response(data="", status=status.HTTP_200_OK)
+        #DOWNVOTE
+        else:
+            comment.votes = comment.votes - 1
+            comment.save()
+            return Response(data="", status=status.HTTP_200_OK)
+
 class CreateCommentView(generics.CreateAPIView):
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
