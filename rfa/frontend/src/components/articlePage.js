@@ -68,7 +68,7 @@ class ArticlePage extends Component {
     //when the page loads...
     componentDidMount() {
         //get article data
-        //this.getArticle(this.props.match.params.DOI);
+        this.getArticle(this.props.match.params.DOI);
         this.getComments(this.props.match.params.DOI);
     }
 
@@ -79,7 +79,7 @@ class ArticlePage extends Component {
             <div>
                 <h2>{this.state.article.title}</h2>
                 <h4>{this.state.article.authors}</h4>
-                <h4>{this.state.article.journal + " " + this.state.article.date_published}</h4>
+                <h4>{this.state.article.journal + " " + this.state.article.year_published}</h4>
             </div>
         );
     }

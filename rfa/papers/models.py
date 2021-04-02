@@ -9,7 +9,7 @@ class Paper(models.Model):
     DOI = models.CharField(max_length=200, default="")
     title = models.CharField(max_length=200, blank=True)
     authors = models.TextField(blank=True)
-    date_published = models.DateTimeField(auto_now_add=True, blank=True)
+    year_published = models.CharField(max_length=200, default="", blank=True)
     journal = models.CharField(max_length=500, blank=True)
     abstract = models.TextField(blank=True)
 
