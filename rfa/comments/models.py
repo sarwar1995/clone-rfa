@@ -32,8 +32,8 @@ class Comment(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='comments')
     comment_text = RichTextField()
-    created_date = models.DateField(auto_now_add=True)
     # Should consider adding a modified_date here when we want to add the functionality to edit comments by a user.
+    created_at = models.DateTimeField(auto_now_add=True)
     isAnonymous = models.BooleanField(default = False)
     votes = models.IntegerField(default = 0)
     class PaperSection (models.TextChoices):
