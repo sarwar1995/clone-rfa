@@ -208,10 +208,10 @@ class Comment extends Component {
                 <div className="commentTitleDiv">
                     <img className="profileIcon" src={profileIcon} />
                     <div className="commentUsernameDiv">
-                        <p className="commentUsername">{this.props.user}</p>
+                        <p className="commentUsername">{this.props.comment.user.username}</p>
                         <div className="commentExpertise">{this.props.comment.user_expertise}</div>
                         <div className="commentType">{this.props.comment.comment_type}</div>
-                        <p className="commentDate">{this.props.comment.created_date}</p>
+                        <p className="commentDate">{this.props.comment.created_at}</p>
                     </div>
                 </div>
                 <div className="commentText" dangerouslySetInnerHTML={{ __html: this.props.comment.comment_text }} />
