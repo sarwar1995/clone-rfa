@@ -110,7 +110,6 @@ class GetAllComments(generics.ListAPIView):
         print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-
 class PaperListCreate(generics.ListCreateAPIView):
     queryset = Paper.objects.all()
     serializer_class = PaperSerializer

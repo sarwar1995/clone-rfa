@@ -17,6 +17,7 @@ class ArticlePage extends Component {
       query: "",
       article: null,
       article_comments: [],
+      commentsToUsers: null, //map of comments to the associated users
       isFetchingArticle: false,
       isFetchingComments: false,
       currentFilter: "all",
@@ -181,34 +182,49 @@ class Comment extends Component {
     this.state = {};
   }
 
-  render() {
-    return (
-      <div className="commentDiv">
-        <div className="commentTitleDiv">
-          <img className="profileIcon" src={profileIcon} />
-          <div className="commentUsernameDiv">
-            <p className="commentUsername">
-              {this.props.comment.user.username}
-            </p>
-            <div className="commentExpertise">
-              {this.props.comment.user_expertise}
-            </div>
-            <div className="commentType">{this.props.comment.comment_type}</div>
-            <p className="commentDate">{this.props.comment.created_at}</p>
-          </div>
-        </div>
-        <div
-          className="commentText"
-          dangerouslySetInnerHTML={{ __html: this.props.comment.comment_text }}
-        />
-        <div className="commentInteractions">
-          <div className="voteBox">
-            <img className="upvote lineItem" src={upvote} />
-            <p className="voteCount lineItem">{this.props.comment.votes}</p>
-            <img className="downvote lineItem" src={downvote} />
-          </div>
-          <button className="lineItem">Reply</button>
-        </div>
+    //vote on an article
+    async vote(polarity){
+        try {
+            const response = await axiosInstance.post("/comments/voteComment/", {
+              comment_id: this.props.comment.id,
+              polarity: polarity
+            });
+            if(polarity){
+                this.props.comment.votes = this.props.comment.votes + 1;
+            }
+            else{
+                this.props.comment.votes = this.props.comment.votes - 1;
+            }
+            this.setState({});
+          } catch (error) {
+            console.log(error);
+            throw error;
+          }
+    }
+
+    render() {
+        return (
+            <div className="commentDiv">
+                <div className="commentTitleDiv">
+                    <img className="profileIcon" src={profileIcon} />
+                    <div className="commentUsernameDiv">
+                        <p className="commentUsername">{this.props.user}</p>
+                        <div className="commentExpertise">{this.props.comment.user_expertise}</div>
+                        <div className="commentType">{this.props.comment.comment_type}</div>
+                        <p className="commentDate">{this.props.comment.created_date}</p>
+                    </div>
+                </div>
+                <div className="commentText" dangerouslySetInnerHTML={{ __html: this.props.comment.comment_text }} />
+                <div className="commentInteractions">
+                    <div className="voteBox">
+                        <img className="upvote lineItem" onClick={() => this.vote(true)} src={upvote} />
+                        <p className="voteCount lineItem">{this.props.comment.votes}</p>
+                        <img className="downvote lineItem" onClick={() => this.vote(false)} src={downvote} />
+                    </div>
+                    <button className="lineItem">
+                        Reply
+                    </button>
+                </div>
       </div>
     );
   }
