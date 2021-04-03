@@ -41,13 +41,19 @@ class GetByDOIView(APIView):
         else:
             works = Works()
             paper_data = works.doi(doi)
-            print(paper_data.keys())
-            print(paper_data['short-container-title'] if 'short-container-title' in paper_data.keys() else '')
+            if 'title' in paper_data.keys():
+                if paper_data['title']:
+                    paper_title = paper_data['title'][0]
+                else:
+                    paper_title =''
             paper_dict = {
                 'DOI' : (paper_data['DOI'] if 'DOI' in paper_data.keys() else ''),
-                'title' : (paper_data['title'][0] if 'title' in paper_data.keys() else ''),
-                'journal': (paper_data['short-container-title'][0] if 'short-container-title' in paper_data.keys() else ''),            
-                'year_published' : (paper_data['published-print']['date-parts'][0][0] if 'published-print' in paper_data.keys() else ''),
+                'title' : '' if (not('title' in paper_data.keys())) else (paper_data['title'][0] if paper_data['title'] else ''),
+                # 'title' : (paper_data['title'][0] if 'title' in paper_data.keys() else ''),
+                'journal': '' if (not('short-container-title' in paper_data.keys())) else (paper_data['short-container-title'][0] if paper_data['short-container-title'] else ''),
+                #'journal': (paper_data['short-container-title'][0] if 'short-container-title' in paper_data.keys() else ''),            
+                'year_published' : '' if (not('published-print' in paper_data.keys())) else (paper_data['published-print']['date-parts'][0][0] if (paper_data['published-print']['date-parts'] and paper_data['published-print']['date-parts'][0]) else ''),
+                #'year_published' : (paper_data['published-print']['date-parts'][0][0] if 'published-print' in paper_data.keys() else ''),
                 'abstract' : (paper_data['abstract'] if 'abstract' in paper_data.keys() else ''),
                 }
 
