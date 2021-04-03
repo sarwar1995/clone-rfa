@@ -49,7 +49,7 @@ class Login extends Component {
       );
     } else {
       return (
-        <div>
+        <div class = 'purpleBox'>
           Login
           <form onSubmit={this.handleSubmit}>
             <label>
@@ -138,7 +138,7 @@ export class LoginEmailVerified extends Component {
   render() {
     if (this.state.emailVerified === true) {
       return (
-        <div>
+        <div class = "purpleBox">
           <h3>{this.state.message}</h3>
           <Login />
         </div>
