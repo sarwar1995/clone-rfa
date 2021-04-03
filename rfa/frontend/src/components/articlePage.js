@@ -80,7 +80,7 @@ class ArticlePage extends Component {
     return (
       <div>
         <h2>{this.state.article.title}</h2>
-        <h4>{this.state.article.authors}</h4>
+        <h4>{this.state.article.authors.replace(/['"]+/g, '')}</h4>
         <h4>
           {this.state.article.journal + " " + this.state.article.year_published}
         </h4>
@@ -89,7 +89,6 @@ class ArticlePage extends Component {
   }
 
   render() {
-    console.log(decodeURI(this.props.match.params.DOI));
     //check if user has an auth token...
     if (axiosInstance.defaults.headers["Authorization"] === null) {
       return <Redirect to="/" />;
@@ -132,9 +131,9 @@ class ArticlePage extends Component {
                   All
                 </button>
                 <button
-                  onClick={() => this.setState({ currentFilter: "questions" })}
+                  onClick={() => this.setState({ currentFilter: "question" })}
                   className={
-                    this.state.currentFilter === "questions"
+                    this.state.currentFilter === "question"
                       ? "commentCategoryButton clickedFilter"
                       : "commentCategoryButton secondaryButton"
                   }
@@ -142,9 +141,9 @@ class ArticlePage extends Component {
                   Questions
                 </button>
                 <button
-                  onClick={() => this.setState({ currentFilter: "reviews" })}
+                  onClick={() => this.setState({ currentFilter: "review" })}
                   className={
-                    this.state.currentFilter === "reviews"
+                    this.state.currentFilter === "review"
                       ? "commentCategoryButton clickedFilter"
                       : "commentCategoryButton secondaryButton"
                   }
@@ -152,9 +151,9 @@ class ArticlePage extends Component {
                   Reviews
                 </button>
                 <button
-                  onClick={() => this.setState({ currentFilter: "summaries" })}
+                  onClick={() => this.setState({ currentFilter: "summary" })}
                   className={
-                    this.state.currentFilter === "summaries"
+                    this.state.currentFilter === "summary"
                       ? "commentCategoryButton clickedFilter"
                       : "commentCategoryButton secondaryButton"
                   }
@@ -166,9 +165,15 @@ class ArticlePage extends Component {
                 {this.state.isFetchingComments ? "Fetching comments..." : ""}
                 {this.state.article_comments.length
                   ? this.state.article_comments.map((comment) => {
-                      return <Comment key={comment} comment={comment} getComments={() => this.getComments(this.props.match.params.DOI)}/>;
+                      if(this.state.currentFilter === "all" || this.state.currentFilter === comment.comment_type){
+                        return <Comment key={comment.id} comment={comment} getComments={() => this.getComments(this.props.match.params.DOI)}/>
+                      }
                     })
-                  : "No Comments!"}
+                  :
+                  <div className="noCommentsDiv">
+                    <h5 className="noComments">Be the first to say something!</h5>
+                  </div> 
+                  }
               </div>
             </div>
           </div>

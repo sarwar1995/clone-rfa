@@ -434,3 +434,12 @@ select{
   color: var(--primary-color);
 }
 
+.noComments{
+  margin: 20px;
+  text-align: center;  
+}
+
+.noCommentsDiv{
+  height: 50px;
+}
+
