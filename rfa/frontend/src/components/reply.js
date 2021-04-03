@@ -15,17 +15,16 @@ class Reply extends Component {
   
       //vote on a reply
       async vote(polarity){
-          return //do nothing for now
           try {
-              const response = await axiosInstance.post("/comments/voteComment/", {
-                comment_id: this.props.comment.id,
+              const response = await axiosInstance.post("/comments/reply/vote/", {
+                reply_id: this.props.reply.id,
                 polarity: polarity
               });
               if(polarity){
-                  this.props.comment.votes = this.props.comment.votes + 1;
+                  this.props.reply.votes = this.props.reply.votes + 1;
               }
               else{
-                  this.props.comment.votes = this.props.comment.votes - 1;
+                  this.props.reply.votes = this.props.reply.votes - 1;
               }
               this.setState({});
             } catch (error) {

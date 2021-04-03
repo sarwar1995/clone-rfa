@@ -26,7 +26,6 @@ class ReplyForm extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    // alert("Text being submitted: " + this.state.content);
     try {
       let response = await axiosInstance.post("comments/reply/create/", {
         data: {
