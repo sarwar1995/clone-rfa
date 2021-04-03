@@ -18,6 +18,7 @@ class ArticlePage extends Component {
       query: "",
       article: null,
       article_comments: [],
+      commentsToUsers: null, //map of comments to the associated users
       isFetchingArticle: false,
       isFetchingComments: false,
       currentFilter: "all",
@@ -57,7 +58,8 @@ class ArticlePage extends Component {
             });
             console.log(response);
             this.setState({
-                article_comments: response.data,
+                article_comments: response.data[0],
+                commentsToUsers: response.data[1],
                 isFetchingComments: false,
             });
         } catch (error) {
@@ -126,7 +128,7 @@ class ArticlePage extends Component {
                                 {this.state.article_comments.length
                                     ? this.state.article_comments.map((comment) => {
                                         return (
-                                            <Comment key={comment} comment={comment} />
+                                            <Comment key={comment} comment={comment} user={this.state.commentsToUsers[comment.id]} />
                                         );
                                     }
                                     )
@@ -178,7 +180,7 @@ class Comment extends Component {
                 <div className="commentTitleDiv">
                     <img className="profileIcon" src={profileIcon} />
                     <div className="commentUsernameDiv">
-                        <p className="commentUsername">{this.props.comment.user.username}</p>
+                        <p className="commentUsername">{this.props.user}</p>
                         <div className="commentExpertise">{this.props.comment.user_expertise}</div>
                         <div className="commentType">{this.props.comment.comment_type}</div>
                         <p className="commentDate">{this.props.comment.created_date}</p>

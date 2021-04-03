@@ -98,13 +98,10 @@ class GetAllComments(generics.ListAPIView):
 
         if not queryset:
             return Response([], status=status.HTTP_200_OK)
-        comment_first = queryset[0]
-        comment_votes = comment_first.votes
-        comment_paper = comment_first.paper
-        comment_user = comment_first.user
-        print("votes=", comment_votes)
-        print("paper title = ", comment_paper.title)
-        print("user = ", comment_user.email)
+
+        user_dict = {}
+        for comment in queryset:
+            user_dict[comment.id] = comment.user.username
 
         #for comment in comments:
         #get replies
@@ -113,12 +110,9 @@ class GetAllComments(generics.ListAPIView):
         #return dict as part of response
 
         serializer = CommentSerializer(queryset, many=True)
-        # if not queryset:
-        #     return Response([])
-        # else:
-        #     # if serializer.is_valid():
-        #     #     print(serializer.validated_data)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        print(serializer.data)
+
+        return Response([serializer.data, user_dict], status=status.HTTP_200_OK)
             # else:
             #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
