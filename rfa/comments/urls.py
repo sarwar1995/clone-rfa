@@ -1,7 +1,9 @@
-from django.urls import path
-from .views import CreateCommentView, VoteCommentView
+from django.urls import path, include
+from .views import CreateCommentView, CreateReplyView, VoteCommentView
 
 urlpatterns = [
-    path('create/', CreateCommentView.as_view(), name="create_comment"),
+    path('create/', CreateCommentView.as_view(), name="create_comment"), 
+    path('reply/create/', CreateReplyView.as_view(), name="create_reply"),
     path('voteComment/', VoteCommentView.as_view(), name="vote_comment")
-     ]
+]
+

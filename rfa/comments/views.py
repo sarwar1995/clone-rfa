@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework import generics, status, permissions
 from rest_framework.views import APIView
-from .serializers import CommentSerializer
+from .serializers import CommentSerializer, ReplySerializer
 from rest_framework.response import Response
 from .models import Comment
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
@@ -76,6 +76,46 @@ class CreateCommentView(generics.CreateAPIView):
         serializer = CommentSerializer(data=comment_data)
         if serializer.is_valid():
             serializer.save()
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print(serializer.errors)
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CreateReplyView(generics.CreateAPIView):
+    """
+    This is the view class that will create a new Reply object through the inbuilt "post" method 
+    which calls the "create" method.
+    """
+    serializer_class = ReplySerializer
+
+    def create(self, request):
+        #Get the currently logged in user. This returns an instance of Django AUTH_USER_MODEL
+        user = request.user
+        #Getting the data from the post request by frontend    
+        post_data = request.data['data']
+        comment_id = post_data['comment_id']
+        anonymity = False if (post_data['isAnonymous'] == "public") else True
+        try:
+            comment = Comment.objects.get(id=comment_id)
+        except ObjectDoesNotExist:
+            comment = None
+            return Response({'Message: Comment object for this reply does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+        except MultipleObjectsReturned:
+            comment = None
+            return Response({'Message: Multiple comment objects found for this reply'}, status=status.HTTP_400_BAD_REQUEST)
+
+        reply_data = {
+        'comment' : comment.pk,
+        'user' : user.pk,
+        'reply_text' : post_data['reply_text'],
+        'isAnonymous' : anonymity,
+        'votes' : 0
+        }
+        serializer = ReplySerializer(data=reply_data)
+        if serializer.is_valid():
+            serializer.save()
+            print(serializer.validated_data)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         else:
             print(serializer.errors)

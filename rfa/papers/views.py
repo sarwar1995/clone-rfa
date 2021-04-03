@@ -12,8 +12,9 @@ from .serializers import PaperSerializer
 from rest_framework.renderers import JSONRenderer
 import json
 from django.apps import apps
-from comments.serializers import CommentSerializer
+from comments.serializers import CommentSerializer, CommentWithRepliesSerializer
 from urllib.parse import unquote
+from django.db.models import Prefetch
 
 Comment = apps.get_model('comments', 'Comment')
 class GetByDOIView(APIView):
@@ -40,11 +41,19 @@ class GetByDOIView(APIView):
         else:
             works = Works()
             paper_data = works.doi(doi)
+            if 'title' in paper_data.keys():
+                if paper_data['title']:
+                    paper_title = paper_data['title'][0]
+                else:
+                    paper_title =''
             paper_dict = {
                 'DOI' : (paper_data['DOI'] if 'DOI' in paper_data.keys() else ''),
-                'title' : (paper_data['title'][0] if 'title' in paper_data.keys() else ''),
-                'journal': (paper_data['short-container-title'][0] if 'short-container-title' in paper_data.keys() else ''),            
-                'year_published' : (paper_data['published-print']['date-parts'][0][0] if 'published-print' in paper_data.keys() else ''),
+                'title' : '' if (not('title' in paper_data.keys())) else (paper_data['title'][0] if paper_data['title'] else ''),
+                # 'title' : (paper_data['title'][0] if 'title' in paper_data.keys() else ''),
+                'journal': '' if (not('short-container-title' in paper_data.keys())) else (paper_data['short-container-title'][0] if paper_data['short-container-title'] else ''),
+                #'journal': (paper_data['short-container-title'][0] if 'short-container-title' in paper_data.keys() else ''),            
+                'year_published' : '' if (not('published-print' in paper_data.keys())) else (paper_data['published-print']['date-parts'][0][0] if (paper_data['published-print']['date-parts'] and paper_data['published-print']['date-parts'][0]) else ''),
+                #'year_published' : (paper_data['published-print']['date-parts'][0][0] if 'published-print' in paper_data.keys() else ''),
                 'abstract' : (paper_data['abstract'] if 'abstract' in paper_data.keys() else ''),
                 }
 
@@ -80,8 +89,6 @@ class GetAllComments(generics.ListAPIView):
     
     def get_queryset(self):
         doi = self.request.query_params['DOI']
-        print(doi)
-        print(unquote(doi))
         queryset = Comment.objects.filter(paper__DOI=unquote(doi))
         
         if not queryset:
@@ -98,23 +105,10 @@ class GetAllComments(generics.ListAPIView):
 
         if not queryset:
             return Response([], status=status.HTTP_200_OK)
-
-        user_dict = {}
-        for comment in queryset:
-            user_dict[comment.id] = comment.user.username
-
-        #for comment in comments:
-        #get replies
-        #serialize them
-        #add to dict: dict[comment] = replies
-        #return dict as part of response
-
-        serializer = CommentSerializer(queryset, many=True)
+        
+        serializer = CommentWithRepliesSerializer(queryset, many=True)
         print(serializer.data)
-
-        return Response([serializer.data, user_dict], status=status.HTTP_200_OK)
-            # else:
-            #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class PaperListCreate(generics.ListCreateAPIView):
     queryset = Paper.objects.all()
