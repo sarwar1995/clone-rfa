@@ -8,6 +8,7 @@ import upvote from "../plus.png";
 import upvoteClicked from "../plus_clicked.png";
 import downvote from "../minus.png";
 import downvoteClicked from "../minus_clicked.png";
+import Comment from './comment';
 
 class ArticlePage extends Component {
   constructor(props) {
@@ -17,11 +18,14 @@ class ArticlePage extends Component {
       query: "",
       article: null,
       article_comments: [],
+      commentsToUsers: null, //map of comments to the associated users
       isFetchingArticle: false,
       isFetchingComments: false,
       currentFilter: "all",
     };
     this.toSearch = this.toSearch.bind(this);
+    this.getComments = this.getComments.bind(this);
+
   }
 
   toSearch(query) {
@@ -76,7 +80,7 @@ class ArticlePage extends Component {
     return (
       <div>
         <h2>{this.state.article.title}</h2>
-        <h4>{this.state.article.authors}</h4>
+        <h4>{this.state.article.authors.replace(/['"]+/g, '')}</h4>
         <h4>
           {this.state.article.journal + " " + this.state.article.year_published}
         </h4>
@@ -85,7 +89,6 @@ class ArticlePage extends Component {
   }
 
   render() {
-    console.log(decodeURI(this.props.match.params.DOI));
     //check if user has an auth token...
     if (axiosInstance.defaults.headers["Authorization"] === null) {
       return <Redirect to="/" />;
@@ -113,7 +116,7 @@ class ArticlePage extends Component {
             </div>
             <div className="commentForm">
               <h4>What are your thoughts?</h4>
-              <CommentForm DOI={this.props.match.params.DOI} />
+              <CommentForm DOI={this.props.match.params.DOI} getComments={() => this.getComments(this.props.match.params.DOI)}/>
             </div>
             <div className="commentsList">
               <div className="commentsHeader">
@@ -128,9 +131,9 @@ class ArticlePage extends Component {
                   All
                 </button>
                 <button
-                  onClick={() => this.setState({ currentFilter: "questions" })}
+                  onClick={() => this.setState({ currentFilter: "question" })}
                   className={
-                    this.state.currentFilter === "questions"
+                    this.state.currentFilter === "question"
                       ? "commentCategoryButton clickedFilter"
                       : "commentCategoryButton secondaryButton"
                   }
@@ -138,9 +141,9 @@ class ArticlePage extends Component {
                   Questions
                 </button>
                 <button
-                  onClick={() => this.setState({ currentFilter: "reviews" })}
+                  onClick={() => this.setState({ currentFilter: "review" })}
                   className={
-                    this.state.currentFilter === "reviews"
+                    this.state.currentFilter === "review"
                       ? "commentCategoryButton clickedFilter"
                       : "commentCategoryButton secondaryButton"
                   }
@@ -148,9 +151,9 @@ class ArticlePage extends Component {
                   Reviews
                 </button>
                 <button
-                  onClick={() => this.setState({ currentFilter: "summaries" })}
+                  onClick={() => this.setState({ currentFilter: "summary" })}
                   className={
-                    this.state.currentFilter === "summaries"
+                    this.state.currentFilter === "summary"
                       ? "commentCategoryButton clickedFilter"
                       : "commentCategoryButton secondaryButton"
                   }
@@ -162,9 +165,15 @@ class ArticlePage extends Component {
                 {this.state.isFetchingComments ? "Fetching comments..." : ""}
                 {this.state.article_comments.length
                   ? this.state.article_comments.map((comment) => {
-                      return <Comment key={comment} comment={comment} />;
+                      if(this.state.currentFilter === "all" || this.state.currentFilter === comment.comment_type){
+                        return <Comment key={comment.id} comment={comment} getComments={() => this.getComments(this.props.match.params.DOI)}/>
+                      }
                     })
-                  : "No Comments!"}
+                  :
+                  <div className="noCommentsDiv">
+                    <h5 className="noComments">Be the first to say something!</h5>
+                  </div> 
+                  }
               </div>
             </div>
           </div>
@@ -175,42 +184,4 @@ class ArticlePage extends Component {
   }
 }
 
-class Comment extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    return (
-      <div className="commentDiv">
-        <div className="commentTitleDiv">
-          <img className="profileIcon" src={profileIcon} />
-          <div className="commentUsernameDiv">
-            <p className="commentUsername">
-              {this.props.comment.user.username}
-            </p>
-            <div className="commentExpertise">
-              {this.props.comment.user_expertise}
-            </div>
-            <div className="commentType">{this.props.comment.comment_type}</div>
-            <p className="commentDate">{this.props.comment.created_at}</p>
-          </div>
-        </div>
-        <div
-          className="commentText"
-          dangerouslySetInnerHTML={{ __html: this.props.comment.comment_text }}
-        />
-        <div className="commentInteractions">
-          <div className="voteBox">
-            <img className="upvote lineItem" src={upvote} />
-            <p className="voteCount lineItem">{this.props.comment.votes}</p>
-            <img className="downvote lineItem" src={downvote} />
-          </div>
-          <button className="lineItem">Reply</button>
-        </div>
-      </div>
-    );
-  }
-}
 export default ArticlePage;

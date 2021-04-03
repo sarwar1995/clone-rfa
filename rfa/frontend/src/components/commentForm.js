@@ -42,7 +42,7 @@ class CommentForm extends Component {
         },
       });
       console.log(response);
-      this.setState({ article: response.data, isFetchingArticle: false });
+      this.props.getComments();
     } catch {
       console.log(error);
       alert("Comment not created!");

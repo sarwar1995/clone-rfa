@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Switch, Route, Link, useHistory, Redirect } from "react-router-dom";
 import axiosInstance from "../axiosApi";
 import Navbar from "./navbar";
-import ReadingList from "./readingList";
 
 class UserPage extends Component {
     constructor(props) {
@@ -39,68 +38,11 @@ class UserPage extends Component {
         }
     }
 
-    //given a username, list name, and DOI,
-    //add or remove that DOI to the user's given reading list
-    // 
-    //example usage: this.editReadingList('daniel', 'testList', '123', 'add');
-    async editReadingList(username, listname, DOI, action){
-        let route;
-        if (action == 'add') {
-            route = 'user/reading-list/add/'
-        } else if (action == 'remove') {
-            route = 'user/reading-list/remove/'
-        } else {
-            alert("Internal error: Incorrect action");
-        }
-        try{
-            let response = await axiosInstance.get(route, {
-                params: {
-                    username: decodeURI(username),
-                    listname: decodeURI(listname),
-                    DOI: decodeURI(DOI)
-                }
-            });
-            console.log(response);
-        }
-        catch{
-            console.log(error);
-            alert("List Not Found!");
-        }
-    }
-
-    // Parse reading list to prepare for mapping
-    // to ReadingList elements.
-    // 
-    // This converts from (for Python):
-    //      { listnames: ["name1", "name2", ...]
-    //        DOIs: [[0, 1, 2], [3, 4, 5], ...] }
-    // to the following (for React/JS):
-    //      [ {name: "name1", DOIs: [0, 1, 2]},
-    //        {name: "name2", DOIs: [3, 4, 5]},
-    //         ... ]
-    // and then passes those objects to ReadingList
-    // Components for individual rendering
+    // Create list of components
     generateListOfReadingLists(reading_lists){
-        
-        let reading_list_py = JSON.parse(reading_lists)
-        let reading_list_js = []
-        let i;
-        for (i = 0; i < reading_list_py['listnames'].length; i++) {
-            reading_list_js.push(
-                {
-                    'name': reading_list_py['listnames'][i],
-                    'DOIs': reading_list_py['DOIs'][i]
-                }
-            );
-        }
-
-        // Create list of components
-        let readingListItems;
-        if (this.state.user) {
-            readingListItems = reading_list_js.map((rl) =>
-                <ReadingList key={rl['name']} data={rl}/>
-            );
-        }
+        let readingListItems = reading_lists.map((rl) =>
+            <ReadingListPreview key={rl['name']} data={rl}/>
+        );
         return readingListItems;
     }
 
@@ -143,4 +85,26 @@ class UserPage extends Component {
         )
     }
 }
+
+class ReadingListPreview extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <div className="purpleBox">
+                <div className="row 4">
+                    <div className="column middle">
+                        {this.props.data.name}
+                        {/* Put button here to go to ReadingList page */}
+                        {/* this.props.data has same fields as ReadingList model */}
+                    </div>
+                </div>
+            </div>
+        )
+    }
+}
+
 export default UserPage;
