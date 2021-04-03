@@ -4,7 +4,7 @@ from rest_framework import generics, status, permissions
 from rest_framework.views import APIView
 from .serializers import CommentSerializer, ReplySerializer
 from rest_framework.response import Response
-from .models import Comment
+from .models import Comment, Reply
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from urllib.parse import unquote
 from django.apps import apps
@@ -12,7 +12,6 @@ Paper = apps.get_model('papers', 'Paper')
 
 #used to upvote or downvote a comment
 class VoteCommentView(APIView):
-    
     def post(self, request):
         polarity = request.data['polarity']
         comment_id = request.data['comment_id']
@@ -35,9 +34,36 @@ class VoteCommentView(APIView):
         #DOWNVOTE
         else:
             comment.votes = comment.votes - 1
-        print(comment)
         comment.save()
-        return Response(data="", status=status.HTTP_200_OK)
+        return Response(data="Voted!", status=status.HTTP_200_OK)
+
+#used to upvote or downvote a reply
+class VoteReplyView(APIView):
+    
+    def post(self, request):
+        polarity = request.data['polarity']
+        reply_id = request.data['reply_id']
+        reply = None
+
+        try:
+            reply = Reply.objects.get(id=reply_id)
+        except:
+            return Response(data="Reply does not exist", status=status.HTTP_400_BAD_REQUEST)
+
+        if not reply:
+            return Response(data="Reply does not exist", status=status.HTTP_400_BAD_REQUEST)
+
+        #UNVOTE -- remove my vote, whatever it is, if I've voted -- not implemented for MVP
+        if polarity == None:
+            return Response(data="", status=status.HTTP_200_OK)
+        #UPVOTE
+        elif polarity == True:
+            reply.votes = reply.votes + 1
+        #DOWNVOTE
+        else:
+            reply.votes = reply.votes - 1
+        reply.save()
+        return Response(data="Voted!", status=status.HTTP_200_OK)
 
 class CreateCommentView(generics.CreateAPIView):
     """

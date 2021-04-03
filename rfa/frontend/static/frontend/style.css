@@ -316,6 +316,16 @@ select{
   border-color: var(--primary-color);
   padding: 10px;
   margin-top: 15px;
+  border-radius: 3px;
+}
+
+.replyDiv{
+  border-style: solid;
+  border-width: 2px;
+  border-color: rgb(170, 170, 170);
+  padding: 10px;
+  margin-top: 15px;
+  border-radius: 3px;
 }
 
 .profileIcon{
@@ -408,5 +418,19 @@ select{
 .voteCount{
   margin-right: 10px;
   margin-bottom: 0px;
+}
+
+.repliesDiv{
+  margin-left: 70px;
+}
+
+.replyForm{
+  margin-top: 10px;
+  padding: 10px;
+  border-style: solid;
+  border-radius: 3px;
+  border-width: 2px;
+  border-color: var(--primary-color);
+  color: var(--primary-color);
 }
 

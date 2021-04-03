@@ -8,6 +8,7 @@ import upvote from "../plus.png";
 import upvoteClicked from "../plus_clicked.png";
 import downvote from "../minus.png";
 import downvoteClicked from "../minus_clicked.png";
+import Comment from './comment';
 
 class ArticlePage extends Component {
   constructor(props) {
@@ -23,6 +24,8 @@ class ArticlePage extends Component {
       currentFilter: "all",
     };
     this.toSearch = this.toSearch.bind(this);
+    this.getComments = this.getComments.bind(this);
+
   }
 
   toSearch(query) {
@@ -114,7 +117,7 @@ class ArticlePage extends Component {
             </div>
             <div className="commentForm">
               <h4>What are your thoughts?</h4>
-              <CommentForm DOI={this.props.match.params.DOI} />
+              <CommentForm DOI={this.props.match.params.DOI} getComments={() => this.getComments(this.props.match.params.DOI)}/>
             </div>
             <div className="commentsList">
               <div className="commentsHeader">
@@ -163,7 +166,7 @@ class ArticlePage extends Component {
                 {this.state.isFetchingComments ? "Fetching comments..." : ""}
                 {this.state.article_comments.length
                   ? this.state.article_comments.map((comment) => {
-                      return <Comment key={comment} comment={comment} />;
+                      return <Comment key={comment} comment={comment} getComments={() => this.getComments(this.props.match.params.DOI)}/>;
                     })
                   : "No Comments!"}
               </div>
@@ -176,57 +179,4 @@ class ArticlePage extends Component {
   }
 }
 
-class Comment extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-    //vote on an article
-    async vote(polarity){
-        try {
-            const response = await axiosInstance.post("/comments/voteComment/", {
-              comment_id: this.props.comment.id,
-              polarity: polarity
-            });
-            if(polarity){
-                this.props.comment.votes = this.props.comment.votes + 1;
-            }
-            else{
-                this.props.comment.votes = this.props.comment.votes - 1;
-            }
-            this.setState({});
-          } catch (error) {
-            console.log(error);
-            throw error;
-          }
-    }
-
-    render() {
-        return (
-            <div className="commentDiv">
-                <div className="commentTitleDiv">
-                    <img className="profileIcon" src={profileIcon} />
-                    <div className="commentUsernameDiv">
-                        <p className="commentUsername">{this.props.comment.user.username}</p>
-                        <div className="commentExpertise">{this.props.comment.user_expertise}</div>
-                        <div className="commentType">{this.props.comment.comment_type}</div>
-                        <p className="commentDate">{this.props.comment.created_at}</p>
-                    </div>
-                </div>
-                <div className="commentText" dangerouslySetInnerHTML={{ __html: this.props.comment.comment_text }} />
-                <div className="commentInteractions">
-                    <div className="voteBox">
-                        <img className="upvote lineItem" onClick={() => this.vote(true)} src={upvote} />
-                        <p className="voteCount lineItem">{this.props.comment.votes}</p>
-                        <img className="downvote lineItem" onClick={() => this.vote(false)} src={downvote} />
-                    </div>
-                    <button className="lineItem">
-                        Reply
-                    </button>
-                </div>
-      </div>
-    );
-  }
-}
 export default ArticlePage;
