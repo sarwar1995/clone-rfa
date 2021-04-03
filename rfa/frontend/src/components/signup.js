@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axiosInstance from "../axiosApi";
+import { Switch, Route, Link, useHistory, Redirect } from "react-router-dom";
+
 
 class Signup extends Component {
   constructor(props) {
@@ -70,7 +72,7 @@ class Signup extends Component {
             Share review, questions and insights about research papers.
           </p>
         </div>
-        <div className="signUpForm form-group col">
+        <div className="purpleBox">
           {/* <h1 className="display-4 text-left">Signup for Research For All</h1> */}
           <form onSubmit={this.handleSubmit} className="signUpForm">
             {/* <div class="form-group">
@@ -175,13 +177,22 @@ class Signup extends Component {
             {/* </div>
             </div>
           </div> */}
+            <p>
+                
+            </p>
             <button
               type="submit"
               class="btn btn-primary btn-block active btn-dark"
             >
               Sign up for RFA
             </button>
+            <p>  </p>
+            <Link to={"/login/"}>
+              <button class="btn btn-primary btn-block active btn-dark">Back to Login</button>
+          </Link>
           </form>
+
+
         </div>
       </div>
     );
