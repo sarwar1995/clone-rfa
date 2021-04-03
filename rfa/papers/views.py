@@ -98,7 +98,20 @@ class GetAllComments(generics.ListAPIView):
 
         if not queryset:
             return Response([], status=status.HTTP_200_OK)
-        
+        comment_first = queryset[0]
+        comment_votes = comment_first.votes
+        comment_paper = comment_first.paper
+        comment_user = comment_first.user
+        print("votes=", comment_votes)
+        print("paper title = ", comment_paper.title)
+        print("user = ", comment_user.email)
+
+        #for comment in comments:
+        #get replies
+        #serialize them
+        #add to dict: dict[comment] = replies
+        #return dict as part of response
+
         serializer = CommentSerializer(queryset, many=True)
         # if not queryset:
         #     return Response([])
