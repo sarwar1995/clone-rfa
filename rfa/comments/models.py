@@ -3,7 +3,7 @@ from django.db import models
 from django.apps import apps
 from djrichtextfield.models import RichTextField
 from django.utils.translation import gettext as _
-
+from datetime import datetime
 # django.setup()
 # Paper = apps.get_model('papers', 'Paper')
 # User = apps.get_model('core', 'CustomUser')
@@ -89,4 +89,5 @@ class Reply (models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='replies')
     reply_text = RichTextField()
     votes = models.IntegerField(default = 0)
-    created_date = models.DateField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    isAnonymous = models.BooleanField(default = False)

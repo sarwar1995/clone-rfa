@@ -12,8 +12,9 @@ from .serializers import PaperSerializer
 from rest_framework.renderers import JSONRenderer
 import json
 from django.apps import apps
-from comments.serializers import CommentSerializer
+from comments.serializers import CommentSerializer, CommentWithRepliesSerializer
 from urllib.parse import unquote
+from django.db.models import Prefetch
 
 Comment = apps.get_model('comments', 'Comment')
 class GetByDOIView(APIView):
@@ -82,8 +83,6 @@ class GetAllComments(generics.ListAPIView):
     
     def get_queryset(self):
         doi = self.request.query_params['DOI']
-        print(doi)
-        print(unquote(doi))
         queryset = Comment.objects.filter(paper__DOI=unquote(doi))
         
         if not queryset:
@@ -101,15 +100,10 @@ class GetAllComments(generics.ListAPIView):
         if not queryset:
             return Response([], status=status.HTTP_200_OK)
         
-        serializer = CommentSerializer(queryset, many=True)
-        # if not queryset:
-        #     return Response([])
-        # else:
-        #     # if serializer.is_valid():
-        #     #     print(serializer.validated_data)
+        serializer = CommentWithRepliesSerializer(queryset, many=True)
+        print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
-            # else:
-            #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class PaperListCreate(generics.ListCreateAPIView):
     queryset = Paper.objects.all()
