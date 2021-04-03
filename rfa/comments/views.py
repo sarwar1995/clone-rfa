@@ -4,17 +4,23 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import CommentSerializer
 from .models import Comment
+from django.views.decorators.csrf import csrf_exempt
 
 #used to upvote or downvote a comment
 class VoteCommentView(APIView):
-
+    
     def post(self, request):
-        polarity = request.POST.get("polarity", None)
-        comment_id = request.POST.get("comment_id", None)
-        comment = Comment.objects.get(id=comment_id)
+        polarity = request.data['polarity']
+        comment_id = request.data['comment_id']
+        comment = None
+
+        try:
+            comment = Comment.objects.get(id=comment_id)
+        except:
+            return Response(data="Comment does not exist", status=status.HTTP_400_BAD_REQUEST)
 
         if not comment:
-            Response(data="Comment does not exist", status=status.HTTP_400_BAD_REQUEST)
+            return Response(data="Comment does not exist", status=status.HTTP_400_BAD_REQUEST)
 
         #UNVOTE -- remove my vote, whatever it is, if I've voted -- not implemented for MVP
         if polarity == None:
@@ -22,13 +28,12 @@ class VoteCommentView(APIView):
         #UPVOTE
         elif polarity == True:
             comment.votes = comment.votes + 1
-            comment.save()
-            return Response(data="", status=status.HTTP_200_OK)
         #DOWNVOTE
         else:
             comment.votes = comment.votes - 1
-            comment.save()
-            return Response(data="", status=status.HTTP_200_OK)
+        print(comment)
+        comment.save()
+        return Response(data="", status=status.HTTP_200_OK)
 
 class CreateCommentView(generics.CreateAPIView):
     serializer_class = CommentSerializer

@@ -85,7 +85,6 @@ class ArticlePage extends Component {
     }
 
     render() {
-        console.log(decodeURI(this.props.match.params.DOI));
         //check if user has an auth token...
         if (axiosInstance.defaults.headers['Authorization'] === null) {
             return <Redirect to='/' />
@@ -151,6 +150,26 @@ class Comment extends Component {
         };
     }
 
+    //vote on an article
+    async vote(polarity){
+        try {
+            const response = await axiosInstance.post("/comments/voteComment/", {
+              comment_id: this.props.comment.id,
+              polarity: polarity
+            });
+            if(polarity){
+                this.props.comment.votes = this.props.comment.votes + 1;
+            }
+            else{
+                this.props.comment.votes = this.props.comment.votes - 1;
+            }
+            this.setState({});
+          } catch (error) {
+            console.log(error);
+            throw error;
+          }
+    }
+
     render() {
         return (
             <div className="commentDiv">
@@ -166,9 +185,9 @@ class Comment extends Component {
                 <div className="commentText" dangerouslySetInnerHTML={{ __html: this.props.comment.comment_text }} />
                 <div className="commentInteractions">
                     <div className="voteBox">
-                        <img className="upvote lineItem" src={upvote} />
+                        <img className="upvote lineItem" onClick={() => this.vote(true)} src={upvote} />
                         <p className="voteCount lineItem">{this.props.comment.votes}</p>
-                        <img className="downvote lineItem" src={downvote} />
+                        <img className="downvote lineItem" onClick={() => this.vote(false)} src={downvote} />
                     </div>
                     <button className="lineItem">
                         Reply
