@@ -53,6 +53,7 @@ class Login extends Component {
       return (
         <div className="whitePage loginPage">
           <img src={blueLogo} className="mainLogo"/>
+          <h3 className="maintitle">Research For All</h3>
           <h6 className="subtitle">Share reviews, questions and insights about research papers.</h6>
           <form onSubmit={this.handleSubmit} className="login">
             <div className="form-group">
@@ -77,7 +78,7 @@ class Login extends Component {
                 onChange={this.handleChange}
               />
             </div>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Login" />
           </form>
           <Link to={"/signup/"}>
             <button>Create Account</button>

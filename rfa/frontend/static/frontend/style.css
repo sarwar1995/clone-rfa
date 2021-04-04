@@ -98,10 +98,10 @@ input[type=submit]{
   border: none;
   color: white;
   border-radius: 4px;
-  font-family: 'Montserrat';
   padding: 10px;
   transition-duration: 0.3s;
   cursor: pointer;
+  margin-right: 10px;
 }
 
 input[type=submit]:hover{
@@ -479,7 +479,11 @@ select{
 .mainLogo{
   margin-top: 5vh;
   margin-bottom: 10px;
-  width: 250px;
+  width: 100px;
+}
+
+.maintitle{
+  color: var(--primary-color);
 }
 
 .subtitle{
@@ -490,6 +494,7 @@ select{
   background-color: white;
   width: 100vw;
   height: 100vh;
+  padding: 20px;
 }
 
 .loginPage{
