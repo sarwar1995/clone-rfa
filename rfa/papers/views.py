@@ -91,7 +91,7 @@ class GetAllComments(generics.ListAPIView):
     
     def get_queryset(self):
         doi = self.request.query_params['DOI']
-        queryset = Comment.objects.filter(paper__DOI=unquote(doi))
+        queryset = Comment.objects.filter(paper__DOI=unquote(doi)).order_by('-votes')
         
         if not queryset:
             return None
@@ -109,7 +109,6 @@ class GetAllComments(generics.ListAPIView):
             return Response([], status=status.HTTP_200_OK)
         
         serializer = CommentWithRepliesSerializer(queryset, many=True)
-        print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class PaperListCreate(generics.ListCreateAPIView):
