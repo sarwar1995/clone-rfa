@@ -15,6 +15,7 @@ from django.apps import apps
 from comments.serializers import CommentSerializer, CommentWithRepliesSerializer
 from urllib.parse import unquote
 from django.db.models import Prefetch
+import requests
 
 Comment = apps.get_model('comments', 'Comment')
 class GetByDOIView(APIView):
@@ -39,8 +40,9 @@ class GetByDOIView(APIView):
             data = serializer.data
             return Response(data=data, status=status.HTTP_200_OK)
         else:
-            works = Works()
-            paper_data = works.doi(doi)
+            #get data from crossref API
+            response = requests.get("https://api.crossref.org/works/" + doi)
+            paper_data = response.json()['message']
             if 'title' in paper_data.keys():
                 if paper_data['title']:
                     paper_title = paper_data['title'][0]
