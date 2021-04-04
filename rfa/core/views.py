@@ -22,6 +22,10 @@ import json
 class GetByUsernameView(APIView):
     def get(self, request):
         username = request.query_params['username']
+        isSelf = request.query_params['isSelf']
+
+        if isSelf == 'true':
+            username = request.user
 
         try:
             userObject = CustomUser.objects.filter(username=username)
@@ -50,6 +54,10 @@ class CreateReadingList(APIView):
     def post(self, request):
         username = request.data['username']
         listname = request.data['listname']
+        isSelf = request.data['isSelf']
+
+        if isSelf == 'true':
+            username = request.user
 
         try:
             user = CustomUser.objects.get(username=username)
@@ -84,10 +92,10 @@ class GetReadingList(APIView):
 
 
 class EditReadingList(APIView):
-    def get(self, request):
-        listID = request.query_params['listID']
-        DOI = request.query_params['DOI']
-        action = request.query_params['action']
+    def post(self, request):
+        listID = request.data['listID']
+        DOI = request.data['DOI']
+        action = request.data['action']
 
         # Look up reading list
         try:
@@ -103,7 +111,8 @@ class EditReadingList(APIView):
         elif action == 'remove':
             # Remove DOI from appropriate list if present
             if DOI in DOIs['DOIs']:
-                DOIs['DOIs'].pop(DOI)
+                index = DOIs['DOIs'].index(DOI)
+                DOIs['DOIs'].pop(index)
         else:
             return Response({'Failure': 'Bad action'}, status=status.HTTP_400_BAD_REQUEST)
         

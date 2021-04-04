@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Switch, Route, Link, useHistory, Redirect } from "react-router-dom";
 import axiosInstance from "../axiosApi";
+import blueLogo from '../blue_logo.png';
 
 class Login extends Component {
   constructor(props) {
@@ -50,28 +51,34 @@ class Login extends Component {
       );
     } else {
       return (
-        <div class = 'purpleBox'>
-          Login
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              Username:
-              <input
+        <div className="whitePage loginPage">
+          <img src={blueLogo} className="mainLogo"/>
+          <h3 className="maintitle">Research For All</h3>
+          <h6 className="subtitle">Share reviews, questions and insights about research papers.</h6>
+          <form onSubmit={this.handleSubmit} className="login">
+            <div className="form-group">
+                <label for="usernameLogin">Username</label>
+                <input
+                className="form-control"
                 name="username"
+                id="usernameLogin"
                 type="text"
                 value={this.state.username}
                 onChange={this.handleChange}
               />
-            </label>
-            <label>
-              Password:
-              <input
+            </div>
+            <div className="form-group">
+                <label for="passwordLogin">Password</label>
+                <input
+                className="form-control"
                 name="password"
+                id="passwordLogin"
                 type="password"
                 value={this.state.password}
                 onChange={this.handleChange}
               />
-            </label>
-            <input type="submit" value="Submit" />
+            </div>
+            <input type="submit" value="Login" />
           </form>
           <Link to={"/signup/"}>
             <button>Create Account</button>

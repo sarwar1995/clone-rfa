@@ -26,7 +26,8 @@ class UserPage extends Component {
         try{
             let response = await axiosInstance.get('user/getByUsername/', {
                 params: {
-                    username: decodeURI(username)
+                    username: decodeURI(username),
+                    isSelf: decodeURI('false')
                 }
             });
             console.log(response);
