@@ -56,7 +56,10 @@ class Navbar extends Component {
                     <div className="column right">
                         <div className="accountInfo">
                             {localStorage.getItem('username') ?
-                                <Initial name={localStorage.getItem('username')} className="navbarProfileIcon" color="#ffffff" textColor="#094DA0" height={35} width={35} radius={10} fontSize={30} /> :
+                                <Link to={{pathname: "/user/" + localStorage.getItem("username") + "/",}}>
+                                    <Initial name={localStorage.getItem('username')} className="navbarProfileIcon" color="#ffffff" textColor="#094DA0" height={35} width={35} radius={10} fontSize={30} />
+                                </Link>
+                                :
                                 ""
                             }
                             <button onClick={this.handleLogout} className="logoutButton">Logout</button>
