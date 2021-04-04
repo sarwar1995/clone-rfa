@@ -91,6 +91,19 @@ class Signup extends Component {
             {this.state.errors.lastname ? this.state.errors.lastname : null}
           </div>
           <div className="form-group">
+            <label for="position">Position</label>
+            <input
+              name="position"
+              id="position"
+              type="text"
+              class="form-control"
+              value={this.state.position}
+              onChange={this.handleChange}
+              placeholder="Undergraduate, Professor, Researcher, etc."
+            />
+            {this.state.errors.position ? this.state.errors.position : null}
+          </div>
+          <div className="form-group">
             <label for="affiliation">Affiliation</label>
             <input
               name="affiliation"
