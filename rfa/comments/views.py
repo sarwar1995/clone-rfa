@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.conf import settings
 from rest_framework.response import Response
 from rest_framework import generics, status, permissions
 from rest_framework.views import APIView
@@ -9,7 +10,7 @@ from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from urllib.parse import unquote
 from django.apps import apps
 Paper = apps.get_model('papers', 'Paper')
-
+CustomUser = apps.get_model('core', 'CustomUser')
 #used to upvote or downvote a comment
 class VoteCommentView(APIView):
     def post(self, request):
@@ -73,13 +74,21 @@ class CreateCommentView(generics.CreateAPIView):
     queryset = Comment.objects.all()
 
     def create(self, request):
-
-        #Get the currently logged in user. This returns an instance of Django AUTH_USER_MODEL
-        user = request.user
         #Getting the data from the post request by frontend    
         post_data = request.data['data']
-        paper_DOI = post_data['paper_DOI']
         anonymity = False if (post_data['isAnonymous'] == "public") else True
+        #Get the currently logged in user. This returns an instance of Django AUTH_USER_MODEL
+        request_user = request.user
+        position = request_user.position
+        print(position)
+        if anonymity:
+            user, created = CustomUser.objects.get_or_create(username='Anonymous')
+            print(created)
+        else:
+            user = request_user
+
+        paper_DOI = post_data['paper_DOI']
+        
         try:
             #Get the paper on which comment is being made.
             paper = Paper.objects.get(DOI=unquote(paper_DOI))
