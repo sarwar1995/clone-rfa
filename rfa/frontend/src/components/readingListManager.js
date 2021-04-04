@@ -32,8 +32,8 @@ class readingListManager extends Component {
             isEditingLists: false,
             isDeletingList: false,
             isCreatingList: false,
-            currentList: 0,
-            paperInList: {0: false}
+            currentList: '0',
+            paperInList: {'0': false}
         };
         this.updateSelectedList = this.updateSelectedList.bind(this)
     }
@@ -72,6 +72,7 @@ class readingListManager extends Component {
                 readingLists: response.data.reading_lists, 
                 isFetchingLists: false,
             });
+            await this.updatePaperInList()
         }
         catch{
             console.log(error);
@@ -93,7 +94,6 @@ class readingListManager extends Component {
                 isSelf: decodeURI('true')
             });
             await this.getReadingLists()
-            await this.updatePaperInList()
             this.setState({ isCreatingList: false });
         }
         catch{
@@ -125,6 +125,10 @@ class readingListManager extends Component {
 
     // Add or delete DOI in the given list ID
     async editList(listID, DOI, action) {
+        if (this.state.currentList == '0') {
+            alert("Please select a reading list.")
+            return;
+        }
         this.setState({isEditingLists: true});
         try{
             await axiosInstance.post('user/reading-list/edit/', {
@@ -150,14 +154,14 @@ class readingListManager extends Component {
 
     render() {
         return (
-            <div id="header">
-                <div className="row">
-                    <div className="column md">
+            <div className="readingListManager">
+                <div>
+                    <div>
                         {this.state.isFetchingLists ? "Fetching lists..." : ""}
                         {this.state.readingLists ?
                             <div>
-                                <label for="listnames">
-                                    <h5>Choose a list:</h5>
+                                <label for="listnames" className="listLabel">
+                                    Choose a list: 
                                 </label>
                                 <select id="listnames" name="listnames" onChange={this.updateSelectedList}>
                                     <option value='0' key='0'>
@@ -173,25 +177,25 @@ class readingListManager extends Component {
                                     "Editing lists..."
                                     :
                                     this.state.paperInList[this.state.currentList] ?
-                                        <button onClick={() => this.editList(this.state.currentList, this.props.DOI, 'remove')}>
+                                        <button className="readingListButton" onClick={() => this.editList(this.state.currentList, this.props.DOI, 'remove')}>
                                             Remove Paper
                                         </button>
                                         : 
-                                        <button onClick={() => this.editList(this.state.currentList, this.props.DOI, 'add')}>
+                                        <button className="readingListButton" onClick={() => this.editList(this.state.currentList, this.props.DOI, 'add')}>
                                             Add Paper
                                         </button>
                                     }
                                 {this.state.isCreatingList ?
                                     "Creating list..."
                                     :
-                                    <button onClick={() => this.createList()}>
+                                    <button className="readingListButton" onClick={() => this.createList()}>
                                         Create Reading List
                                     </button>
                                     }
                                 {this.state.isDeletingList ?
                                     "Deleting list..."
                                     :
-                                    <button onClick={() => this.deleteList(this.state.currentList)}>
+                                    <button className="readingListButton" onClick={() => this.deleteList(this.state.currentList)}>
                                         Delete Reading List
                                     </button>
                                     }

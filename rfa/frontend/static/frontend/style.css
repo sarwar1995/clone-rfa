@@ -114,12 +114,6 @@ color: var(--primary-color);
 font-weight: lighter;
 }
 
-#header{
-  width: 100%;
-  text-align: right;
-  background-color: var(--primary-color);
-}
-
 h1.RFA::first-letter {
 color: var(--primary-color);
 font-size: 125%;
@@ -269,6 +263,10 @@ padding: 10px;
 }
 
 .paperReference:hover{
+  color:var(--primary-color);
+}
+
+.colorOnHover:hover {
   color:var(--primary-color);
 }
 
@@ -500,4 +498,21 @@ select{
 
 .loginPage{
   text-align: center;
+}
+
+.readingListManager{
+  background-color: var(--primary-color);
+  padding: 10px;
+  margin: 15px;
+}
+
+.listLabel{
+  color: white;
+  margin-right: 10px;
+}
+
+.readingListButton{
+  margin: 10px;
+  border-style: solid;
+  border-color: white;
 }
