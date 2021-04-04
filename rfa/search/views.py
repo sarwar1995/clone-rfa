@@ -5,25 +5,29 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from crossref.restful import Works
+import requests
+import urllib.parse
 
 class SearchPaperView(APIView):
 
     def get(self, request):
 
-        search_term = request.query_params['search_term']
+        search_term = urllib.parse.quote(request.query_params['search_term'])
         max_results = int(request.query_params['max_results'])
 
-        works = Works()
-        crossref_results = works.query(bibliographic=search_term).sort('score').select('DOI', 'title', 'author', 'published-print', 'type', 'short-container-title').sample(max_results)
+        #get data from crossref API
+        response = requests.get("https://api.crossref.org/types/journal-article/works?query=" + search_term + "&rows=15&select=DOI,title,short-container-title,published-print,author")
+
+        print(response.json())
+        crossref_results = response.json()['message']['items']
 
         paper_list = []
 
         for paper_data in crossref_results:
-            if len(paper_list) > max_results:
-                break
-            print(paper_data)
             #filter out unacceptable results
-            if 'DOI' in paper_data.keys() and 'title' in paper_data.keys():
+            def validate_key(key):
+                return key in paper_data.keys() and paper_data[key] and len(paper_data[key][0])
+            if validate_key('DOI') and validate_key('title'):
                 paper = {
                     'DOI' : paper_data['DOI'],
                     'title' : (paper_data['title'][0] if 'title' in paper_data.keys() else ''),

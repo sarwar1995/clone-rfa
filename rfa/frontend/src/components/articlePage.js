@@ -9,6 +9,7 @@ import upvoteClicked from "../plus_clicked.png";
 import downvote from "../minus.png";
 import downvoteClicked from "../minus_clicked.png";
 import Comment from './comment';
+import ReadingListManager from './readingListManager';
 
 class ArticlePage extends Component {
   constructor(props) {
@@ -113,6 +114,9 @@ class ArticlePage extends Component {
             <div className="articleDetail">
               {this.state.isFetchingArticle ? "Fetching data..." : ""}
               {this.state.article ? this.displayArticleDetail() : ""}
+            </div>
+            <div className="readingListForm">
+              <ReadingListManager DOI={this.props.match.params.DOI}/>
             </div>
             <div className="commentForm">
               <h4>What are your thoughts?</h4>
