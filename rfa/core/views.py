@@ -53,6 +53,10 @@ class CreateReadingList(APIView):
     def post(self, request):
         username = request.data['username']
         listname = request.data['listname']
+        isSelf = request.data['isSelf']
+
+        if isSelf == 'true':
+            username = request.user
 
         try:
             user = CustomUser.objects.get(username=username)

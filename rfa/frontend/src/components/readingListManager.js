@@ -8,6 +8,7 @@ import { Switch, Route, Link, useHistory } from "react-router-dom";
 // axiosInstance.post('user/reading-list/create/', {
 //     username: this.props.match.params.username,
 //     listname: 'list1'
+//     isSelf: true/false
 // });
 // 
 // DELETE READING LIST
@@ -29,6 +30,8 @@ class readingListManager extends Component {
             readingLists: null,
             isFetchingLists: false,
             isEditingLists: false,
+            isDeletingList: false,
+            isCreatingList: false,
             currentList: 0,
             paperInList: {0: false}
         };
@@ -76,6 +79,50 @@ class readingListManager extends Component {
         }
     }
 
+    // Get current user's reading lists from the backend
+    async createList() {
+        let response = window.prompt("Name your new reading list: ")
+        if (!response || response == '') {
+            return;
+        }
+        this.setState({isCreatingList: true});
+        try{
+            await axiosInstance.post('user/reading-list/create/', {
+                username: decodeURI(''),
+                listname: decodeURI(response),
+                isSelf: decodeURI('true')
+            });
+            await this.getReadingLists()
+            await this.updatePaperInList()
+            this.setState({ isCreatingList: false });
+        }
+        catch{
+            console.log(error);
+            alert("User Not Found!");
+        }
+    }
+
+    // Get current user's reading lists from the backend
+    async deleteList(listID) {
+        let response = window.confirm("Are you sure you want to delete this reading list?")
+        if (!response) {
+            return;
+        }
+        this.setState({isDeletingList: true});
+        try{
+            await axiosInstance.post('user/reading-list/delete/', {
+                listID: decodeURI(listID),
+            });
+            await this.getReadingLists()
+            await this.updatePaperInList()
+            this.setState({ isDeletingList: false });
+        }
+        catch{
+            console.log(error);
+            alert("User Not Found!");
+        }
+    }
+
     // Add or delete DOI in the given list ID
     async editList(listID, DOI, action) {
         this.setState({isEditingLists: true});
@@ -105,7 +152,7 @@ class readingListManager extends Component {
         return (
             <div id="header">
                 <div className="row">
-                    <div className="column middle">
+                    <div className="column md">
                         {this.state.isFetchingLists ? "Fetching lists..." : ""}
                         {this.state.readingLists ?
                             <div>
@@ -133,6 +180,20 @@ class readingListManager extends Component {
                                         <button onClick={() => this.editList(this.state.currentList, this.props.DOI, 'add')}>
                                             Add Paper
                                         </button>
+                                    }
+                                {this.state.isCreatingList ?
+                                    "Creating list..."
+                                    :
+                                    <button onClick={() => this.createList()}>
+                                        Create Reading List
+                                    </button>
+                                    }
+                                {this.state.isDeletingList ?
+                                    "Deleting list..."
+                                    :
+                                    <button onClick={() => this.deleteList(this.state.currentList)}>
+                                        Delete Reading List
+                                    </button>
                                     }
                             </div>
                             : ""}
