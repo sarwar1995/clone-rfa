@@ -254,6 +254,10 @@ padding: 10px;
   color:var(--primary-color);
 }
 
+.colorOnHover:hover {
+  color:var(--primary-color);
+}
+
 .articleDetail{
   background-color: white;
   padding: 20px;

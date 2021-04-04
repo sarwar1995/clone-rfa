@@ -16,6 +16,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
+from urllib.parse import unquote
 import json
 
 class GetByUsernameView(APIView):
@@ -59,6 +60,27 @@ class CreateReadingList(APIView):
         rl.save()
         
         return Response(status=status.HTTP_200_OK)
+
+class GetReadingList(APIView):
+    def get(self, request):
+        listid = request.query_params['listid']
+
+        try:
+            readingListObject = ReadingList.objects.get(id=listid)
+        except:
+            return Response({'Failure': 'Invalid reading list'}, status=status.HTTP_400_BAD_REQUEST)
+
+        DOI_list = json.loads(readingListObject.DOIs)['DOIs']
+        print(readingListObject.name)
+        print(readingListObject.user)
+
+        data = {
+            'dois': DOI_list,
+            'name': str(readingListObject.name),
+            'user': str(readingListObject.user),
+        }
+        
+        return Response(data=data, status=status.HTTP_200_OK)
 
 
 class EditReadingList(APIView):
