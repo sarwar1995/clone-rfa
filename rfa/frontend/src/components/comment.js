@@ -8,6 +8,8 @@ import downvoteClicked from "../minus_clicked.png";
 import Reply from './reply';
 import ReplyForm from './replyForm';
 import time_ago from '../timeAgo';
+import { Initial } from 'react-initial'
+
 
 class Comment extends Component {
     constructor(props) {
@@ -47,9 +49,13 @@ class Comment extends Component {
             <div>
                 <div className="commentDiv">
                     <div className="commentTitleDiv">
-                        <img className="profileIcon" src={profileIcon} />
+                        <Initial name={this.props.comment.user.username} className="userIcon" color="#094DA0" height={35} width={35} radius={10} fontSize={30}/>
                         <div className="commentUsernameDiv">
                             <p className="commentUsername">{this.props.comment.user.username}</p>
+                            {(this.props.comment.user.position && this.props.comment.user.affiliation) ?
+                                <div className="commentPosition">{this.props.comment.user.position} @ {this.props.comment.user.affiliation}</div> :
+                                ""
+                            }
                             <div className="commentExpertise">{this.props.comment.user_expertise}</div>
                             <div className="commentType">{this.props.comment.comment_type}</div>
                             <p className="commentDate">{time_ago(this.props.comment.created_at)}</p>
