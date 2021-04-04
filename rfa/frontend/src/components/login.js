@@ -30,6 +30,7 @@ class Login extends Component {
         "JWT " + response.data.access;
       localStorage.setItem("access_token", response.data.access);
       localStorage.setItem("refresh_token", response.data.refresh);
+      localStorage.setItem("username", this.state.username);
       this.toUserPage();
       return response;
     } catch (error) {

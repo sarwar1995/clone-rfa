@@ -1,6 +1,7 @@
 :root{
-  --primary-color: #2fafd6;
-  --primary-color-dark: #2894b4;
+  --primary-color: #094DA0;
+  --primary-color-dark: #074085;
+  --secondary-color: #F4A582;
 }
 
 .site {
@@ -153,8 +154,14 @@ text-align: right;
 background-color: var(--primary-color);
 }
 
-#logo {
-font-size: 60px;
+.logo {
+  margin: 5px;
+  margin-left: 30px;
+  height: 70px;
+}
+
+.searchForm{
+  margin-top: 12px;
 }
 
 .searchBar {
@@ -173,6 +180,18 @@ outline: none;
 color: white;
 }
 
+.accountInfo{
+  margin-top: 15px;
+}
+
+.navbarProfileIcon{
+  margin-right: 5px;
+}
+
+.logoutButton{
+  margin-top: 2px;
+}
+
 .navbarLogo {
 color: white;
 margin-left: 20px;
@@ -182,7 +201,7 @@ padding: 10px;
 
 .column {
   float: left;
-  padding: 10px;
+  padding: 4px;
 }
 
 .left {
@@ -328,20 +347,16 @@ select{
   border-radius: 3px;
 }
 
-.profileIcon{
-  width: 35px;
-  height: 35px;
-  margin-right:12px;
-  display: inline-block;
-  color: var(--primary-color);
+.userIcon{
+  margin-right: 12px;
 }
 
 .commentUsername{
   display: inline-block;
-  font-size: 20px;
+  font-size: 23px;
   font-weight: bold;
   color: var(--primary-color);
-  margin-right: 10px;
+  margin-right: 8px;
 }
 
 .commentExpertise{
@@ -367,6 +382,12 @@ select{
   border-color: var(--primary-color);
   color: var(--primary-color);
   opacity: 60%;
+}
+
+.commentPosition{
+  display: inline-block;
+  color: var(--secondary-color);
+  margin-right: 22px;
 }
 
 .commentDate{
