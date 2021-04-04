@@ -49,7 +49,7 @@ class Login extends Component {
       );
     } else {
       return (
-        <div class = 'purpleBox'>
+        <div className = 'purpleBox'>
           Login
           <form onSubmit={this.handleSubmit}>
             <label>
