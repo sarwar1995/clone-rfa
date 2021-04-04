@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import axiosInstance from "../axiosApi";
 import { Switch, Route, Link, useHistory, Redirect } from "react-router-dom";
 
-
 class Signup extends Component {
   constructor(props) {
     super(props);
@@ -63,21 +62,9 @@ class Signup extends Component {
 
   render() {
     return (
-      <div class="row">
-        <div className="col">
-          <h1 className="RFA left">Research</h1>
-          <h1 className="RFA left">For</h1>
-          <h1 className="RFA left">All</h1>
-          <p className="RFAdescript left">
-            Share review, questions and insights about research papers.
-          </p>
-        </div>
-        <div className="purpleBox">
-          {/* <h1 className="display-4 text-left">Signup for Research For All</h1> */}
-          <form onSubmit={this.handleSubmit} className="signUpForm">
-            {/* <div class="form-group">
-            <div class="row">
-              <div class="col"> */}
+      <div className="whitePage loginPage">
+        <form onSubmit={this.handleSubmit} className="login">
+          <div className="form-group">
             <label for="firstname">First Name</label>
             <input
               name="firstname"
@@ -89,8 +76,8 @@ class Signup extends Component {
               placeholder="First name"
             />
             {this.state.errors.firstname ? this.state.errors.firstname : null}
-            {/* </div>
-              <div class="col"> */}
+          </div>
+          <div className="form-group">
             <label for="lastname">Last Name</label>
             <input
               name="lastname"
@@ -102,10 +89,21 @@ class Signup extends Component {
               placeholder="Last name"
             />
             {this.state.errors.lastname ? this.state.errors.lastname : null}
-            {/* </div>
-            </div>
-            <div class="row">
-              <div class="col"> */}
+          </div>
+          <div className="form-group">
+            <label for="position">Position</label>
+            <input
+              name="position"
+              id="position"
+              type="text"
+              class="form-control"
+              value={this.state.position}
+              onChange={this.handleChange}
+              placeholder="Undergraduate, Professor, Researcher, etc."
+            />
+            {this.state.errors.position ? this.state.errors.position : null}
+          </div>
+          <div className="form-group">
             <label for="affiliation">Affiliation</label>
             <input
               name="affiliation"
@@ -116,23 +114,9 @@ class Signup extends Component {
               onChange={this.handleChange}
               placeholder="Name of university, national lab, company, etc."
             />
-            {this.state.errors.affiliation
-              ? this.state.errors.affiliation
-              : null}
-            {/* </div>
-              <div class="col"> */}
-            <label for="position">Position</label>
-            <input
-              name="position"
-              id="position"
-              type="text"
-              class="form-control"
-              value={this.state.position}
-              onChange={this.handleChange}
-              placeholder="Undergraduate Student, Graduate Student, Professor, Other"
-            />
-            {this.state.errors.position ? this.state.errors.position : null}
-
+            {this.state.errors.affiliation ? this.state.errors.affiliation : null}
+          </div>
+          <div className="form-group">
             <label for="username">Username</label>
             <input
               name="username"
@@ -144,12 +128,8 @@ class Signup extends Component {
               placeholder="Username"
             />
             {this.state.errors.username ? this.state.errors.username : null}
-
-            {/* </div>
-            </div> */}
-
-            {/* <div class="row">
-              <div class="col"> */}
+          </div>
+          <div className="form-group">
             <label for="email">Email</label>
             <input
               name="email"
@@ -161,8 +141,8 @@ class Signup extends Component {
               placeholder="Email address"
             />
             {this.state.errors.email ? this.state.errors.email : null}
-            {/* </div>
-              <div class="col"> */}
+          </div>
+          <div className="form-group">
             <label for="password">Password</label>
             <input
               name="password"
@@ -174,26 +154,12 @@ class Signup extends Component {
               placeholder="Password"
             />
             {this.state.errors.password ? this.state.errors.password : null}
-            {/* </div>
-            </div>
-          </div> */}
-            <p>
-                
-            </p>
-            <button
-              type="submit"
-              class="btn btn-primary btn-block active btn-dark"
-            >
-              Sign up for RFA
-            </button>
-            <p>  </p>
-            <Link to={"/login/"}>
-              <button class="btn btn-primary btn-block active btn-dark">Back to Login</button>
+          </div>
+          <input type="submit" value="Create Account" />
+          <Link to={"/login/"}>
+            <button>Back to Login</button>
           </Link>
-          </form>
-
-
-        </div>
+        </form>
       </div>
     );
   }
