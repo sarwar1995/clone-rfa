@@ -7,7 +7,7 @@ class Paper(models.Model):
     The authors field is made a JSONfield because we can have a list of authors.
     """
     DOI = models.CharField(max_length=200, default="")
-    title = models.CharField(max_length=200, blank=True)
+    title = models.TextField(blank=True)
     authors = models.TextField(blank=True)
     year_published = models.CharField(max_length=200, default="", blank=True)
     journal = models.CharField(max_length=500, blank=True)
