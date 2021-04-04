@@ -6,6 +6,7 @@ import Signup from "./signup";
 import SearchResults from "./searchResults";
 import UserPage from "./userPage";
 import ArticlePage from "./articlePage";
+import ReadingList from "./readingList";
 class App extends Component {
   constructor() {
     super();
@@ -21,6 +22,12 @@ class App extends Component {
               path={"/user/:username"}
               render={(props) => (
                 <UserPage key={props.match.params.username} {...props} />
+              )}
+            />
+            <Route
+              path={"/readinglist/:listid"}
+              render={(props) => (
+                <ReadingList key={props.match.params.listid} {...props} />
               )}
             />
             <Route

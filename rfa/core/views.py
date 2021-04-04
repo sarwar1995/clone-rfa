@@ -16,11 +16,16 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
+from urllib.parse import unquote
 import json
 
 class GetByUsernameView(APIView):
     def get(self, request):
         username = request.query_params['username']
+        isSelf = request.query_params['isSelf']
+
+        if isSelf == 'true':
+            username = request.user
 
         try:
             userObject = CustomUser.objects.filter(username=username)
@@ -49,6 +54,10 @@ class CreateReadingList(APIView):
     def post(self, request):
         username = request.data['username']
         listname = request.data['listname']
+        isSelf = request.data['isSelf']
+
+        if isSelf == 'true':
+            username = request.user
 
         try:
             user = CustomUser.objects.get(username=username)
@@ -60,12 +69,33 @@ class CreateReadingList(APIView):
         
         return Response(status=status.HTTP_200_OK)
 
+class GetReadingList(APIView):
+    def get(self, request):
+        listid = request.query_params['listid']
+
+        try:
+            readingListObject = ReadingList.objects.get(id=listid)
+        except:
+            return Response({'Failure': 'Invalid reading list'}, status=status.HTTP_400_BAD_REQUEST)
+
+        DOI_list = json.loads(readingListObject.DOIs)['DOIs']
+        print(readingListObject.name)
+        print(readingListObject.user)
+
+        data = {
+            'dois': DOI_list,
+            'name': str(readingListObject.name),
+            'user': str(readingListObject.user),
+        }
+        
+        return Response(data=data, status=status.HTTP_200_OK)
+
 
 class EditReadingList(APIView):
-    def get(self, request):
-        listID = request.query_params['listID']
-        DOI = request.query_params['DOI']
-        action = request.query_params['action']
+    def post(self, request):
+        listID = request.data['listID']
+        DOI = request.data['DOI']
+        action = request.data['action']
 
         # Look up reading list
         try:
@@ -81,7 +111,8 @@ class EditReadingList(APIView):
         elif action == 'remove':
             # Remove DOI from appropriate list if present
             if DOI in DOIs['DOIs']:
-                DOIs['DOIs'].pop(DOI)
+                index = DOIs['DOIs'].index(DOI)
+                DOIs['DOIs'].pop(index)
         else:
             return Response({'Failure': 'Bad action'}, status=status.HTTP_400_BAD_REQUEST)
         

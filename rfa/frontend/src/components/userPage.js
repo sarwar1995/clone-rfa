@@ -26,7 +26,8 @@ class UserPage extends Component {
         try{
             let response = await axiosInstance.get('user/getByUsername/', {
                 params: {
-                    username: decodeURI(username)
+                    username: decodeURI(username),
+                    isSelf: decodeURI('false')
                 }
             });
             console.log(response);
@@ -90,14 +91,28 @@ class ReadingListPreview extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            toList: false,
+            listID: '',
+        }
+    }
+
+    toList(id) {
+        this.setState({ toList: true, listID: id });
     }
 
     render() {
+        if (this.state.toList === true) {
+            return <Redirect to={{
+                pathname: "/readinglist/" + this.state.listID + "/",
+            }} />
+        }
+
         return (
             <div className="purpleBox">
                 <div className="row 4">
-                    <div className="column middle">
-                        {this.props.data.name}
+                    <div className="column middle colorOnHover" onClick={() => this.toList(this.props.data.id)}>
+                        <p>{this.props.data.name}</p>
                         {/* Put button here to go to ReadingList page */}
                         {/* this.props.data has same fields as ReadingList model */}
                     </div>
