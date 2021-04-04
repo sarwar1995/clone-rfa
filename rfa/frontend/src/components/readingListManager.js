@@ -39,9 +39,14 @@ class readingListManager extends Component {
         this.setState({currentList: event.target.value});
     }
 
+    // Given a DOI and a list of DOI lists,
+    // update an array of whether that DOI is in each list
+    // 
+    // Ex with simpler data structures:
+    // Current DOI = 123
+    // Lists = [[123, 456], [321, 654]]
+    // Output = [true, false]
     async updatePaperInList() {
-        // Given a DOI and a list of DOI lists, 
-        // update an array of whether that DOI is in each list
         let i, rl;
         this.state.paperInList = {}
         for (i = 0; i < this.state.readingLists.length; i++) {
@@ -50,7 +55,7 @@ class readingListManager extends Component {
         }
     }
 
-    //get current user's reading lists from the backend
+    // Get current user's reading lists from the backend
     async getReadingLists() {
         this.setState({isFetchingLists: true});
         try{
@@ -71,6 +76,7 @@ class readingListManager extends Component {
         }
     }
 
+    // Add or delete DOI in the given list ID
     async editList(listID, DOI, action) {
         this.setState({isEditingLists: true});
         try{
@@ -91,7 +97,7 @@ class readingListManager extends Component {
 
     //when the page loads...
     componentDidMount() {
-        //get article data
+        //get reading list data
         this.getReadingLists();
     }
 
