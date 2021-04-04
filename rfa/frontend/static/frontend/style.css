@@ -180,6 +180,18 @@ outline: none;
 color: white;
 }
 
+.accountInfo{
+  margin-top: 15px;
+}
+
+.navbarProfileIcon{
+  margin-right: 5px;
+}
+
+.logoutButton{
+  margin-top: 2px;
+}
+
 .navbarLogo {
 color: white;
 margin-left: 20px;
