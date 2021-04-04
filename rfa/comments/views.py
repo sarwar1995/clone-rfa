@@ -123,11 +123,17 @@ class CreateReplyView(generics.CreateAPIView):
 
     def create(self, request):
         #Get the currently logged in user. This returns an instance of Django AUTH_USER_MODEL
-        user = request.user
+        request_user = request.user
         #Getting the data from the post request by frontend    
         post_data = request.data['data']
         comment_id = post_data['comment_id']
         anonymity = False if (post_data['isAnonymous'] == "public") else True
+        
+        if anonymity:
+            user, created = CustomUser.objects.get_or_create(username='Anonymous')
+        else:
+            user = request_user
+            
         try:
             comment = Comment.objects.get(id=comment_id)
         except ObjectDoesNotExist:
