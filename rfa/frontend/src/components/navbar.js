@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axiosInstance from "../axiosApi";
 import { Switch, Route, Link, useHistory } from "react-router-dom";
-
+import whiteLogo from '../white_logo.png';
 
 class Navbar extends Component {
     constructor(props) {
@@ -41,7 +41,7 @@ class Navbar extends Component {
             <div id="header">
                 <div className="row">
                     <div className="column left">
-                        <h2 className="navbarLogo">RFA</h2>
+                        <img src={whiteLogo} className="logo"/>
                     </div>
                     <div className="column middle">
                         <form onSubmit={this.handleSearch} className="searchForm">
