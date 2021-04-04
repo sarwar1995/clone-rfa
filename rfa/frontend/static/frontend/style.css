@@ -1,6 +1,7 @@
 :root{
   --primary-color: #094DA0;
   --primary-color-dark: #074085;
+  --secondary-color: #F4A582;
 }
 
 .site {
@@ -334,20 +335,16 @@ select{
   border-radius: 3px;
 }
 
-.profileIcon{
-  width: 35px;
-  height: 35px;
-  margin-right:12px;
-  display: inline-block;
-  color: var(--primary-color);
+.userIcon{
+  margin-right: 12px;
 }
 
 .commentUsername{
   display: inline-block;
-  font-size: 20px;
+  font-size: 23px;
   font-weight: bold;
   color: var(--primary-color);
-  margin-right: 10px;
+  margin-right: 8px;
 }
 
 .commentExpertise{
@@ -373,6 +370,12 @@ select{
   border-color: var(--primary-color);
   color: var(--primary-color);
   opacity: 60%;
+}
+
+.commentPosition{
+  display: inline-block;
+  color: var(--secondary-color);
+  margin-right: 22px;
 }
 
 .commentDate{
