@@ -150,14 +150,14 @@ class readingListManager extends Component {
 
     render() {
         return (
-            <div id="header">
-                <div className="row">
-                    <div className="column md">
+            <div className="readingListManager">
+                <div>
+                    <div>
                         {this.state.isFetchingLists ? "Fetching lists..." : ""}
                         {this.state.readingLists ?
                             <div>
-                                <label for="listnames">
-                                    <h5>Choose a list:</h5>
+                                <label for="listnames" className="listLabel">
+                                    Choose a list: 
                                 </label>
                                 <select id="listnames" name="listnames" onChange={this.updateSelectedList}>
                                     <option value='0' key='0'>
@@ -173,25 +173,25 @@ class readingListManager extends Component {
                                     "Editing lists..."
                                     :
                                     this.state.paperInList[this.state.currentList] ?
-                                        <button onClick={() => this.editList(this.state.currentList, this.props.DOI, 'remove')}>
+                                        <button className="readingListButton" onClick={() => this.editList(this.state.currentList, this.props.DOI, 'remove')}>
                                             Remove Paper
                                         </button>
                                         : 
-                                        <button onClick={() => this.editList(this.state.currentList, this.props.DOI, 'add')}>
+                                        <button className="readingListButton" onClick={() => this.editList(this.state.currentList, this.props.DOI, 'add')}>
                                             Add Paper
                                         </button>
                                     }
                                 {this.state.isCreatingList ?
                                     "Creating list..."
                                     :
-                                    <button onClick={() => this.createList()}>
+                                    <button className="readingListButton" onClick={() => this.createList()}>
                                         Create Reading List
                                     </button>
                                     }
                                 {this.state.isDeletingList ?
                                     "Deleting list..."
                                     :
-                                    <button onClick={() => this.deleteList(this.state.currentList)}>
+                                    <button className="readingListButton" onClick={() => this.deleteList(this.state.currentList)}>
                                         Delete Reading List
                                     </button>
                                     }
