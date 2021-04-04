@@ -41,7 +41,7 @@ class UserPage extends Component {
     // Create list of components
     generateListOfReadingLists(reading_lists){
         let readingListItems = reading_lists.map((rl) =>
-            <ReadingListPreview key={rl['name']} data={rl}/>
+            <ReadingListPreview key={rl.name} data={rl}/>
         );
         return readingListItems;
     }
