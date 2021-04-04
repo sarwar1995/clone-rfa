@@ -59,8 +59,7 @@ button{
   background-color: var(--primary-color);
   border: none;
   color: white;
-  border-radius: 10px;
-  font-family: 'Montserrat';
+  border-radius: 3px !important;
   padding: 10px;
   transition-duration: 0.3s;
   cursor: pointer;
@@ -98,7 +97,7 @@ input[type=submit]{
   background-color: var(--primary-color);
   border: none;
   color: white;
-  border-radius: 10px;
+  border-radius: 4px;
   font-family: 'Montserrat';
   padding: 10px;
   transition-duration: 0.3s;
@@ -464,3 +463,35 @@ select{
   height: 50px;
 }
 
+.login{
+  border-color: var(--primary-color);
+  background-color: white;
+  border-radius: 10px;
+  border-style: solid;
+  max-width: 600px;
+  padding: 15px;
+  display: block;
+  text-align: left;
+  margin:auto;
+  margin-bottom: 10px;
+}
+
+.mainLogo{
+  margin-top: 5vh;
+  margin-bottom: 10px;
+  width: 250px;
+}
+
+.subtitle{
+  margin-bottom: 35px;
+}
+
+.whitePage{
+  background-color: white;
+  width: 100vw;
+  height: 100vh;
+}
+
+.loginPage{
+  text-align: center;
+}
