@@ -109,7 +109,9 @@ class readingListManager extends Component {
                         {this.state.isFetchingLists ? "Fetching lists..." : ""}
                         {this.state.readingLists ?
                             <div>
-                                <label for="listnames">Choose a list:</label>
+                                <label for="listnames">
+                                    <h5>Choose a list:</h5>
+                                </label>
                                 <select id="listnames" name="listnames" onChange={this.updateSelectedList}>
                                     <option value='0' key='0'>
                                             --------
@@ -120,20 +122,21 @@ class readingListManager extends Component {
                                         </option>
                                     )}
                                 </select>
+                                {this.state.isEditingLists ?
+                                    "Editing lists..."
+                                    :
+                                    this.state.paperInList[this.state.currentList] ?
+                                        <button onClick={() => this.editList(this.state.currentList, this.props.DOI, 'remove')}>
+                                            Remove Paper
+                                        </button>
+                                        : 
+                                        <button onClick={() => this.editList(this.state.currentList, this.props.DOI, 'add')}>
+                                            Add Paper
+                                        </button>
+                                    }
                             </div>
                             : ""}
-                        {this.state.isEditingLists ?
-                            "Editing lists..."
-                            :
-                            this.state.readingLists && this.state.paperInList[this.state.currentList] ?
-                                <button onClick={() => this.editList(this.state.currentList, this.props.DOI, 'remove')}>
-                                    Remove Paper
-                                </button>
-                                : 
-                                <button onClick={() => this.editList(this.state.currentList, this.props.DOI, 'add')}>
-                                    Add Paper
-                                </button>
-                            }
+                        
                     </div>
                 </div>
             </div>
