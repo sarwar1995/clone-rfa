@@ -17,19 +17,24 @@ Ensure that the version for djangorestframework-simplejwt is 4.6.0 and for pyjwt
 
 All commands below are given assuming you are in the outer research-for-all directory.
 
-##External Dependencies
+## External Dependencies
 
 For authentication and sending email
-'boto3 --> version 1.17.36'
-'django-ses --> version 1.0.3'
-'six --> version 1.15.0'
+`boto3 --> version 1.17.36`
+`django-ses --> version 1.0.3`
+`six --> version 1.15.0`
 
 For RichText comments:
-'django-richtextfield --> version 1.6' ==> 'pip install django-richtextfield'
+`django-richtextfield --> version 1.6` ==> `pip install django-richtextfield`
 
 Other npm packages:
-'npm install resolve-url-loader --save-dev'
+`npm install resolve-url-loader --save-dev`
 
+## Testing
+Install pytest-django `pip install pytest-django` or `pipenv install pytest-django`
+Install factory_boy `pip install factory_boy` version 3.2.0
+
+## Compiling and Running
 To compile changes to the React code, run:
 
 `npm run build`
