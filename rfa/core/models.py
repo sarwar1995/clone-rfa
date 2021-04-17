@@ -10,9 +10,6 @@ class CustomUser(AbstractUser):
     position = models.CharField(blank=True, max_length=120)
     is_active = models.BooleanField(default=False)
 
-    def AddComment(self, validated_data):
-        self.comment_set.create(paper = validated_data["paper"], comment_text = validated_data["comment_text"], created_date = validated_data["created_date"], isAnonymous = validated_data["isAnonymous"], paper_section = validated_data["paper_section"], comment_type = validated_data["comment_type"], user_expertise = validated_data["user_expertise"])
-
 class ReadingList(models.Model):
     name = models.CharField(max_length=120, default='Reading List')
     is_public = models.BooleanField(default=True)
