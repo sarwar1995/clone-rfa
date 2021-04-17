@@ -30,14 +30,10 @@ For RichText comments:
 Other npm packages:
 `npm install resolve-url-loader --save-dev`
 
-tinymce-mathjax:
-`npm i @dimakorotkov/tinymce-mathjax --save`
-
-Mathjax:
-`npm i mathjax --save`
-
 ### Note: 
-For Mathjax plugin to work it needs to be served from `/static/frontend/public/`, so you will notice that there are two new folders in public called `mathjax` and `@dimakorotkov`. These are basically the same folders copied from node_modules after installing the two packages. 
+There are two other external dependencies (tinymce-mathjax: `npm i @dimakorotkov/tinymce-mathjax --save` and Mathjax: `npm i mathjax --save`). However, tinymce-mathjax and Mathjax are already in the branch so you don't need to install them on your local machine.
+
+For Mathjax plugin to work it needs to be served from `/static/frontend/public/`, so you will notice that there are two new folders in public called `mathjax` and `@dimakorotkov`. These are basically the same folders copied from node_modules after the two packages were locally installed.
 
 ## Testing
 Install pytest-django `pip install pytest-django` or `pipenv install pytest-django`
