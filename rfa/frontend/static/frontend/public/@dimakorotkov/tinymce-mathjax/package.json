@@ -1,0 +1,52 @@
+{
+  "_from": "@dimakorotkov/tinymce-mathjax",
+  "_id": "@dimakorotkov/tinymce-mathjax@1.0.7",
+  "_inBundle": false,
+  "_integrity": "sha512-teWNaKSOKzhSR9qfWiu6C/7T1OA0raA/dvkDPpafM6jF00PTx8diaeRLd5N/aS49T/20+tI9tU92on6RluE+Og==",
+  "_location": "/@dimakorotkov/tinymce-mathjax",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "@dimakorotkov/tinymce-mathjax",
+    "name": "@dimakorotkov/tinymce-mathjax",
+    "escapedName": "@dimakorotkov%2ftinymce-mathjax",
+    "scope": "@dimakorotkov",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@dimakorotkov/tinymce-mathjax/-/tinymce-mathjax-1.0.7.tgz",
+  "_shasum": "fafd026a9debb3c0eaf24316d0885b1949968bc8",
+  "_spec": "@dimakorotkov/tinymce-mathjax",
+  "_where": "/Users/sarwarhussain/Documents/Yale Sem/Yale Sem 8/Software_Engineering/research-for-all",
+  "author": {
+    "name": "Dmitriy Korotkov"
+  },
+  "bugs": {
+    "url": "https://github.com/dimakorotkov/tinymce-mathjax/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Plugin using MathJax library for rendering math font",
+  "homepage": "https://github.com/dimakorotkov/tinymce-mathjax#readme",
+  "keywords": [
+    "tinymce",
+    "mathjax"
+  ],
+  "license": "MIT",
+  "main": "plugin.js",
+  "name": "@dimakorotkov/tinymce-mathjax",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dimakorotkov/tinymce-mathjax.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.7"
+}

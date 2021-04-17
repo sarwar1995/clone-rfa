@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route, Link, useHistory } from "react-router-dom";
 import axiosInstance from "../axiosApi";
 import { Editor } from "@tinymce/tinymce-react";
+import MathJaxPlugin from "@dimakorotkov/tinymce-mathjax/plugin";
 
 class CommentForm extends Component {
   constructor(props) {
@@ -123,6 +124,27 @@ class CommentForm extends Component {
           init={{
             height: 200,
             menubar: false,
+            plugins: [
+              "advlist autolink lists link image charmap print preview anchor",
+              "searchreplace visualblocks code fullscreen",
+              "insertdatetime media table paste code help wordcount",
+            ],
+            external_plugins: {
+              mathjax:
+                "/static/frontend/public/@dimakorotkov/tinymce-mathjax/plugin.min.js",
+            },
+            toolbar:
+              "undo redo | formatselect | bold italic backcolor | \
+            alignleft aligncenter alignright alignjustify | \
+            bullist numlist outdent indent | removeformat | help | mathjax",
+
+            mathjax: {
+              lib: "/static/frontend/public/mathjax/es5/tex-mml-chtml.js", //required path to mathjax
+              symbols: { start: "\\(", end: "\\)" }, //optional: mathjax symbols
+              className: "math-tex", //optional: mathjax element class
+              configUrl:
+                "/static/frontend/public/@dimakorotkov/tinymce-mathjax/config.js", //optional: mathjax config js
+            },
           }}
           onEditorChange={this.handleChange}
         />
