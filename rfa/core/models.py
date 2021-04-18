@@ -9,6 +9,8 @@ class CustomUser(AbstractUser):
     affiliation = models.CharField(blank=True, max_length=120)
     position = models.CharField(blank=True, max_length=120)
     is_active = models.BooleanField(default=False)
+    votes = models.IntegerField(default = 10)
+    vote_reset = models.DateTimeField(auto_now_add=True)
 
 class ReadingList(models.Model):
     name = models.CharField(max_length=120, default='Reading List')
