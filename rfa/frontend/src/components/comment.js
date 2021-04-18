@@ -36,7 +36,8 @@ class Comment extends Component {
             }
             this.setState({});
         } catch (error) {
-            console.log(error);
+            alert(error.response.data);
+            console.log(error.response);
             throw error;
         }
     }
