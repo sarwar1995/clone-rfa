@@ -6,7 +6,10 @@ import upvoteClicked from "../plus_clicked.png";
 import downvote from "../minus.png";
 import downvoteClicked from "../minus_clicked.png";
 import time_ago from '../timeAgo';
-import { Initial } from 'react-initial'
+import { Initial } from 'react-initial';
+import parseMath from "../parseMath";
+import Latex from 'react-latex';
+import JsxParser from 'react-jsx-parser';
 
 
 class Reply extends Component {
@@ -49,7 +52,10 @@ class Reply extends Component {
             <p className="commentDate">{time_ago(this.props.reply.created_at)}</p>
           </div>
         </div>
-        <div className="commentText" dangerouslySetInnerHTML={{ __html: this.props.reply.reply_text }} />
+        <JsxParser
+          components={{ Latex }}
+          jsx={parseMath(this.props.reply.reply_text)}
+        />
         <div className="commentInteractions">
           <div className="voteBox">
             <img className="upvote lineItem" onClick={() => this.vote(true)} src={upvote} />

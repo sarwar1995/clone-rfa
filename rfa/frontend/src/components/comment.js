@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import axiosInstance from "../axiosApi";
 import profileIcon from "../profile_icon.png";
 import upvote from "../plus.png";
-import upvoteClicked from "../plus_clicked.png";
 import downvote from "../minus.png";
-import downvoteClicked from "../minus_clicked.png";
 import Reply from './reply';
 import ReplyForm from './replyForm';
 import time_ago from '../timeAgo';
-import { Initial } from 'react-initial'
+import { Initial } from 'react-initial';
+import parseMath from "../parseMath";
+import Latex from 'react-latex';
+import JsxParser from 'react-jsx-parser';
 
 
 class Comment extends Component {
@@ -40,8 +41,8 @@ class Comment extends Component {
         }
     }
 
-    toggleReply(){
-        this.setState({replying: !this.state.replying});
+    toggleReply() {
+        this.setState({ replying: !this.state.replying });
     }
 
     render() {
@@ -49,7 +50,7 @@ class Comment extends Component {
             <div>
                 <div className="commentDiv">
                     <div className="commentTitleDiv">
-                        <Initial name={this.props.comment.user.username} className="userIcon" color="#094DA0" height={35} width={35} radius={10} fontSize={30}/>
+                        <Initial name={this.props.comment.user.username} className="userIcon" color="#094DA0" height={35} width={35} radius={10} fontSize={30} />
                         <div className="commentUsernameDiv">
                             <p className="commentUsername">{this.props.comment.user.username}</p>
                             {(this.props.comment.user.position && this.props.comment.user.affiliation) ?
@@ -61,7 +62,10 @@ class Comment extends Component {
                             <p className="commentDate">{time_ago(this.props.comment.created_at)}</p>
                         </div>
                     </div>
-                    <div className="commentText" dangerouslySetInnerHTML={{ __html: this.props.comment.comment_text }} />
+                    <JsxParser
+                        components={{ Latex }}
+                        jsx={parseMath(this.props.comment.comment_text)}
+                    />
                     <div className="commentInteractions">
                         <div className="voteBox">
                             <img className="upvote lineItem" onClick={() => this.vote(true)} src={upvote} />
@@ -78,7 +82,7 @@ class Comment extends Component {
                         <ReplyForm commentId={this.props.comment.id} getComments={() => {
                             this.toggleReply();
                             this.props.getComments();
-                        }}/> :
+                        }} /> :
                         ""
                     }
                 </div>

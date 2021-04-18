@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Switch, Route, Link, useHistory } from "react-router-dom";
 import axiosInstance from "../axiosApi";
 import { Editor } from "@tinymce/tinymce-react";
-import MathJaxPlugin from "@dimakorotkov/tinymce-mathjax/plugin";
 
 class CommentForm extends Component {
   constructor(props) {
