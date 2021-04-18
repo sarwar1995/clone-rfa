@@ -47,7 +47,7 @@ class VoteCommentView(APIView):
 
         #check if user has votes
         if not validate_user(request.user):
-            return Response(data="Out out votes for today. Try again in 24 hours!", status=status.HTTP_400_BAD_REQUEST)
+            return Response(data="Out of votes for today. Try again in 24 hours!", status=status.HTTP_400_BAD_REQUEST)
 
         #UNVOTE -- remove my vote, whatever it is, if I've voted -- not implemented for MVP
         if polarity == None:
@@ -79,7 +79,7 @@ class VoteReplyView(APIView):
 
         #check if user has votes
         if not validate_user(request.user):
-            return Response(data="Out out votes for today. Try again in 24 hours!", status=status.HTTP_400_BAD_REQUEST)
+            return Response(data="Out of votes for today. Try again in 24 hours!", status=status.HTTP_400_BAD_REQUEST)
 
         #UNVOTE -- remove my vote, whatever it is, if I've voted -- not implemented for MVP
         if polarity == None:
