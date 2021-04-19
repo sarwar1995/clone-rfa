@@ -161,7 +161,7 @@ class readingListManager extends Component {
                         {this.state.readingLists ?
                             <div>
                                 <label for="listnames" className="listLabel">
-                                    Choose a list: 
+                                    Choose a reading list: 
                                 </label>
                                 <select id="listnames" name="listnames" onChange={this.updateSelectedList}>
                                     <option value='0' key='0'>
@@ -173,32 +173,34 @@ class readingListManager extends Component {
                                         </option>
                                     )}
                                 </select>
-                                {this.state.isEditingLists ?
-                                    "Editing lists..."
-                                    :
-                                    this.state.paperInList[this.state.currentList] ?
-                                        <button className="readingListButton" onClick={() => this.editList(this.state.currentList, this.props.DOI, 'remove')}>
-                                            Remove Paper
+                                {this.props.displayAddRemove ?
+                                    this.state.isEditingLists ?
+                                        "Editing lists..."
+                                        :
+                                        this.state.paperInList[this.state.currentList] ?
+                                            <button className="readingListButton" onClick={() => this.editList(this.state.currentList, this.props.DOI, 'remove')}>
+                                                Remove Paper
+                                            </button>
+                                            : 
+                                            <button className="readingListButton" onClick={() => this.editList(this.state.currentList, this.props.DOI, 'add')}>
+                                                Add Paper
+                                            </button> : ""}
+                                {this.props.displayCreateDelete ?
+                                    this.state.isCreatingList ?
+                                        "Creating list..."
+                                        :
+                                        <button className="readingListButton" onClick={() => this.createList()}>
+                                            Create Reading List
                                         </button>
-                                        : 
-                                        <button className="readingListButton" onClick={() => this.editList(this.state.currentList, this.props.DOI, 'add')}>
-                                            Add Paper
+                                    : ""}
+                                {this.props.displayCreateDelete ?
+                                    this.state.isDeletingList ?
+                                        "Deleting list..."
+                                        :
+                                        <button className="readingListButton" onClick={() => this.deleteList(this.state.currentList)}>
+                                            Delete Reading List
                                         </button>
-                                    }
-                                {this.state.isCreatingList ?
-                                    "Creating list..."
-                                    :
-                                    <button className="readingListButton" onClick={() => this.createList()}>
-                                        Create Reading List
-                                    </button>
-                                    }
-                                {this.state.isDeletingList ?
-                                    "Deleting list..."
-                                    :
-                                    <button className="readingListButton" onClick={() => this.deleteList(this.state.currentList)}>
-                                        Delete Reading List
-                                    </button>
-                                    }
+                                    : ""}
                             </div>
                             : ""}
                         
