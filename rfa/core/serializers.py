@@ -32,7 +32,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ('first_name', 'last_name', 'affiliation',
-                  'position', 'email', 'username', 'password')
+                  'position', 'email', 'username', 'password', 'votes', 'vote_reset')
         extra_kwargs = {'password': {'write_only': True}}
 
     def validate_username(self, value):

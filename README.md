@@ -30,9 +30,17 @@ For RichText comments:
 Other npm packages:
 `npm install resolve-url-loader --save-dev`
 
+### Note: 
+There are two other external dependencies (tinymce-mathjax: `npm i @dimakorotkov/tinymce-mathjax --save` and Mathjax: `npm i mathjax --save`). However, tinymce-mathjax and Mathjax are already in the branch so you don't need to install them on your local machine.
+
+For Mathjax plugin to work it needs to be served from `/static/frontend/public/`, so you will notice that there are two new folders in public called `mathjax` and `@dimakorotkov`. These are basically the same folders copied from node_modules after the two packages were locally installed.
+
 ## Testing
 Install pytest-django `pip install pytest-django` or `pipenv install pytest-django`
+
 Install factory_boy `pip install factory_boy` version 3.2.0
+
+Make sure to run `pytest` command from inside the rfa folder i.e. the folder that contains the pytest.ini configuration file. Otherwise it won't work and you might get ModuleNotFound errors for core, comments etc. modules.
 
 ## Compiling and Running
 To compile changes to the React code, run:

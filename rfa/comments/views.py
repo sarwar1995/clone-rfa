@@ -9,8 +9,27 @@ from .models import Comment, Reply
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from urllib.parse import unquote
 from django.apps import apps
+from django.utils import timezone
+from datetime import timedelta
+
 Paper = apps.get_model('papers', 'Paper')
 CustomUser = apps.get_model('core', 'CustomUser')
+
+
+#given a user, check if they have votes left in their account
+def validate_user(user):
+    if user.vote_reset < timezone.now() - timedelta(hours=24): #enough time has passed, regenerate
+        user.votes = 9 # n-1
+        user.vote_reset = timezone.now()
+        user.save()
+        return True
+    if user.votes > 0: #user has votes left
+        user.votes -= 1
+        user.save()
+        return True
+    else:
+        return False
+
 #used to upvote or downvote a comment
 class VoteCommentView(APIView):
     def post(self, request):
@@ -25,6 +44,10 @@ class VoteCommentView(APIView):
 
         if not comment:
             return Response(data="Comment does not exist", status=status.HTTP_400_BAD_REQUEST)
+
+        #check if user has votes
+        if not validate_user(request.user):
+            return Response(data="Out of votes for today. Try again in 24 hours!", status=status.HTTP_400_BAD_REQUEST)
 
         #UNVOTE -- remove my vote, whatever it is, if I've voted -- not implemented for MVP
         if polarity == None:
@@ -53,6 +76,10 @@ class VoteReplyView(APIView):
 
         if not reply:
             return Response(data="Reply does not exist", status=status.HTTP_400_BAD_REQUEST)
+
+        #check if user has votes
+        if not validate_user(request.user):
+            return Response(data="Out of votes for today. Try again in 24 hours!", status=status.HTTP_400_BAD_REQUEST)
 
         #UNVOTE -- remove my vote, whatever it is, if I've voted -- not implemented for MVP
         if polarity == None:
@@ -158,3 +185,19 @@ class CreateReplyView(generics.CreateAPIView):
         else:
             print(serializer.errors)
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class EditCommentView(generics.UpdateAPIView): 
+    """
+    This class is using the partial_update method of the UpdateAPIView in order to only update the comment text and 
+    edited_at field (which will be automatically updated on saving)
+    """
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all()
+
+class EditReplyView(generics.UpdateAPIView): 
+    """
+    This class is using the partial_update method of the UpdateAPIView in order to only update the comment text and 
+    edited_at field (which will be automatically updated on saving)
+    """
+    serializer_class = ReplySerializer
+    queryset = Reply.objects.all()

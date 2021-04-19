@@ -1,61 +1,60 @@
-:root{
-  --primary-color: #094DA0;
+:root {
+  --primary-color: #094da0;
   --primary-color-dark: #074085;
-  --secondary-color: #F4A582;
+  --secondary-color: #f4a582;
 }
 
 .site {
-padding: 0px;
+  padding: 0px;
 }
 
 h1.RFA {
-font-family: "Lato";
-color: #094da0;
-font-weight: lighter;
+  font-family: "Lato";
+  color: #094da0;
+  font-weight: lighter;
 }
 
 h1.RFA::first-letter {
-color: #094da0;
-font-size: 125%;
-font-weight: bold;
+  color: #094da0;
+  font-size: 125%;
+  font-weight: bold;
 }
 
 .RFAdescript {
-font-family: "Lato";
-font-size: x-large;
-font-weight: 100;
-color: #094da0;
+  font-family: "Lato";
+  font-size: x-large;
+  font-weight: 100;
+  color: #094da0;
 }
 
 .signUpForm {
-float: right;
-padding: 20px;
-max-width: 600px;
-margin: 40px auto;
-margin-right: 20px; /*what ever you want*/
+  float: right;
+  padding: 20px;
+  max-width: 600px;
+  margin: 40px auto;
+  margin-right: 20px; /*what ever you want*/
 }
 
 #landing {
-margin-top: 7%;
-width: 100%;
-text-align: center;
+  margin-top: 7%;
+  width: 100%;
+  text-align: center;
 }
 
-
-body{
+body {
   background-color: #e8e8e8 !important;
   margin: 0px;
 }
 
-h1{
+h1 {
   color: var(--primary-color);
 }
 
 h2 {
-color: #333336;
+  color: #333336;
 }
 
-button{
+button {
   background-color: var(--primary-color);
   border: none;
   color: white;
@@ -65,11 +64,11 @@ button{
   cursor: pointer;
 }
 
-button:hover{
+button:hover {
   background-color: var(--primary-color-dark);
 }
 
-.secondaryButton{
+.secondaryButton {
   background-color: white;
   border-style: solid;
   border-color: var(--primary-color);
@@ -77,23 +76,23 @@ button:hover{
   color: var(--primary-color);
 }
 
-.secondaryButton:hover{
+.secondaryButton:hover {
   background-color: var(--primary-color);
   color: white;
 }
 
-.logoutButton{
+.logoutButton {
   margin: 10px;
   display: inline-block;
 }
 
-.username{
+.username {
   color: white;
   margin-right: 15px;
   display: inline-block;
 }
 
-input[type=submit]{
+input[type="submit"] {
   background-color: var(--primary-color);
   border: none;
   color: white;
@@ -104,47 +103,47 @@ input[type=submit]{
   margin-right: 10px;
 }
 
-input[type=submit]:hover{
+input[type="submit"]:hover {
   background-color: var(--primary-color-dark);
 }
 
 h1.RFA {
-font-family: "Lato";
-color: var(--primary-color);
-font-weight: lighter;
+  font-family: "Lato";
+  color: var(--primary-color);
+  font-weight: lighter;
 }
 
 h1.RFA::first-letter {
-color: var(--primary-color);
-font-size: 125%;
-font-weight: bold;
+  color: var(--primary-color);
+  font-size: 125%;
+  font-weight: bold;
 }
 
 .RFAdescript {
-font-family: "Lato";
-font-size: x-large;
-font-weight: 100;
-color: var(--primary-color);
+  font-family: "Lato";
+  font-size: x-large;
+  font-weight: 100;
+  color: var(--primary-color);
 }
 
 .signUpForm {
-float: right;
-padding: 20px;
-max-width: 600px;
-margin: 40px auto;
-margin-right: 20px; /*what ever you want*/
+  float: right;
+  padding: 20px;
+  max-width: 600px;
+  margin: 40px auto;
+  margin-right: 20px; /*what ever you want*/
 }
 
 #landing {
-margin-top: 7%;
-width: 100%;
-text-align: center;
+  margin-top: 7%;
+  width: 100%;
+  text-align: center;
 }
 
 #header {
-width: 100%;
-text-align: right;
-background-color: var(--primary-color);
+  width: 100%;
+  text-align: right;
+  background-color: var(--primary-color);
 }
 
 .logo {
@@ -153,43 +152,43 @@ background-color: var(--primary-color);
   height: 70px;
 }
 
-.searchForm{
+.searchForm {
   margin-top: 12px;
 }
 
 .searchBar {
-font-family: "Montserrat";
-font-size: 14px;
-height: 26px;
-margin: 15px;
-width: 80%;
-padding-left: 10px;
-border-radius: 15px;
-border: none;
-outline: none;
+  font-family: "Montserrat";
+  font-size: 14px;
+  height: 26px;
+  margin: 15px;
+  width: 80%;
+  padding-left: 10px;
+  border-radius: 15px;
+  border: none;
+  outline: none;
 }
 
 .navbarIcon {
-color: white;
+  color: white;
 }
 
-.accountInfo{
+.accountInfo {
   margin-top: 15px;
 }
 
-.navbarProfileIcon{
+.navbarProfileIcon {
   margin-right: 5px;
 }
 
-.logoutButton{
+.logoutButton {
   margin-top: 2px;
 }
 
 .navbarLogo {
-color: white;
-margin-left: 20px;
-margin: 10px;
-padding: 10px;
+  color: white;
+  margin-left: 20px;
+  margin: 10px;
+  padding: 10px;
 }
 
 .column {
@@ -201,35 +200,36 @@ padding: 10px;
   width: 15%;
 }
 
-.right{
-    width: 25%;
+.right {
+  width: 25%;
 }
 
-.left{
-    text-align: left;
+.left {
+  text-align: left;
 }
 
-.right{
-    text-align: right;
+.right {
+  text-align: right;
 }
 
 .middle {
   width: 50%;
 }
 
-.left-body, .right-body {
+.left-body,
+.right-body {
   width: 13%;
 }
 
-.left-body{
-    text-align: left;
+.left-body {
+  text-align: left;
 }
 
-.right-body{
-    text-align: right;
+.right-body {
+  text-align: right;
 }
 
-.middle-body{
+.middle-body {
   width: 70%;
 }
 
@@ -239,8 +239,8 @@ padding: 10px;
   clear: both;
 }
 
-
-.paperReference, .purpleBox{
+.paperReference,
+.purpleBox {
   border-color: var(--primary-color);
   background-color: white;
   border-radius: 10px;
@@ -254,79 +254,78 @@ padding: 10px;
   cursor: pointer;
 }
 
-
-.abstract{
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    font-size: 12px;
+.abstract {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 12px;
 }
 
-.paperReference:hover{
-  color:var(--primary-color);
+.paperReference:hover {
+  color: var(--primary-color);
 }
 
 .colorOnHover:hover {
-  color:var(--primary-color);
+  color: var(--primary-color);
 }
 
-.articleDetail{
+.articleDetail {
   background-color: white;
   padding: 20px;
   margin: 15px;
 }
 
-.commentForm{
+.commentForm {
   background-color: white;
   padding: 20px;
   margin: 15px;
 }
 
-.commentsList{
+.commentsList {
   background-color: white;
   margin: 15px;
 }
 
-.commentCategoryButton{
+.commentCategoryButton {
   display: inline-block;
   margin: 10px;
 }
 
-.commentsHeader{
+.commentsHeader {
   border-color: var(--primary-color);
   border-style: solid;
 }
 
-.clickedFilter{
+.clickedFilter {
   background-color: var(--primary-color);
-  color:white;
+  color: white;
   border-style: solid;
   border-width: 2px;
   border-color: var(--primary-color);
 }
 
-.optionsDiv{
+.optionsDiv {
   margin-bottom: 10px;
 }
 
-.commentOptionDiv{
+.commentOptionDiv {
   display: inline-block;
   margin-right: 15px;
 }
 
-.commentOptionLabel{
+.commentOptionLabel {
   margin-right: 7px;
   font-size: 14px;
 }
 
-select{
-  border:0px;
- outline:0px;
- color: var(--primary-color);
+select {
+  border: 0px;
+  outline: 0px;
+  color: var(--primary-color);
   font-weight: bold;
 }
 
-.commentDiv{
+.commentDiv {
   border-style: solid;
   border-width: 2px;
   border-color: var(--primary-color);
@@ -335,7 +334,7 @@ select{
   border-radius: 3px;
 }
 
-.replyDiv{
+.replyDiv {
   border-style: solid;
   border-width: 2px;
   border-color: rgb(170, 170, 170);
@@ -344,11 +343,11 @@ select{
   border-radius: 3px;
 }
 
-.userIcon{
+.userIcon {
   margin-right: 12px;
 }
 
-.commentUsername{
+.commentUsername {
   display: inline-block;
   font-size: 23px;
   font-weight: bold;
@@ -356,7 +355,7 @@ select{
   margin-right: 8px;
 }
 
-.commentExpertise{
+.commentExpertise {
   display: inline-block;
   margin-right: 10px;
   border-style: solid;
@@ -368,7 +367,7 @@ select{
   opacity: 60%;
 }
 
-.commentType{
+.commentType {
   display: inline-block;
   margin-right: 10px;
   border-style: solid;
@@ -381,35 +380,35 @@ select{
   opacity: 60%;
 }
 
-.commentPosition{
+.commentPosition {
   display: inline-block;
   color: var(--secondary-color);
   margin-right: 22px;
 }
 
-.commentDate{
+.commentDate {
   display: inline-block;
-  margin-right:10px;
+  margin-right: 10px;
   opacity: 60%;
 }
 
-.commentUsernameDiv{
+.commentUsernameDiv {
   display: inline-block;
 }
 
-.commentText{
+.commentText {
   margin-left: 50px;
 }
 
-.commentInteractions{
+.commentInteractions {
   margin-left: 50px;
 }
 
-.lineItem{
+.lineItem {
   display: inline-block;
 }
 
-.voteBox{
+.voteBox {
   display: inline-block;
   margin-right: 20px;
   border-radius: 5px;
@@ -419,30 +418,32 @@ select{
   padding: 10px;
 }
 
-.upvote, .downvote{
+.upvote,
+.downvote {
   width: 18px;
   cursor: pointer;
   transition-duration: 0.2s;
 }
 
-.upvote:hover, .downvote:hover{
+.upvote:hover,
+.downvote:hover {
   opacity: 50%;
 }
 
-.upvote{
+.upvote {
   margin-right: 10px;
 }
 
-.voteCount{
+.voteCount {
   margin-right: 10px;
   margin-bottom: 0px;
 }
 
-.repliesDiv{
+.repliesDiv {
   margin-left: 70px;
 }
 
-.replyForm{
+.replyForm {
   margin-top: 10px;
   padding: 10px;
   border-style: solid;
@@ -452,16 +453,22 @@ select{
   color: var(--primary-color);
 }
 
-.noComments{
-  margin: 20px;
-  text-align: center;  
+.editButton {
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
-.noCommentsDiv{
+.noComments {
+  margin: 20px;
+  text-align: center;
+}
+
+.noCommentsDiv {
   height: 50px;
 }
 
-.login{
+.login {
   border-color: var(--primary-color);
   background-color: white;
   border-radius: 10px;
@@ -470,25 +477,25 @@ select{
   padding: 15px;
   display: block;
   text-align: left;
-  margin:auto;
+  margin: auto;
   margin-bottom: 10px;
 }
 
-.mainLogo{
+.mainLogo {
   margin-top: 5vh;
   margin-bottom: 10px;
   width: 100px;
 }
 
-.maintitle{
+.maintitle {
   color: var(--primary-color);
 }
 
-.subtitle{
+.subtitle {
   margin-bottom: 35px;
 }
 
-.whitePage{
+.whitePage {
   background-color: white;
   width: 100vw;
   min-height: 100vh;
@@ -496,23 +503,27 @@ select{
   padding: 20px;
 }
 
-.loginPage{
+.loginPage {
   text-align: center;
 }
 
-.readingListManager{
+.readingListManager {
   background-color: var(--primary-color);
   padding: 10px;
   margin: 15px;
 }
 
-.listLabel{
+.listLabel {
   color: white;
   margin-right: 10px;
 }
 
-.readingListButton{
+.readingListButton {
   margin: 10px;
   border-style: solid;
   border-color: white;
+}
+
+.readingListIcon {
+  width: 50px;
 }

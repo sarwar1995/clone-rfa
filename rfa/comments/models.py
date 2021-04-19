@@ -4,6 +4,7 @@ from django.apps import apps
 from djrichtextfield.models import RichTextField
 from django.utils.translation import gettext as _
 from datetime import datetime
+from django.utils import timezone
 # django.setup()
 # Paper = apps.get_model('papers', 'Paper')
 # User = apps.get_model('core', 'CustomUser')
@@ -34,6 +35,7 @@ class Comment(models.Model):
     comment_text = RichTextField()
     # Should consider adding a modified_date here when we want to add the functionality to edit comments by a user.
     created_at = models.DateTimeField(auto_now_add=True)
+    edited_at = models.DateTimeField(auto_now = True) #This will be automatically updated everytime model.save is called.
     isAnonymous = models.BooleanField(default = False)
     votes = models.IntegerField(default = 0)
     class PaperSection (models.TextChoices):
@@ -90,4 +92,5 @@ class Reply (models.Model):
     reply_text = RichTextField()
     votes = models.IntegerField(default = 0)
     created_at = models.DateTimeField(auto_now_add=True)
+    edited_at = models.DateTimeField(auto_now = True) 
     isAnonymous = models.BooleanField(default = False)

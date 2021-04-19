@@ -7,7 +7,7 @@ class CommentSerializer(serializers.ModelSerializer):
     # reply = ReplySerializer()
     class Meta:
         model = Comment
-        fields = ('paper', 'user', 'comment_text', 'created_at', 'isAnonymous', 'votes',
+        fields = ('paper', 'user', 'comment_text', 'created_at', 'edited_at', 'isAnonymous', 'votes',
         'paper_section', 'comment_type', 'user_expertise', 'id') #'reply'
 
         
@@ -19,7 +19,7 @@ class CommentSerializer(serializers.ModelSerializer):
 class ReplySerializer(serializers.ModelSerializer):
     class Meta:
         model = Reply
-        fields = ('comment', 'user', 'reply_text', 'votes', 'created_at', 'isAnonymous', 'id')
+        fields = ('comment', 'user', 'reply_text', 'votes', 'created_at', 'edited_at', 'isAnonymous', 'id')
 
         
     def create(self, validated_data):
@@ -34,7 +34,7 @@ class ReplyWithCommentsSerializer(serializers.ModelSerializer):
     user = UserCheckSerializer(read_only=True)
     class Meta:
         model = Reply
-        fields = ('comment', 'user', 'reply_text', 'votes', 'created_at', 'isAnonymous', 'id')
+        fields = ('comment', 'user', 'reply_text', 'votes', 'created_at', 'edited_at', 'isAnonymous', 'id')
 
         
     def create(self, validated_data):
@@ -52,5 +52,5 @@ class CommentWithRepliesSerializer (serializers.ModelSerializer):
     user = UserCheckSerializer(read_only=True)
     class Meta:
         model = Comment
-        fields = ('paper', 'user', 'comment_text', 'created_at', 'isAnonymous', 'votes',
+        fields = ('paper', 'user', 'comment_text', 'created_at', 'edited_at', 'isAnonymous', 'votes',
         'paper_section', 'comment_type', 'user_expertise', 'id', 'replies')
