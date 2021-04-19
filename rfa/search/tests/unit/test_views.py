@@ -12,7 +12,7 @@ request = HttpRequest()
 
 @pytest.mark.django_db
 def test_general_search():
-	request.query_params = {'search_term' : 'compilers', 'max_results' : 3}
+	request.query_params = {'search_term' : 'compilers'}
 
 	response = S.get(request)
 	assert response.status_code == 200
@@ -24,7 +24,7 @@ def test_general_search():
 
 @pytest.mark.django_db
 def test_specific_paper_search():
-	request.query_params = {'search_term' : 'The motivic zeta functions of a matroid Jensen Kutler Usatine', 'max_results' : 3}
+	request.query_params = {'search_term' : 'The motivic zeta functions of a matroid Jensen Kutler Usatine'}
 
 	response = S.get(request)
 	assert response.status_code == 200
@@ -38,7 +38,7 @@ def test_specific_paper_search():
 
 @pytest.mark.django_db
 def test_doi_search():
-	request.query_params = {'search_term' : 'jlms.12386', 'max_results' : 3}
+	request.query_params = {'search_term' : 'jlms.12386'}
 
 	response = S.get(request)
 	assert response.status_code == 200
@@ -61,9 +61,20 @@ def test_doi_search():
 
 @pytest.mark.django_db
 def test_empty_search():
-	request.query_params = {'max_results' : 3}
+	request.query_params = {}
 
 	with pytest.raises(KeyError):
 		response = S.get(request)
 
+@pytest.mark.django_db
+def test_depricated_search():
+	request.query_params = {'search_term' : 'compilers', 'max_results' : 3}
+
+	response = S.get(request)
+	assert response.status_code == 200
+	assert len(response.data) > 1
+
+	assert 'DOI' in response.data[0].keys()
+	assert 'title' in response.data[0].keys()
+	assert 'authors' in response.data[0].keys()
 
