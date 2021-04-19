@@ -516,3 +516,7 @@ select{
   border-style: solid;
   border-color: white;
 }
+
+.readingListIcon{
+  width: 50px;
+}

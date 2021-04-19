@@ -130,7 +130,7 @@ class ReadingListPreview extends Component {
         <div className="row">
           <div className="column left">
             {/* TODO: Add a small icon before every reading list block. The icon is the RnD image file.*/}
-            <img src={RnD} /> 
+            <img src={RnD} className="readingListIcon"/> 
           </div>
           <div
             className="column middle colorOnHover"
