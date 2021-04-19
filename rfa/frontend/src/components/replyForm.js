@@ -98,4 +98,79 @@ class ReplyForm extends Component {
   }
 }
 
+export class EditReplyForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      content: "",
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(content, editor) {
+    this.setState({ content });
+  }
+
+  async handleSubmit(event) {
+    event.preventDefault();
+    try {
+      let response = await axiosInstance.patch(
+        "comments/reply/edit/" + this.props.replyId,
+        {
+          id: this.props.replyId,
+          reply_text: this.state.content,
+        }
+      );
+      console.log("response of patch request");
+      console.log(response);
+      this.props.getComments();
+    } catch {
+      console.log(error);
+      alert("Reply not edited!");
+    }
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit} className="replyForm">
+        <Editor
+          apiKey="qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc"
+          value={this.state.content}
+          initialValue={this.props.reply_text}
+          init={{
+            height: 200,
+            menubar: false,
+            plugins: [
+              "advlist autolink lists link image charmap print preview anchor",
+              "searchreplace visualblocks code fullscreen",
+              "insertdatetime media table paste code help wordcount",
+            ],
+            external_plugins: {
+              mathjax:
+                "/static/frontend/public/@dimakorotkov/tinymce-mathjax/plugin.min.js",
+            },
+            toolbar:
+              "undo redo | formatselect | bold italic backcolor | \
+            alignleft aligncenter alignright alignjustify | \
+            bullist numlist outdent indent | removeformat | help | mathjax",
+
+            mathjax: {
+              lib: "/static/frontend/public/mathjax/es5/tex-mml-chtml.js", //required path to mathjax
+              symbols: { start: "\\(", end: "\\)" }, //optional: mathjax symbols
+              className: "math-tex", //optional: mathjax element class
+              configUrl:
+                "/static/frontend/public/@dimakorotkov/tinymce-mathjax/config.js", //optional: mathjax config js
+            },
+          }}
+          onEditorChange={this.handleChange}
+        />
+        <br />
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+
 export default ReplyForm;

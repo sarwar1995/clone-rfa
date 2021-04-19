@@ -5,17 +5,25 @@ import upvote from "../plus.png";
 import upvoteClicked from "../plus_clicked.png";
 import downvote from "../minus.png";
 import downvoteClicked from "../minus_clicked.png";
-import time_ago from '../timeAgo';
-import { Initial } from 'react-initial';
+import time_ago from "../timeAgo";
+import { Initial } from "react-initial";
 import parseMath from "../parseMath";
-import Latex from 'react-latex';
-import JsxParser from 'react-jsx-parser';
-
+import Latex from "react-latex";
+import JsxParser from "react-jsx-parser";
+import ReplyForm, { EditReplyForm } from "./replyForm";
 
 class Reply extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    const created_date = new Date(this.props.reply.created_at);
+    const edited_date = new Date(this.props.reply.edited_at);
+
+    this.state = {
+      editing: false,
+      isEdited: created_date.valueOf() === edited_date.valueOf() ? false : true,
+    };
+    this.toggleEdit = this.toggleEdit.bind(this);
+    this.compareDates = this.compareDates.bind(this);
   }
 
   //vote on a reply
@@ -23,12 +31,11 @@ class Reply extends Component {
     try {
       const response = await axiosInstance.post("/comments/reply/vote/", {
         reply_id: this.props.reply.id,
-        polarity: polarity
+        polarity: polarity,
       });
       if (polarity) {
         this.props.reply.votes = this.props.reply.votes + 1;
-      }
-      else {
+      } else {
         this.props.reply.votes = this.props.reply.votes - 1;
       }
       this.setState({});
@@ -39,31 +46,94 @@ class Reply extends Component {
     }
   }
 
+  toggleEdit() {
+    this.setState({ editing: !this.state.editing });
+  }
+
+  compareDates() {
+    const created_date = new Date(this.props.reply.created_at);
+    const edited_date = new Date(this.props.reply.edited_at);
+    if (created_date.valueOf() === edited_date.valueOf()) {
+      this.setState({ isEdited: false });
+    } else {
+      this.setState({ isEdited: true });
+    }
+  }
+
   render() {
     return (
-      <div className="replyDiv">
-        <div className="commentTitleDiv">
-          <Initial name={this.props.reply.user.username} className="userIcon" color="#094DA0" height={35} width={35} radius={10} fontSize={30} />
-          <div className="commentUsernameDiv">
-            <p className="commentUsername">{this.props.reply.user.username}</p>
-            {(this.props.reply.user.position && this.props.reply.user.affiliation) ?
-              <div className="commentPosition">{this.props.reply.user.position} @ {this.props.reply.user.affiliation}</div> :
-              ""
-            }
-            <p className="commentDate">{time_ago(this.props.reply.created_at)}</p>
+      <div>
+        {this.state.editing ? (
+          <EditReplyForm
+            replyId={this.props.reply.id}
+            reply_text={this.props.reply.reply_text}
+            getComments={() => {
+              this.toggleEdit();
+              this.props.getComments();
+              this.compareDates();
+            }}
+          />
+        ) : (
+          <div className="replyDiv">
+            <div className="commentTitleDiv">
+              <Initial
+                name={this.props.reply.user.username}
+                className="userIcon"
+                color="#094DA0"
+                height={35}
+                width={35}
+                radius={10}
+                fontSize={30}
+              />
+              <div className="commentUsernameDiv">
+                <p className="commentUsername">
+                  {this.props.reply.user.username}
+                </p>
+                {this.props.reply.user.position &&
+                this.props.reply.user.affiliation ? (
+                  <div className="commentPosition">
+                    {this.props.reply.user.position} @{" "}
+                    {this.props.reply.user.affiliation}
+                  </div>
+                ) : (
+                  ""
+                )}
+                <p className="commentDate">
+                  {time_ago(this.props.reply.created_at)}
+                </p>
+                {this.state.isEdited ? (
+                  <p className="commentDate">
+                    {"Edited: " + time_ago(this.props.reply.edited_at)}
+                  </p>
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+            <JsxParser
+              components={{ Latex }}
+              jsx={parseMath(this.props.reply.reply_text)}
+            />
+            <div className="commentInteractions">
+              <div className="voteBox">
+                <img
+                  className="upvote lineItem"
+                  onClick={() => this.vote(true)}
+                  src={upvote}
+                />
+                <p className="voteCount lineItem">{this.props.reply.votes}</p>
+                <img
+                  className="downvote lineItem"
+                  onClick={() => this.vote(false)}
+                  src={downvote}
+                />
+              </div>
+              <button className="editButton" onClick={() => this.toggleEdit()}>
+                Edit
+              </button>
+            </div>
           </div>
-        </div>
-        <JsxParser
-          components={{ Latex }}
-          jsx={parseMath(this.props.reply.reply_text)}
-        />
-        <div className="commentInteractions">
-          <div className="voteBox">
-            <img className="upvote lineItem" onClick={() => this.vote(true)} src={upvote} />
-            <p className="voteCount lineItem">{this.props.reply.votes}</p>
-            <img className="downvote lineItem" onClick={() => this.vote(false)} src={downvote} />
-          </div>
-        </div>
+        )}
       </div>
     );
   }

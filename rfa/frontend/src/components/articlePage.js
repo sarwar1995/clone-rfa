@@ -8,8 +8,8 @@ import upvote from "../plus.png";
 import upvoteClicked from "../plus_clicked.png";
 import downvote from "../minus.png";
 import downvoteClicked from "../minus_clicked.png";
-import Comment from './comment';
-import ReadingListManager from './readingListManager';
+import Comment from "./comment";
+import ReadingListManager from "./readingListManager";
 
 class ArticlePage extends Component {
   constructor(props) {
@@ -26,7 +26,6 @@ class ArticlePage extends Component {
     };
     this.toSearch = this.toSearch.bind(this);
     this.getComments = this.getComments.bind(this);
-
   }
 
   toSearch(query) {
@@ -81,7 +80,7 @@ class ArticlePage extends Component {
     return (
       <div>
         <h2>{this.state.article.title}</h2>
-        <h4>{this.state.article.authors.replace(/['"]+/g, '')}</h4>
+        <h4>{this.state.article.authors.replace(/['"]+/g, "")}</h4>
         <h4>
           {this.state.article.journal + " " + this.state.article.year_published}
         </h4>
@@ -116,11 +115,16 @@ class ArticlePage extends Component {
               {this.state.article ? this.displayArticleDetail() : ""}
             </div>
             <div className="readingListForm">
-              <ReadingListManager DOI={this.props.match.params.DOI}/>
+              <ReadingListManager DOI={this.props.match.params.DOI} />
             </div>
             <div className="commentForm">
               <h4>What are your thoughts?</h4>
-              <CommentForm DOI={this.props.match.params.DOI} getComments={() => this.getComments(this.props.match.params.DOI)}/>
+              <CommentForm
+                DOI={this.props.match.params.DOI}
+                getComments={() =>
+                  this.getComments(this.props.match.params.DOI)
+                }
+              />
             </div>
             <div className="commentsList">
               <div className="commentsHeader">
@@ -167,17 +171,30 @@ class ArticlePage extends Component {
               </div>
               <div>
                 {this.state.isFetchingComments ? "Fetching comments..." : ""}
-                {this.state.article_comments.length
-                  ? this.state.article_comments.map((comment) => {
-                      if(this.state.currentFilter === "all" || this.state.currentFilter === comment.comment_type){
-                        return <Comment key={comment.id} comment={comment} getComments={() => this.getComments(this.props.match.params.DOI)}/>
-                      }
-                    })
-                  :
+                {this.state.article_comments.length ? (
+                  this.state.article_comments.map((comment) => {
+                    if (
+                      this.state.currentFilter === "all" ||
+                      this.state.currentFilter === comment.comment_type
+                    ) {
+                      return (
+                        <Comment
+                          key={comment.id}
+                          comment={comment}
+                          getComments={() =>
+                            this.getComments(this.props.match.params.DOI)
+                          }
+                        />
+                      );
+                    }
+                  })
+                ) : (
                   <div className="noCommentsDiv">
-                    <h5 className="noComments">Be the first to say something!</h5>
-                  </div> 
-                  }
+                    <h5 className="noComments">
+                      Be the first to say something!
+                    </h5>
+                  </div>
+                )}
               </div>
             </div>
           </div>

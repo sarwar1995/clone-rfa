@@ -185,3 +185,19 @@ class CreateReplyView(generics.CreateAPIView):
         else:
             print(serializer.errors)
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class EditCommentView(generics.UpdateAPIView): 
+    """
+    This class is using the partial_update method of the UpdateAPIView in order to only update the comment text and 
+    edited_at field (which will be automatically updated on saving)
+    """
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all()
+
+class EditReplyView(generics.UpdateAPIView): 
+    """
+    This class is using the partial_update method of the UpdateAPIView in order to only update the comment text and 
+    edited_at field (which will be automatically updated on saving)
+    """
+    serializer_class = ReplySerializer
+    queryset = Reply.objects.all()
