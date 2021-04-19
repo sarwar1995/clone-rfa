@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route, Link, useHistory, Redirect } from "react-router-dom";
 import axiosInstance from "../axiosApi";
 import Navbar from "./navbar";
+import ReadingListManager from './readingListManager';
 import RnD from "../research-and-development.png";
 
 class UserPage extends Component {
@@ -88,6 +89,9 @@ class UserPage extends Component {
           ) : (
             ""
           )}
+        </div>
+        <div className="readingListForm">
+          <ReadingListManager DOI={0} displayAddRemove={false} displayCreateDelete={true}/>
         </div>
         {this.state.user ? (
           <div>
