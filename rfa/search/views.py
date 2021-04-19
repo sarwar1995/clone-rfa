@@ -13,7 +13,6 @@ class SearchPaperView(APIView):
     def get(self, request):
 
         search_term = urllib.parse.quote(request.query_params['search_term'])
-        max_results = int(request.query_params['max_results'])
 
         #get data from crossref API
         response = requests.get("https://api.crossref.org/types/journal-article/works?query=" + search_term + "&rows=15&select=DOI,title,short-container-title,published-print,author&mailto=elisagemart@gmail.com")
