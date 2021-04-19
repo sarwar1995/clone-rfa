@@ -115,7 +115,11 @@ class ArticlePage extends Component {
               {this.state.article ? this.displayArticleDetail() : ""}
             </div>
             <div className="readingListForm">
-              <ReadingListManager DOI={this.props.match.params.DOI} />
+              <ReadingListManager
+                DOI={this.props.match.params.DOI}
+                displayAddRemove={true}
+                displayCreateDelete={false}
+              />
             </div>
             <div className="commentForm">
               <h4>What are your thoughts?</h4>

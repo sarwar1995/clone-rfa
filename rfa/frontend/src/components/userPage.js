@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route, Link, useHistory, Redirect } from "react-router-dom";
 import axiosInstance from "../axiosApi";
 import Navbar from "./navbar";
+import ReadingListManager from './readingListManager';
 import RnD from "../research-and-development.png";
 
 class UserPage extends Component {
@@ -89,6 +90,9 @@ class UserPage extends Component {
             ""
           )}
         </div>
+        <div className="readingListForm">
+          <ReadingListManager DOI={0} displayAddRemove={false} displayCreateDelete={true}/>
+        </div>
         {this.state.user ? (
           <div>
             {this.generateListOfReadingLists(this.state.user.reading_lists)}
@@ -130,7 +134,7 @@ class ReadingListPreview extends Component {
         <div className="row">
           <div className="column left">
             {/* TODO: Add a small icon before every reading list block. The icon is the RnD image file.*/}
-            <img src={RnD} /> 
+            <img src={RnD} className="readingListIcon"/> 
           </div>
           <div
             className="column middle colorOnHover"
