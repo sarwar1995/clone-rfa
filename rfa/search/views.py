@@ -15,7 +15,10 @@ class SearchPaperView(APIView):
         search_term = urllib.parse.quote(request.query_params['search_term'])
 
         #get data from crossref API
-        response = requests.get("https://api.crossref.org/types/journal-article/works?query=" + search_term + "&rows=15&select=DOI,title,short-container-title,published-print,author&mailto=elisagemart@gmail.com")
+        try:
+            response = requests.get("https://api.crossref.org/types/journal-article/works?query=" + search_term + "&rows=15&select=DOI,title,short-container-title,published-print,author&mailto=elisagemart@gmail.com")
+        except:
+            print("error")
         print(response.json())
         crossref_results = response.json()['message']['items']
 
