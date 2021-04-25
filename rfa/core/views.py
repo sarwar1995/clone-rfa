@@ -23,6 +23,8 @@ from django.apps import apps
 import json
 
 Comment = apps.get_model('comments', 'Comment')
+Reply = apps.get_model('comments', 'Reply')
+
 
 class GetByUsernameView(APIView):
     def get(self, request):
@@ -52,6 +54,22 @@ class GetByUsernameView(APIView):
         user['reading_lists'] = []
         for rl in readingListData:
             user['reading_lists'].append(rl)
+
+        #computed characteristics of a user
+        score = 0
+        comment_count = 0
+        try:
+            comments = Comment.objects.filter(user__username=username)
+            comment_count = len(comments)
+            for comment in comments:
+                score += comment.votes
+            replies = Reply.objects.filter(user__username=username)
+            for reply in replies:
+                score += reply.votes
+        except:
+            print("error fetching user score")
+        user['score'] = score
+        user['comment_count'] = comment_count        
 
         return Response(data=user, status=status.HTTP_200_OK)
 

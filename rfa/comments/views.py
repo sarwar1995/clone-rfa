@@ -107,7 +107,7 @@ class CreateCommentView(generics.CreateAPIView):
         #Get the currently logged in user. This returns an instance of Django AUTH_USER_MODEL
         request_user = request.user
         if anonymity:
-            user, created = CustomUser.objects.get_or_create(username='Anonymous')
+            user, created = CustomUser.objects.get_or_create(username='Anonymous', first_name='Anonymous', last_name='')
         else:
             user = request_user
 

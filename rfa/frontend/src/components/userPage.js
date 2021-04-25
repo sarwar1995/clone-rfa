@@ -123,11 +123,11 @@ class UserPage extends Component {
                   </div>
                   <div className="userpageUserStats">
                     <div className="userpageStatBox">
-                      <div className="userpageStat">10</div>
-                      <div className="userpageStatLabel">Upvotes</div>
+                      <div className="userpageStat">{this.state.user.score}</div>
+                      <div className="userpageStatLabel">Reputation Score</div>
                     </div>
                     <div className="userpageStatBox">
-                      <div className="userpageStat">{this.state.comments.length}</div>
+                      <div className="userpageStat">{this.state.user.comment_count}</div>
                       <div className="userpageStatLabel">Comments</div>
                     </div>
                   </div>
