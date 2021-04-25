@@ -17,7 +17,12 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 from urllib.parse import unquote
+from comments.serializers import CommentSerializer, CommentWithRepliesSerializer
+from rest_framework import generics
+from django.apps import apps
 import json
+
+Comment = apps.get_model('comments', 'Comment')
 
 class GetByUsernameView(APIView):
     def get(self, request):
@@ -135,10 +140,32 @@ class DeleteReadingList(APIView):
         
         return Response(status=status.HTTP_200_OK)
 
-class HelloWorldView(APIView):
-    def get(self, request):
-        return Response(data={"hello": "world"}, status=status.HTTP_200_OK)
+#given a username, return a sorted list of the top ten comments by that user
+class GetTopComments(generics.ListAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = (permissions.AllowAny,)
+    
+    def get_queryset(self):
+        username = self.request.query_params['username']
+        queryset = Comment.objects.filter(user__username=username).order_by('-votes')[:10]
+        
+        if not queryset:
+            return None
+        else:
+            return queryset
 
+    def list(self, request):
+        """
+        This method is called as the get() method. When the queryset is empty then we return a dict with 'NoComment' as True
+        which can be checked on frontend """
+        # Note the use of `get_queryset()` instead of `self.queryset`
+        queryset = self.get_queryset()
+
+        if not queryset:
+            return Response([], status=status.HTTP_200_OK)
+        
+        serializer = CommentWithRepliesSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 class ObtainTokenPairWithColorView(TokenObtainPairView):
     permission_classes = (permissions.AllowAny,)

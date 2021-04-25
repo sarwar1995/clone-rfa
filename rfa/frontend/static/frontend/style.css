@@ -546,3 +546,23 @@ select {
 .userpageRole{
   font-size: 17px;
 }
+
+.userpagePaperTitle{
+  background-color: var(--primary-color);
+  color:white;
+  font-size: 20px;
+  margin-top: 20px;
+  padding: 10px;
+}
+
+.userpageStatBox{
+  display: inline-block;
+  text-align: center;
+  margin-left: 27%;
+  margin-top: 35px;
+}
+
+.userpageStat{
+  font-size: 35px;
+  font-weight: bold;
+}
