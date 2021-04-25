@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import axiosInstance from "../axiosApi";
 import profileIcon from "../profile_icon.png";
 import upvote from "../plus.png";
@@ -76,17 +77,19 @@ class Reply extends Component {
         ) : (
           <div className="replyDiv">
             <div className="commentTitleDiv">
-              <Initial
-                name={this.props.reply.user.first_name + " " + this.props.reply.user.last_name}
-                className="userIcon"
-                color="#094DA0"
-                height={35}
-                width={35}
-                radius={10}
-                fontSize={22}
-                useWords={true}
-                charCount={2}
-              />
+              <Link to={"/user/" + this.props.reply.user.username + "/"}>
+                <Initial
+                  name={this.props.reply.user.first_name + " " + this.props.reply.user.last_name}
+                  className="userIcon"
+                  color="#094DA0"
+                  height={35}
+                  width={35}
+                  radius={10}
+                  fontSize={22}
+                  useWords={true}
+                  charCount={2}
+                />
+              </Link>
               <div className="commentUsernameDiv">
                 <p className="commentUsername">
                   {this.props.reply.user.first_name + " " + this.props.reply.user.last_name}
@@ -131,8 +134,8 @@ class Reply extends Component {
                 />
               </div>
               {this.props.reply.user.username === localStorage.getItem("username") ?
-              <button className="editButton" onClick={() => this.toggleEdit()}>
-                Edit
+                <button className="editButton" onClick={() => this.toggleEdit()}>
+                  Edit
               </button> : ""}
             </div>
           </div>

@@ -152,9 +152,11 @@ class UserPage extends Component {
                   this.state.comments.map((comment) => {
                     return (
                       <div>
-                        <div className="userpagePaperTitle">
-                          {comment.paper.title}
-                        </div>
+                        <Link to={"/article/" + encodeURIComponent(comment.paper.DOI) + "/"}>
+                          <div className="userpagePaperTitle">
+                            {comment.paper.title}
+                          </div>
+                        </Link>
                         <Comment
                           key={comment.id}
                           comment={comment}

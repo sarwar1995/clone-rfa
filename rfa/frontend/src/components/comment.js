@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import axiosInstance from "../axiosApi";
 import profileIcon from "../profile_icon.png";
 import upvote from "../plus.png";
@@ -80,6 +81,7 @@ class Comment extends Component {
         ) : (
           <div className="commentDiv">
             <div className="commentTitleDiv">
+              <Link to={"/user/" + this.props.comment.user.username + "/"}>
               <Initial
                 name={this.props.comment.user.first_name + " " + this.props.comment.user.last_name}
                 className="userIcon"
@@ -91,6 +93,7 @@ class Comment extends Component {
                 charCount={2}
                 useWords={true}
               />
+              </Link>
               <div className="commentUsernameDiv">
                 <p className="commentUsername">
                   {this.props.comment.user.first_name + " " + this.props.comment.user.last_name}
