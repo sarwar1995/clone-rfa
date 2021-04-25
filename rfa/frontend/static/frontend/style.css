@@ -527,3 +527,22 @@ select {
 .readingListIcon {
   width: 50px;
 }
+
+.userpageBigIcon{
+  display: inline-block;
+  vertical-align: top;
+}
+
+.userpageUserDetails{
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.userpageUsername{
+  font-size: 40px;
+  color: var(--primary-color);
+}
+
+.userpageRole{
+  font-size: 17px;
+}

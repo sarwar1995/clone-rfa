@@ -4,6 +4,7 @@ import axiosInstance from "../axiosApi";
 import Navbar from "./navbar";
 import ReadingListManager from './readingListManager';
 import RnD from "../research-and-development.png";
+import { Initial } from "react-initial";
 
 class UserPage extends Component {
   constructor(props) {
@@ -72,34 +73,48 @@ class UserPage extends Component {
     return (
       <div>
         <Navbar toSearch={(query) => this.toSearch(query)} />
-        <div className="purpleBox">
-          {this.state.isFetchingUser ? <p>Fetching data...</p> : ""}
-          {this.state.user ? (
-            <div>
-              <p> User ID: {this.state.user.id}</p>
-              <p>Username: {this.state.user.username}</p>
-              <p>
-                Name:{" "}
-                {this.state.user.first_name + " " + this.state.user.last_name}{" "}
-              </p>
-              <p>Email: {this.state.user.email} </p>
-              <p>Affiliation: {this.state.user.affiliation} </p>
-              <p>Position: {this.state.user.position} </p>
-            </div>
-          ) : (
-            ""
-          )}
-        </div>
-        <div className="readingListForm">
-          <ReadingListManager DOI={0} displayAddRemove={false} displayCreateDelete={true}/>
-        </div>
-        {this.state.user ? (
-          <div>
-            {this.generateListOfReadingLists(this.state.user.reading_lists)}
+        <div className="row">
+          <div className="column left-body">
           </div>
-        ) : (
-          ""
-        )}
+          <div className="column middle-body">
+            <div className="purpleBox">
+              {this.state.isFetchingUser ? <p>Fetching data...</p> : ""}
+              {this.state.user ? (
+                <div>
+                  <Initial
+                    name={this.state.user.username}
+                    className="userIcon"
+                    color="#094DA0"
+                    height={100}
+                    width={100}
+                    radius={500}
+                    fontSize={60}
+                    className="userpageBigIcon"
+                  />
+                  <div className="userpageUserDetails">
+                    <div className="userpageUsername">{this.state.user.username}</div>
+                    {this.state.user.affiliation ? <div className="userpageRole">{this.state.user.position} @ {this.state.user.affiliation}</div> : <div className="userpageRole">Unaffiliated</div>}
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className="readingListForm">
+              <ReadingListManager DOI={0} displayAddRemove={false} displayCreateDelete={true} />
+            </div>
+            {this.state.user ? (
+              <div>
+                {this.generateListOfReadingLists(this.state.user.reading_lists)}
+              </div>
+            ) : (
+              ""
+            )}
+
+          </div>
+          <div className="column right-body">
+          </div>
+        </div>
       </div>
     );
   }
@@ -134,7 +149,7 @@ class ReadingListPreview extends Component {
         <div className="row">
           <div className="column left">
             {/* TODO: Add a small icon before every reading list block. The icon is the RnD image file.*/}
-            <img src={RnD} className="readingListIcon"/> 
+            <img src={RnD} className="readingListIcon" />
           </div>
           <div
             className="column middle colorOnHover"
