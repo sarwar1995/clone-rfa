@@ -106,17 +106,19 @@ class UserPage extends Component {
               {this.state.user ? (
                 <div>
                   <Initial
-                    name={this.state.user.username}
+                    name={this.state.user.first_name + " " + this.state.user.last_name}
                     className="userIcon"
                     color="#094DA0"
                     height={100}
                     width={100}
                     radius={500}
                     fontSize={60}
+                    charCount={2}
+                    useWords={true}
                     className="userpageBigIcon"
                   />
                   <div className="userpageUserDetails">
-                    <div className="userpageUsername">{this.state.user.username}</div>
+                    <div className="userpageUsername">{this.state.user.first_name + " " + this.state.user.last_name}</div>
                     {this.state.user.affiliation ? <div className="userpageRole">{this.state.user.position} @ {this.state.user.affiliation}</div> : <div className="userpageRole">Unaffiliated</div>}
                   </div>
                   <div className="userpageUserStats">

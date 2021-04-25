@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
 
-from .views import ObtainTokenPairWithColorView, CreateReadingList, GetReadingList, DeleteReadingList, EditReadingList, CustomUserCreate, LogoutAndBlacklistRefreshTokenForUserView, VerifyEmail, GetByUsernameView, GetTopComments
+from .views import ObtainTokenPairWithNameView, CreateReadingList, GetReadingList, DeleteReadingList, EditReadingList, CustomUserCreate, LogoutAndBlacklistRefreshTokenForUserView, VerifyEmail, GetByUsernameView, GetTopComments
 
 
 
@@ -14,7 +14,7 @@ urlpatterns = [
     path('user/reading-list/edit/', EditReadingList.as_view(), name="edit_reading_list"),
     path('user/reading-list/get/', GetReadingList.as_view(), name="get_reading_list"),
     path('user/top-comments/', GetTopComments.as_view(), name="get_top_comments"),
-    path('token/obtain/', ObtainTokenPairWithColorView.as_view(), name='token_create'),
+    path('token/obtain/', ObtainTokenPairWithNameView.as_view(), name='token_create'),
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('blacklist/', LogoutAndBlacklistRefreshTokenForUserView.as_view(),
          name='blacklist'),

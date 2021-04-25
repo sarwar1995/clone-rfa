@@ -167,7 +167,7 @@ class GetTopComments(generics.ListAPIView):
         serializer = CommentWithRepliesSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-class ObtainTokenPairWithColorView(TokenObtainPairView):
+class ObtainTokenPairWithNameView(TokenObtainPairView):
     permission_classes = (permissions.AllowAny,)
     serializer_class = MyTokenObtainPairSerializer
 
