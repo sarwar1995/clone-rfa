@@ -31,6 +31,14 @@ class Login extends Component {
         "JWT " + response.data.access;
       localStorage.setItem("access_token", response.data.access);
       localStorage.setItem("refresh_token", response.data.refresh);
+      //call backend to get user info
+      const user = await axiosInstance.get("user/getByUsername/", {
+        params: {
+          username: decodeURI(this.state.username),
+          isSelf: decodeURI("false"),
+        },
+      });
+      localStorage.setItem("name", user.data.first_name + " " + user.data.last_name);
       localStorage.setItem("username", this.state.username);
       this.toUserPage();
       return response;

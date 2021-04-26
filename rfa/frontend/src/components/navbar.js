@@ -20,12 +20,11 @@ class Navbar extends Component {
       });
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
-      axiosInstance.defaults.headers["Authorization"] = null;
-      this.props.toSearch("login"); //slightly hacky way to get page to reload without requiring a second function to be passed
-      return response;
     } catch (e) {
       console.log(e);
     }
+    axiosInstance.defaults.headers["Authorization"] = null;
+    this.props.toSearch("login"); //slightly hacky way to get page to reload without requiring a second function to be passed
   }
 
   handleChange(event) {
@@ -67,14 +66,16 @@ class Navbar extends Component {
                   }}
                 >
                   <Initial
-                    name={localStorage.getItem("username")}
+                    name={localStorage.getItem("name")}
                     className="navbarProfileIcon"
                     color="#ffffff"
                     textColor="#094DA0"
                     height={35}
                     width={35}
                     radius={10}
-                    fontSize={30}
+                    fontSize={22}
+                    charCount={2}
+                    useWords={true}
                   />
                 </Link>
               ) : (

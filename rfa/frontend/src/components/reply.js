@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import axiosInstance from "../axiosApi";
 import profileIcon from "../profile_icon.png";
 import upvote from "../plus.png";
@@ -76,21 +77,25 @@ class Reply extends Component {
         ) : (
           <div className="replyDiv">
             <div className="commentTitleDiv">
-              <Initial
-                name={this.props.reply.user.username}
-                className="userIcon"
-                color="#094DA0"
-                height={35}
-                width={35}
-                radius={10}
-                fontSize={30}
-              />
+              <Link to={"/user/" + this.props.reply.user.username + "/"}>
+                <Initial
+                  name={this.props.reply.user.first_name + " " + this.props.reply.user.last_name}
+                  className="userIcon"
+                  color="#094DA0"
+                  height={35}
+                  width={35}
+                  radius={10}
+                  fontSize={22}
+                  useWords={true}
+                  charCount={2}
+                />
+              </Link>
               <div className="commentUsernameDiv">
                 <p className="commentUsername">
-                  {this.props.reply.user.username}
+                  {this.props.reply.user.first_name + " " + this.props.reply.user.last_name}
                 </p>
                 {this.props.reply.user.position &&
-                this.props.reply.user.affiliation ? (
+                  this.props.reply.user.affiliation ? (
                   <div className="commentPosition">
                     {this.props.reply.user.position} @{" "}
                     {this.props.reply.user.affiliation}
@@ -101,19 +106,19 @@ class Reply extends Component {
                 <p className="commentDate">
                   {time_ago(this.props.reply.created_at)}
                 </p>
-                {this.state.isEdited ? (
-                  <p className="commentDate">
-                    {"Edited: " + time_ago(this.props.reply.edited_at)}
-                  </p>
-                ) : (
-                  ""
-                )}
               </div>
             </div>
             <JsxParser
               components={{ Latex }}
               jsx={parseMath(this.props.reply.reply_text)}
             />
+            {this.state.isEdited ? (
+              <p className="commentDate">
+                {"Edited: " + time_ago(this.props.reply.edited_at)}
+              </p>
+            ) : (
+              ""
+            )}
             <div className="commentInteractions">
               <div className="voteBox">
                 <img
@@ -128,9 +133,10 @@ class Reply extends Component {
                   src={downvote}
                 />
               </div>
-              <button className="editButton" onClick={() => this.toggleEdit()}>
-                Edit
-              </button>
+              {this.props.reply.user.username === localStorage.getItem("username") ?
+                <button className="editButton" onClick={() => this.toggleEdit()}>
+                  Edit
+              </button> : ""}
             </div>
           </div>
         )}

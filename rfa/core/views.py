@@ -17,7 +17,14 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse
 from urllib.parse import unquote
+from comments.serializers import CommentSerializer, CommentWithRepliesSerializer
+from rest_framework import generics
+from django.apps import apps
 import json
+
+Comment = apps.get_model('comments', 'Comment')
+Reply = apps.get_model('comments', 'Reply')
+
 
 class GetByUsernameView(APIView):
     def get(self, request):
@@ -47,6 +54,22 @@ class GetByUsernameView(APIView):
         user['reading_lists'] = []
         for rl in readingListData:
             user['reading_lists'].append(rl)
+
+        #computed characteristics of a user
+        score = 0
+        comment_count = 0
+        try:
+            comments = Comment.objects.filter(user__username=username)
+            comment_count = len(comments)
+            for comment in comments:
+                score += comment.votes
+            replies = Reply.objects.filter(user__username=username)
+            for reply in replies:
+                score += reply.votes
+        except:
+            print("error fetching user score")
+        user['score'] = score
+        user['comment_count'] = comment_count        
 
         return Response(data=user, status=status.HTTP_200_OK)
 
@@ -135,12 +158,34 @@ class DeleteReadingList(APIView):
         
         return Response(status=status.HTTP_200_OK)
 
-class HelloWorldView(APIView):
-    def get(self, request):
-        return Response(data={"hello": "world"}, status=status.HTTP_200_OK)
+#given a username, return a sorted list of the top ten comments by that user
+class GetTopComments(generics.ListAPIView):
+    serializer_class = CommentSerializer
+    permission_classes = (permissions.AllowAny,)
+    
+    def get_queryset(self):
+        username = self.request.query_params['username']
+        queryset = Comment.objects.filter(user__username=username).order_by('-votes')[:10]
+        
+        if not queryset:
+            return None
+        else:
+            return queryset
 
+    def list(self, request):
+        """
+        This method is called as the get() method. When the queryset is empty then we return a dict with 'NoComment' as True
+        which can be checked on frontend """
+        # Note the use of `get_queryset()` instead of `self.queryset`
+        queryset = self.get_queryset()
 
-class ObtainTokenPairWithColorView(TokenObtainPairView):
+        if not queryset:
+            return Response([], status=status.HTTP_200_OK)
+        
+        serializer = CommentWithRepliesSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class ObtainTokenPairWithNameView(TokenObtainPairView):
     permission_classes = (permissions.AllowAny,)
     serializer_class = MyTokenObtainPairSerializer
 
