@@ -130,18 +130,6 @@ DATABASES = {
     }
 }
 
-# Use cloud database for production
-# DATABASES = {
-#     'default': {
-#     'ENGINE': 'django.db.backends.mysql',
-#     'NAME': 'rfa',
-#     'USER': 'admin',
-#     'PASSWORD': 'rfapass**',
-#     'HOST': 'rfa.cqqb5ivlygcu.us-east-2.rds.amazonaws.com',
-#     'PORT': '3306',
-#    }
-# }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -183,8 +171,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 EMAIL_BACKEND = 'django_ses.SESBackend'
 
-AWS_ACCESS_KEY_ID = 'AKIA43LSDIJSONSBGBUK'
-AWS_SECRET_ACCESS_KEY = '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'
+AWS_ACCESS_KEY_ID = ''
+AWS_SECRET_ACCESS_KEY = ''
 
 AWS_SES_REGION_NAME = 'us-east-2'
 AWS_SES_REGION_ENDPOINT = 'email.us-east-2.amazonaws.com'
